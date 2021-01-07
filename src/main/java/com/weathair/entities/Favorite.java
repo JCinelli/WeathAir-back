@@ -59,6 +59,4 @@ public class Favorite {
 		Indicator = indicator;
 	}
 
-
-
 }
