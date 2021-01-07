@@ -22,7 +22,6 @@ public class Township {
 
 //	FIELDS
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String inseeCode;
 
 	private String name;
