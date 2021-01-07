@@ -93,4 +93,11 @@ public class MeteoIndicator extends AbstractIndicator {
 		this.probaFog = probaFog;
 	}
 
+	@Override
+	public String toString() {
+		return "MeteoIndicator [id=" + id + ", dateTime=" + dateTime + ", temperature=" + temperature + ", wind=" + wind
+				+ ", dirWind=" + dirWind + ", probaRain=" + probaRain + ", probaFog=" + probaFog + "]";
+	}
+
+	
 }

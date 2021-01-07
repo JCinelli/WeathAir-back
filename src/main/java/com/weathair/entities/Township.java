@@ -1,16 +1,20 @@
 package com.weathair.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * @author jerem
  * 
- * Class for the towships
+ *         Class for the towships
  * 
- * primary key => inseeCode
+ *         primary key => inseeCode
  *
  */
 @Entity
@@ -20,10 +24,13 @@ public class Township {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String inseeCode;
-	
+
 	private String name;
-	
+
 	private int population;
+
+	@OneToMany(mappedBy = "township")
+	private Set<Favorite> favorite = new HashSet<>();
 
 //	CONSTRUCTOR
 	public Township() {
@@ -35,7 +42,15 @@ public class Township {
 		return "TownShip [inseeCode=" + inseeCode + ", name=" + name + ", population=" + population + "]";
 	}
 
-	//  GETTERS & SETTERS
+	public Set<Favorite> getFavorite() {
+		return favorite;
+	}
+
+	public void setFavorite(Set<Favorite> favorite) {
+		this.favorite = favorite;
+	}
+
+	// GETTERS & SETTERS
 	public String getInseeCode() {
 		return inseeCode;
 	}

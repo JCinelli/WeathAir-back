@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -23,8 +25,20 @@ public class Favorite {
 	@OneToMany(mappedBy = "favorite")
 	private Set<AbstractIndicator> Indicator = new HashSet<>();
 
+	@ManyToOne
+	@JoinColumn(name = "id_town")
+	private Township township;
+
 	public Favorite() {
 		super();
+	}
+
+	public Township getTownship() {
+		return township;
+	}
+
+	public void setTownship(Township township) {
+		this.township = township;
 	}
 
 	public Integer getId() {
@@ -59,6 +73,11 @@ public class Favorite {
 		Indicator = indicator;
 	}
 
-
+	@Override
+	public String toString() {
+		return "Favorite [id=" + id + ", duration=" + duration + ", labelIndicator=" + labelIndicator + ", Indicator="
+				+ Indicator + ", township=" + township + "]";
+	}
+	
 
 }
