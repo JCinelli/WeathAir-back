@@ -20,6 +20,10 @@ public abstract class AbstractIndicator {
 	@ManyToOne
 	@JoinColumn(name = "id_fav")
 	private Favorite favorite;
+	
+	@ManyToOne
+	@JoinColumn(name="township_id")
+	private Township township;
 
 	public Integer getId() {
 		return id;
@@ -27,6 +31,14 @@ public abstract class AbstractIndicator {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Township getTownship() {
+		return township;
+	}
+
+	public void setTownship(Township township) {
+		this.township = township;
 	}
 
 }

@@ -2,11 +2,7 @@ package com.weathair.entities;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 /**
  * @author tarbo Attribut des indicateurs météorologiques
@@ -14,11 +10,6 @@ import javax.persistence.Id;
  */
 @Entity
 public class MeteoIndicator extends AbstractIndicator {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Integer id;
 
 	// date
 	private LocalDateTime dateTime;
@@ -35,14 +26,6 @@ public class MeteoIndicator extends AbstractIndicator {
 
 	public MeteoIndicator() {
 		super();
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public LocalDateTime getDateTime() {

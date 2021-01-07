@@ -1,7 +1,7 @@
 package com.weathair.entities;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,9 +27,15 @@ public class Township {
 	private String name;
 
 	private int population;
+	
+	@OneToMany(mappedBy = "township")
+	private List<User> users = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "township")
+	private List<AbstractIndicator> indicators = new ArrayList<>();
 
 	@OneToMany(mappedBy = "township")
-	private Set<Favorite> favorite = new HashSet<>();
+	private List<Favorite> favorite = new ArrayList<>();
 
 //	CONSTRUCTOR
 	public Township() {
@@ -41,11 +47,11 @@ public class Township {
 		return "TownShip [inseeCode=" + inseeCode + ", name=" + name + ", population=" + population + "]";
 	}
 
-	public Set<Favorite> getFavorite() {
+	public List<Favorite> getFavorite() {
 		return favorite;
 	}
 
-	public void setFavorite(Set<Favorite> favorite) {
+	public void setFavorite(List<Favorite> favorite) {
 		this.favorite = favorite;
 	}
 
