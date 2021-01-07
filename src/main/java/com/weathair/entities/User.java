@@ -14,6 +14,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -36,6 +37,9 @@ public class User {
 	private String pseudo;
 	private String email; 
 	private String password;
+	@ManyToOne
+	@JoinColumn(name="township_id")
+	private Township township;
 	@ManyToMany
 	@JoinTable(name = "user_notification", 
 			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 

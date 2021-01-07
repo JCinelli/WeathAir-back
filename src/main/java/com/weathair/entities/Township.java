@@ -1,9 +1,13 @@
 package com.weathair.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * @author jerem
@@ -24,6 +28,12 @@ public class Township {
 	private String name;
 	
 	private int population;
+	
+	@OneToMany(mappedBy = "township")
+	private List<User> users = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "township")
+	private List<AbstractIndicator> indicators = new ArrayList<>();
 
 //	CONSTRUCTOR
 	public Township() {
