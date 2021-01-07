@@ -12,9 +12,9 @@ import javax.persistence.OneToMany;
 /**
  * @author jerem
  * 
- * Class for the towships
+ *         Class for the towships
  * 
- * primary key => inseeCode
+ *         primary key => inseeCode
  *
  */
 @Entity
@@ -22,11 +22,10 @@ public class Township {
 
 //	FIELDS
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String inseeCode;
-	
+
 	private String name;
-	
+
 	private int population;
 	
 	@OneToMany(mappedBy = "township")
@@ -34,6 +33,9 @@ public class Township {
 	
 	@OneToMany(mappedBy = "township")
 	private List<AbstractIndicator> indicators = new ArrayList<>();
+
+	@OneToMany(mappedBy = "township")
+	private List<Favorite> favorite = new ArrayList<>();
 
 //	CONSTRUCTOR
 	public Township() {
@@ -45,7 +47,15 @@ public class Township {
 		return "TownShip [inseeCode=" + inseeCode + ", name=" + name + ", population=" + population + "]";
 	}
 
-	//  GETTERS & SETTERS
+	public List<Favorite> getFavorite() {
+		return favorite;
+	}
+
+	public void setFavorite(List<Favorite> favorite) {
+		this.favorite = favorite;
+	}
+
+	// GETTERS & SETTERS
 	public String getInseeCode() {
 		return inseeCode;
 	}

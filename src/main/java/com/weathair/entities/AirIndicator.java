@@ -5,22 +5,22 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 
 @Entity
-public class AirIndicator extends AbstractIndicator{
+public class AirIndicator extends AbstractIndicator {
 
 	private LocalDateTime dateTime;
-	
+
 	private String nameStation;
-	
+
 	private String codeStation;
-	
+
 	private String label;
-	
+
 	private Double value;
 
 	public AirIndicator() {
 		super();
 	}
-	
+
 	public LocalDateTime getDateTime() {
 		return dateTime;
 	}
@@ -60,6 +60,11 @@ public class AirIndicator extends AbstractIndicator{
 	public void setValue(Double value) {
 		this.value = value;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "AirIndicator [id=" + id + ", dateTime=" + dateTime + ", nameStation=" + nameStation + ", codeStation="
+				+ codeStation + ", label=" + label + ", value=" + value + "]";
+	}
+
 }
