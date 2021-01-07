@@ -2,20 +2,11 @@ package com.weathair.entities;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Entity
 public class AirIndicator extends AbstractIndicator{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Integer id;
-	
 	private LocalDateTime dateTime;
 	
 	private String nameStation;
@@ -28,14 +19,6 @@ public class AirIndicator extends AbstractIndicator{
 
 	public AirIndicator() {
 		super();
-	}
-	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 	
 	public LocalDateTime getDateTime() {
