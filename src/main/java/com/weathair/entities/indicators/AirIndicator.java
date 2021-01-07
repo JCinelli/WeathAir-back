@@ -1,4 +1,4 @@
-package com.weathair.entities;
+package com.weathair.entities.indicators;
 
 import java.time.LocalDateTime;
 
@@ -59,12 +59,6 @@ public class AirIndicator extends AbstractIndicator {
 
 	public void setValue(Double value) {
 		this.value = value;
-	}
-
-	@Override
-	public String toString() {
-		return "AirIndicator [id=" + id + ", dateTime=" + dateTime + ", nameStation=" + nameStation + ", codeStation="
-				+ codeStation + ", label=" + label + ", value=" + value + "]";
 	}
 
 }

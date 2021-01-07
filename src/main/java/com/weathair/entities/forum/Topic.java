@@ -1,4 +1,4 @@
-package com.weathair.entities;
+package com.weathair.entities.forum;
 
 import java.util.ArrayList;
 import java.util.List;

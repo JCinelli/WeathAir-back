@@ -1,4 +1,4 @@
-package com.weathair.entities;
+package com.weathair.entities.forum;
 
 import java.time.LocalDateTime;
 
@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.weathair.entities.User;
 
 /**
  * @author MIACHELL

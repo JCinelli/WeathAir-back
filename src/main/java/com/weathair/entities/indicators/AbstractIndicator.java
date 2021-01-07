@@ -1,4 +1,4 @@
-package com.weathair.entities;
+package com.weathair.entities.indicators;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +8,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.weathair.entities.Favorite;
+import com.weathair.entities.Township;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)

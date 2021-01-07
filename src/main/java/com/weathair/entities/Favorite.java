@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.weathair.entities.indicators.AbstractIndicator;
+
 @Entity
 public class Favorite {
 

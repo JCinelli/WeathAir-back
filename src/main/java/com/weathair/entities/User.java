@@ -17,6 +17,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.weathair.entities.forum.Message;
+import com.weathair.entities.forum.Post;
+
 /**
  * @author MIACHELL
  * 

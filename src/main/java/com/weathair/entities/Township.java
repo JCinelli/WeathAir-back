@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.weathair.entities.indicators.AbstractIndicator;
+
 /**
  * @author jerem
  * 
@@ -39,12 +41,6 @@ public class Township {
 
 //	CONSTRUCTOR
 	public Township() {
-	}
-
-//	METHODS
-	@Override
-	public String toString() {
-		return "TownShip [inseeCode=" + inseeCode + ", name=" + name + ", population=" + population + "]";
 	}
 
 	public List<Favorite> getFavorite() {

@@ -1,4 +1,4 @@
-package com.weathair.entities;
+package com.weathair.entities.forum;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.weathair.entities.User;
 
 /**
  * @author MIACHELL
