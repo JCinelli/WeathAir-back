@@ -1,6 +1,5 @@
 package com.weathair.services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,74 +73,18 @@ public class MeteoIndicatorService {
 	 * @return New Temperature indicator in base
 	 * @throws MeteoIndicatorException
 	 */
-	public MeteoIndicator updateMeteoIndicatorTemperature(Integer id, Integer newTemperature)
+	public MeteoIndicator updateMeteoIndicator(Integer id, MeteoIndicatorDTO meteoIndicatorDTO)
 			throws MeteoIndicatorException {
 		MeteoIndicator meteoIndicatorUpdate = getMeteoIndicatorById(id);
-		meteoIndicatorUpdate.setTemperature(newTemperature);
+		meteoIndicatorUpdate.setTemperature(meteoIndicatorDTO.getTemperature());
+		meteoIndicatorUpdate.setDateTime(meteoIndicatorDTO.getDateTime());
+		meteoIndicatorUpdate.setWind(meteoIndicatorDTO.getWind());
+		meteoIndicatorUpdate.setDirWind(meteoIndicatorDTO.getDirWind());
+		meteoIndicatorUpdate.setProbaRain(meteoIndicatorDTO.getProbaRain());
+
 		return meteoIndicatorRepository.save(meteoIndicatorUpdate);
 	}
 
-	/**
-	 * @param id
-	 * @param newcodeStation
-	 * @return New datetime indicator in base
-	 * @throws MeteoIndicatorException
-	 */
-	public MeteoIndicator updateMeteoIndicatorDateTime(Integer id, LocalDateTime newDateTime)
-			throws MeteoIndicatorException {
-		MeteoIndicator meteoIndicatorUpdate = getMeteoIndicatorById(id);
-		meteoIndicatorUpdate.setDateTime(newDateTime);
-		return meteoIndicatorRepository.save(meteoIndicatorUpdate);
-	}
-
-	/**
-	 * @param id
-	 * @param newcodeStation
-	 * @return New wind indicator in base
-	 * @throws MeteoIndicatorException
-	 */
-	public MeteoIndicator updateMeteoIndicatorWind(Integer id, Integer newWind) throws MeteoIndicatorException {
-		MeteoIndicator meteoIndicatorUpdate = getMeteoIndicatorById(id);
-		meteoIndicatorUpdate.setWind(newWind);
-		return meteoIndicatorRepository.save(meteoIndicatorUpdate);
-	}
-
-	/**
-	 * @param id
-	 * @param newcodeStation
-	 * @return New direction wind indicator in base
-	 * @throws MeteoIndicatorException
-	 */
-	public MeteoIndicator updateMeteoIndicatorDirWind(Integer id, Integer newDirWind) throws MeteoIndicatorException {
-		MeteoIndicator meteoIndicatorUpdate = getMeteoIndicatorById(id);
-		meteoIndicatorUpdate.setDirWind(newDirWind);
-		return meteoIndicatorRepository.save(meteoIndicatorUpdate);
-	}
-
-	/**
-	 * @param id
-	 * @param newcodeStation
-	 * @return New Proba rain indicator in base
-	 * @throws MeteoIndicatorException
-	 */
-	public MeteoIndicator updateMeteoIndicatorProbaRain(Integer id, Integer newProbaRain)
-			throws MeteoIndicatorException {
-		MeteoIndicator meteoIndicatorUpdate = getMeteoIndicatorById(id);
-		meteoIndicatorUpdate.setProbaRain(newProbaRain);
-		return meteoIndicatorRepository.save(meteoIndicatorUpdate);
-	}
-
-	/**
-	 * @param id
-	 * @param newcodeStation
-	 * @return New proba Fog indicator in base
-	 * @throws MeteoIndicatorException
-	 */
-	public MeteoIndicator updateMeteoIndicatorProbaFog(Integer id, Integer newProbaFog) throws MeteoIndicatorException {
-		MeteoIndicator meteoIndicatorUpdate = getMeteoIndicatorById(id);
-		meteoIndicatorUpdate.setProbaFog(newProbaFog);
-		return meteoIndicatorRepository.save(meteoIndicatorUpdate);
-	}
 
 	/**
 	 * @param id , verify if a meteo indicator is in base by him id and then Delete

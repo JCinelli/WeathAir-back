@@ -1,6 +1,5 @@
 package com.weathair.services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,62 +67,19 @@ public class AirIndicatorService {
 	}
 
 	/**
-	 * @param id
-	 * @param newcodeStation
-	 * @return New CodeStation indicator in base
-	 * @throws AirIndicatorException
+	 * @param id			id
+	 * @param 			airIndicatorDTO
+	 * @return 			updated Air indicator in base
+	 * @throws 			AirIndicatorException
 	 */
-	public AirIndicator updateAirIndicatorCodeStation(Integer id, String newcodeStation) throws AirIndicatorException {
+	public AirIndicator updateAirIndicator(Integer id, AirIndicatorDTO airIndicatorDTO) throws AirIndicatorException {
 		AirIndicator airIndicatorUpdate = getAirIndicatorById(id);
-		airIndicatorUpdate.setCodeStation(newcodeStation);
-		return airIndicatorRepository.save(airIndicatorUpdate);
-	}
+		airIndicatorUpdate.setCodeStation(airIndicatorDTO.getCodeStation());
+		airIndicatorUpdate.setNameStation(airIndicatorDTO.getNameStation());
+		airIndicatorUpdate.setLabel(airIndicatorDTO.getLabel());
+		airIndicatorUpdate.setValue(airIndicatorDTO.getValue());
+		airIndicatorUpdate.setDateTime(airIndicatorDTO.getDateTime());
 
-	/**
-	 * @param id
-	 * @param nameStation
-	 * @return new NameStation indicator in base
-	 * @throws AirIndicatorException
-	 */
-	public AirIndicator updateAirIndicatorNameStation(Integer id, String newNameStation) throws AirIndicatorException {
-		AirIndicator airIndicatorUpdate = getAirIndicatorById(id);
-		airIndicatorUpdate.setNameStation(newNameStation);
-		return airIndicatorRepository.save(airIndicatorUpdate);
-	}
-
-	/**
-	 * @param id
-	 * @param codeStation
-	 * @return new Code Station indicator in base
-	 * @throws AirIndicatorException
-	 */
-	public AirIndicator updateAirIndicatorLabel(Integer id, String newLabel) throws AirIndicatorException {
-		AirIndicator airIndicatorUpdate = getAirIndicatorById(id);
-		airIndicatorUpdate.setLabel(newLabel);
-		return airIndicatorRepository.save(airIndicatorUpdate);
-	}
-
-	/**
-	 * @param id
-	 * @param value
-	 * @return new Value indicator in base
-	 * @throws AirIndicatorException
-	 */
-	public AirIndicator updateAirIndicatorValue(Integer id, Double newValue) throws AirIndicatorException {
-		AirIndicator airIndicatorUpdate = getAirIndicatorById(id);
-		airIndicatorUpdate.setValue(newValue);
-		return airIndicatorRepository.save(airIndicatorUpdate);
-	}
-
-	/**
-	 * @param id
-	 * @param dateTime
-	 * @return new Date indicator in base
-	 * @throws AirIndicatorException
-	 */
-	public AirIndicator updateAirIndicatorDateTime(Integer id, LocalDateTime newDateTime) throws AirIndicatorException {
-		AirIndicator airIndicatorUpdate = getAirIndicatorById(id);
-		airIndicatorUpdate.setDateTime(newDateTime);
 		return airIndicatorRepository.save(airIndicatorUpdate);
 	}
 

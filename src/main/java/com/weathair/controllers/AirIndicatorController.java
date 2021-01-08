@@ -1,6 +1,5 @@
 package com.weathair.controllers;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -74,53 +73,10 @@ public class AirIndicatorController {
 	 * @throws AirIndicatorException
 	 */
 	@PutMapping("{id}")
-	public void updateAirIndicatorDateTime(@RequestParam Integer id, @RequestBody LocalDateTime newDateTime)
+	public ResponseEntity<?> updateAirIndicator(@RequestParam Integer id, @RequestBody AirIndicatorDTO airIndicatorDTO)
 			throws AirIndicatorException {
-		airIndicatorService.updateAirIndicatorDateTime(id, newDateTime);
-	}
-
-	/**
-	 * @param id
-	 * @param newNameStation
-	 * @throws AirIndicatorException
-	 */
-	@PutMapping("{id}")
-	public void updateAirIndicatorNameStation(@RequestParam Integer id, @RequestBody String newNameStation)
-			throws AirIndicatorException {
-		airIndicatorService.updateAirIndicatorNameStation(id, newNameStation);
-	}
-
-	/**
-	 * @param id
-	 * @param newCodeStation
-	 * @throws AirIndicatorException
-	 */
-	@PutMapping("{id}")
-	public void updateAirIndicatorCodeStation(@RequestParam Integer id, @RequestBody String newCodeStation)
-			throws AirIndicatorException {
-		airIndicatorService.updateAirIndicatorCodeStation(id, newCodeStation);
-	}
-
-	/**
-	 * @param id
-	 * @param newLabel
-	 * @throws AirIndicatorException
-	 */
-	@PutMapping("{id}")
-	public void updateAirIndicatorLabel(@RequestParam Integer id, @RequestBody String newLabel)
-			throws AirIndicatorException {
-		airIndicatorService.updateAirIndicatorLabel(id, newLabel);
-	}
-
-	/**
-	 * @param id
-	 * @param newValue
-	 * @throws AirIndicatorException
-	 */
-	@PutMapping("{id}")
-	public void updateAirIndicatorValue(@RequestParam Integer id, @RequestBody Double newValue)
-			throws AirIndicatorException {
-		airIndicatorService.updateAirIndicatorValue(id, newValue);
+		airIndicatorService.updateAirIndicator(id, airIndicatorDTO);
+		return ResponseEntity.ok("The air indicator with id " + id + " has been successfully updated");
 	}
 
 	/**
@@ -129,7 +85,8 @@ public class AirIndicatorController {
 	 * @throws AirIndicatorException
 	 */
 	@DeleteMapping("{id}")
-	public void deleteAirIndicatorByUser(@RequestParam Integer id) throws AirIndicatorException {
+	public ResponseEntity<?> deleteAirIndicatorByUser(@RequestParam Integer id) throws AirIndicatorException {
 		airIndicatorService.deleteAirIndicator(id);
+		return ResponseEntity.ok("The air indicator with id " + id + " has been successfully deleted");
 	}
 }

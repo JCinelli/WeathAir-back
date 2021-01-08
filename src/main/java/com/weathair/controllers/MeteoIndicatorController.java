@@ -70,57 +70,21 @@ public class MeteoIndicatorController {
 	 * @throws MeteoIndicatorException
 	 */
 	@PutMapping("{id}")
-	public void updateMeteoIndicatorTemperature(@RequestParam Integer id, @RequestBody Integer newTemperature) throws MeteoIndicatorException {
-		meteoIndicatorService.updateMeteoIndicatorTemperature(id, newTemperature);
+	public ResponseEntity<?> updateMeteoIndicator(@RequestParam Integer id, @RequestBody MeteoIndicatorDTO meteoIndicatorDTO) throws MeteoIndicatorException {
+		meteoIndicatorService.updateMeteoIndicator(id, meteoIndicatorDTO);
+		return ResponseEntity.ok("The meteo indicator with id " + id + " has been successfully updated");
 	}
 	
-	/**
-	 * @param id
-	 * @param newWind
-	 * @throws MeteoIndicatorException
-	 */
-	@PutMapping("{id}")
-	public void updateMeteoIndicatorWind(@RequestParam Integer id, @RequestBody Integer newWind) throws MeteoIndicatorException {
-		meteoIndicatorService.updateMeteoIndicatorWind(id, newWind);
-	}
-	
-	/**
-	 * @param id
-	 * @param newDirWind
-	 * @throws MeteoIndicatorException
-	 */
-	@PutMapping("{id}")
-	public void updateMeteoIndicatorDirWind(@RequestParam Integer id, @RequestBody Integer newDirWind) throws MeteoIndicatorException {
-		meteoIndicatorService.updateMeteoIndicatorDirWind(id, newDirWind);
-	}
-	
-	/**
-	 * @param id
-	 * @param newProbaRain
-	 * @throws MeteoIndicatorException
-	 */
-	@PutMapping("{id}")
-	public void updateMeteoIndicatorProbaRain(@RequestParam Integer id, @RequestBody Integer newProbaRain) throws MeteoIndicatorException {
-		meteoIndicatorService.updateMeteoIndicatorProbaRain(id, newProbaRain);
-	}
-	
-	/**
-	 * @param id
-	 * @param newProbaFog
-	 * @throws MeteoIndicatorException
-	 */
-	@PutMapping("{id}")
-	public void updateMeteoIndicatorProbaFog(@RequestParam Integer id, @RequestBody Integer newProbaFog) throws MeteoIndicatorException {
-		meteoIndicatorService.updateMeteoIndicatorProbaFog(id, newProbaFog);
-	}
-	
+		
 	/**
 	 * @param id
 	 * @throws MeteoIndicatorException
 	 */
 	@DeleteMapping("{id}")
-	public void deleteMeteoIndicatorByUser(@RequestParam Integer id) throws MeteoIndicatorException {
+	public ResponseEntity<?> deleteMeteoIndicatorByUser(@RequestParam Integer id) throws MeteoIndicatorException {
 		meteoIndicatorService.deleteMeteoIndicator(id);
+		return ResponseEntity.ok("The meteo indicator with id " + id + " has been successfully deleted");
+
 	}
 
 }
