@@ -1,13 +1,12 @@
 package com.weathair.services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.weathair.dto.forum.MessageDto;
-import com.weathair.entities.User;
 import com.weathair.entities.forum.Message;
-import com.weathair.entities.forum.Post;
 import com.weathair.exceptions.MessageException;
 import com.weathair.repositories.MessageRepository;
 
@@ -17,6 +16,7 @@ import com.weathair.repositories.MessageRepository;
  * Class MessageService for CRUD into Message table
  *
  */
+@Service
 public class MessageService {
 	
 	private MessageRepository messageRepository;
@@ -81,51 +81,12 @@ public class MessageService {
 	 * @return			The saved Message
 	 * @throws 			MessageException 
 	 */
-	public Message updateMessageText(Integer id, String newText) throws MessageException {
+	public Message updateMessage(Integer id, MessageDto messageDto) throws MessageException {
 		Message messageToUpdate = findMessageById(id);
-		messageToUpdate.setText(newText);
-		return messageRepository.save(messageToUpdate);
-	}
-	
-	/**
-	 * This method updates the dateTime of a message
-	 * 
-	 * @param 			id the id of the Message to update
-	 * @param 			newDateTime the dateTime to insert into the message
-	 * @return			the saved Message
-	 * @throws 			MessageException 
-	 */
-	public Message updateMessageDateTime(Integer id, LocalDateTime newDateTime) throws MessageException {
-		Message messageToUpdate = findMessageById(id);
-		messageToUpdate.setDateTime(newDateTime);
-		return messageRepository.save(messageToUpdate);
-	}
-	
-	/**
-	 * This method updates the Post containing the message
-	 * 
-	 * @param 			id the id of the Message to update
-	 * @param 			newPost the post of the message
-	 * @return			the saved message
-	 * @throws MessageException 
-	 */
-	public Message updateMessagePost(Integer id, Post newPost) throws MessageException {
-		Message messageToUpdate = findMessageById(id);
-		messageToUpdate.setPost(newPost);
-		return messageRepository.save(messageToUpdate);
-	}
-	
-	/**
-	 * This method updates the User that posts the message
-	 * 
-	 * @param 			id the id of the Message to update
-	 * @param 			newUser the user that posts the message
-	 * @return			the saved message
-	 * @throws 			MessageException 
-	 */
-	public Message updateMessageUser(Integer id, User newUser) throws MessageException {
-		Message messageToUpdate = findMessageById(id);
-		messageToUpdate.setUser(newUser);
+		messageToUpdate.setText(messageDto.getText());
+		messageToUpdate.setDateTime(messageDto.getDateTime());
+		messageToUpdate.setPost(messageDto.getPost());
+		messageToUpdate.setUser(messageDto.getUser());
 		return messageRepository.save(messageToUpdate);
 	}
 	

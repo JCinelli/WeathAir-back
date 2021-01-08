@@ -3,8 +3,9 @@ package com.weathair.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.weathair.dto.forum.TopicDto;
-import com.weathair.entities.forum.Post;
 import com.weathair.entities.forum.Topic;
 import com.weathair.exceptions.TopicException;
 import com.weathair.repositories.TopicRepository;
@@ -15,6 +16,7 @@ import com.weathair.repositories.TopicRepository;
  * Class TopicService for CRUD into Topic table
  *
  */
+@Service
 public class TopicService {
 	
 	private TopicRepository topicRepository;
@@ -70,30 +72,17 @@ public class TopicService {
 	}
 	
 	/**
-	 * This method updates the label of a topic
+	 * This method updates a topic
 	 * 
 	 * @param 			id the id of the topic to update
-	 * @param 			newText the text to insert into the topic
+	 * @param 			topicDto the text to update
 	 * @return			The saved topic
 	 * @throws 			TopicException 
 	 */
-	public Topic updateTopicLabel(Integer id, String newLabel) throws TopicException {
+	public Topic updateTopic(Integer id, TopicDto topicDto) throws TopicException {
 		Topic topicToUpdate = findTopicById(id);
-		topicToUpdate.setLabel(newLabel);
-		return topicRepository.save(topicToUpdate);
-	}
-	
-	/**
-	 * This method updates the label of a topic
-	 * 
-	 * @param 			id the id of the topic to update
-	 * @param 			newText the text to insert into the topic
-	 * @return			The saved topic
-	 * @throws 			TopicException 
-	 */
-	public Topic updateTopicPosts(Integer id, List<Post> newPosts) throws TopicException {
-		Topic topicToUpdate = findTopicById(id);
-		topicToUpdate.setPosts(newPosts);;
+		topicToUpdate.setLabel(topicDto.getLabel());;
+		topicToUpdate.setPosts(topicDto.getPosts());
 		return topicRepository.save(topicToUpdate);
 	}
 	

@@ -1,14 +1,12 @@
 package com.weathair.services;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.weathair.dto.forum.PostDto;
-import com.weathair.entities.User;
-import com.weathair.entities.forum.Message;
 import com.weathair.entities.forum.Post;
-import com.weathair.entities.forum.Topic;
 import com.weathair.exceptions.PostException;
 import com.weathair.repositories.PostRepository;
 
@@ -18,6 +16,7 @@ import com.weathair.repositories.PostRepository;
  * Class PostService for CRUD into Post table 
  *
  */
+@Service
 public class PostService {
 	
 	private PostRepository postRepository;
@@ -76,86 +75,21 @@ public class PostService {
 	}
 	
 	/**
-	 * This method updates the title of a post
+	 * This method updates a post
 	 * 
 	 * @param 			id the id of the post to update
-	 * @param 			newTitle the title to insert into the post
+	 * @param 			postDto the post to update into the DB
 	 * @return			The saved post
 	 * @throws 			PostException 
 	 */
-	public Post updatePostTitle(Integer id, String newTitle) throws PostException {
+	public Post updatePost(Integer id, PostDto postDto) throws PostException {
 		Post postToUpdate = findPostById(id);
-		postToUpdate.setTitle(newTitle);
-		return postRepository.save(postToUpdate);
-	}
-	
-	/**
-	 * This method updates the text of a post
-	 * 
-	 * @param 			id the id of the post to update
-	 * @param 			newText the text to insert into the post
-	 * @return			The saved post
-	 * @throws 			PostException 
-	 */
-	public Post updatePostText(Integer id, String newText) throws PostException {
-		Post postToUpdate = findPostById(id);
-		postToUpdate.setText(newText);
-		return postRepository.save(postToUpdate);
-	}
-	
-	/**
-	 * This method updates the dateTime of a post
-	 * 
-	 * @param 			id the id of the post to update
-	 * @param 			newDateTime the dateTime to insert into the post
-	 * @return			The saved post
-	 * @throws 			PostException 
-	 */
-	public Post updatePostDateTime(Integer id, LocalDateTime newDateTime) throws PostException {
-		Post postToUpdate = findPostById(id);
-		postToUpdate.setDateTime(newDateTime);;
-		return postRepository.save(postToUpdate);
-	}
-	
-	/**
-	 * This method updates the messages of a post
-	 * 
-	 * @param 			id the id of the post to update
-	 * @param 			newMessages the text to insert into the post
-	 * @return			The saved post
-	 * @throws 			PostException 
-	 */
-	public Post updatePostMessages(Integer id, List<Message> newMessages) throws PostException {
-		Post postToUpdate = findPostById(id);
-		postToUpdate.setMessages(newMessages);
-		return postRepository.save(postToUpdate);
-	}
-	
-	/**
-	 * This method updates the topic of a post
-	 * 
-	 * @param 			id the id of the post to update
-	 * @param 			newTopic the topic to insert into the post
-	 * @return			The saved post
-	 * @throws 			PostException 
-	 */
-	public Post updatePostTopic(Integer id, Topic newTopic) throws PostException {
-		Post postToUpdate = findPostById(id);
-		postToUpdate.setTopic(newTopic);
-		return postRepository.save(postToUpdate);
-	}
-	
-	/**
-	 * This method updates the text of a post
-	 * 
-	 * @param 			id the id of the post to update
-	 * @param 			newText the text to insert into the post
-	 * @return			The saved post
-	 * @throws 			PostException 
-	 */
-	public Post updatePostUser(Integer id, User newUser) throws PostException {
-		Post postToUpdate = findPostById(id);
-		postToUpdate.setUser(newUser);
+		postToUpdate.setTitle(postDto.getTitle());
+		postToUpdate.setText(postDto.getText());
+		postToUpdate.setDateTime(postDto.getDateTime());;
+		postToUpdate.setMessages(postDto.getMessages());
+		postToUpdate.setTopic(postDto.getTopic());
+		postToUpdate.setUser(postDto.getUser());
 		return postRepository.save(postToUpdate);
 	}
 	
