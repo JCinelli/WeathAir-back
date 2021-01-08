@@ -1,4 +1,4 @@
-package com.weathair.dto;
+package com.weathair.dto.indicators;
 
 import java.time.LocalDateTime;
 
