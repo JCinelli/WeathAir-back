@@ -33,7 +33,7 @@ public class TownshipService {
 	 * This method read ands parses the file. After, it saves all the townships in the database
 	 * by calling the repository
 	 * 
-	 * @param file
+	 * @param file				the CSV file
 	 * @throws IOException
 	 */
 	@Transactional
