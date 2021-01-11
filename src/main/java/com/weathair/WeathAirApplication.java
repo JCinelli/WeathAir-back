@@ -20,7 +20,7 @@ public class WeathAirApplication {
 	private TownshipController townshipController;
 	
 	@PostConstruct
-	public void init() throws IOException {
+	public void init()  throws IOException {
 		File file = new File("src/main/resources/Communes.csv");
 		
 		townshipController.postTownships(file);
