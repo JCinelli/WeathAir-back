@@ -66,6 +66,7 @@ public class NotificationService {
 		Notification notification = new Notification();
 		notification.setLabel(notificationDto.getLabel());
 		notification.setDateTime(notificationDto.getDateTime());
+		notification.setUsers(notificationDto.getUsers());
 		return notificationRepository.save(notification);
 	}
 	

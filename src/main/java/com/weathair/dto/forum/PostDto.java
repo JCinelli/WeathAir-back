@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.weathair.entities.User;
 import com.weathair.entities.forum.Message;
-import com.weathair.entities.forum.Topic;
 
 /**
  * @author MIACHELL
@@ -19,7 +18,6 @@ public class PostDto {
 	private String text; 
 	private LocalDateTime dateTime;
 	private List<Message> messages = new ArrayList<>();
-	private Topic topic;
 	private User user;
 	
 	public PostDto(String title, String text, LocalDateTime dateTime) {
@@ -29,13 +27,12 @@ public class PostDto {
 		this.dateTime = dateTime;
 	}
 
-	public PostDto(String title, String text, LocalDateTime dateTime, List<Message> messages, Topic topic, User user) {
+	public PostDto(String title, String text, LocalDateTime dateTime, List<Message> messages, User user) {
 		super();
 		this.title = title;
 		this.text = text;
 		this.dateTime = dateTime;
 		this.messages = messages;
-		this.topic = topic;
 		this.user = user;
 	}
 
@@ -56,9 +53,6 @@ public class PostDto {
 		return messages;
 	}
 	
-	public Topic getTopic() {
-		return topic;
-	}
 	public User getUser() {
 		return user;
 	}

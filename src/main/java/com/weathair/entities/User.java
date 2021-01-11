@@ -52,6 +52,8 @@ public class User {
 	private List<Post> posts = new ArrayList<>();
 	@OneToMany(mappedBy = "user")
 	private List<Message> messages = new ArrayList<>();
+	@OneToMany(mappedBy = "user")
+	private List<Favorite> favorites = new ArrayList<>();
 	
 	//CONSTRUCTOR
 	public User() {
@@ -121,6 +123,14 @@ public class User {
 
 	public void setMessages(List<Message> messages) {
 		this.messages = messages;
+	}
+	
+	public List<Favorite> getFavorites() {
+		return favorites;
+	}
+
+	public void setFavorites(List<Favorite> favorites) {
+		this.favorites = favorites;
 	}
 
 }

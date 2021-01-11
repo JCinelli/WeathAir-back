@@ -66,8 +66,6 @@ public class MessageService {
 		Message message = new Message();
 		message.setText(messageDto.getText());
 		message.setDateTime(messageDto.getDateTime());
-		//TODO replace by find by post id
-		message.setPost(messageDto.getPost());
 		//TODO replace by find by user id
 		message.setUser(messageDto.getUser());
 		return messageRepository.save(message);
@@ -85,7 +83,6 @@ public class MessageService {
 		Message messageToUpdate = findMessageById(id);
 		messageToUpdate.setText(messageDto.getText());
 		messageToUpdate.setDateTime(messageDto.getDateTime());
-		messageToUpdate.setPost(messageDto.getPost());
 		messageToUpdate.setUser(messageDto.getUser());
 		return messageRepository.save(messageToUpdate);
 	}

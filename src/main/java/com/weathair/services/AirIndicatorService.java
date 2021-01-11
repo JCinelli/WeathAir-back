@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.weathair.dto.indicators.AirIndicatorDTO;
+import com.weathair.dto.indicators.AirIndicatorDto;
 import com.weathair.entities.indicators.AirIndicator;
 import com.weathair.exceptions.AirIndicatorException;
 import com.weathair.repositories.AirIndicatorRepository;
@@ -54,14 +54,14 @@ public class AirIndicatorService {
 	 * @param dto : Create an Air indicator and save it in base
 	 * @return
 	 */
-	public AirIndicator createAirIndicator(AirIndicatorDTO dto) {
+	public AirIndicator createAirIndicator(AirIndicatorDto airIndicatorDto) {
 
 		AirIndicator airIndicator = new AirIndicator();
-		airIndicator.setDateTime(dto.getDateTime());
-		airIndicator.setNameStation(dto.getNameStation());
-		airIndicator.setCodeStation(dto.getCodeStation());
-		airIndicator.setLabel(dto.getLabel());
-		airIndicator.setValue(dto.getValue());
+		airIndicator.setDateTime(airIndicatorDto.getDateTime());
+		airIndicator.setNameStation(airIndicatorDto.getNameStation());
+		airIndicator.setCodeStation(airIndicatorDto.getCodeStation());
+		airIndicator.setLabel(airIndicatorDto.getLabel());
+		airIndicator.setValue(airIndicatorDto.getValue());
 
 		return this.airIndicatorRepository.save(airIndicator);
 	}
@@ -72,13 +72,13 @@ public class AirIndicatorService {
 	 * @return 			updated Air indicator in base
 	 * @throws 			AirIndicatorException
 	 */
-	public AirIndicator updateAirIndicator(Integer id, AirIndicatorDTO airIndicatorDTO) throws AirIndicatorException {
+	public AirIndicator updateAirIndicator(Integer id, AirIndicatorDto airIndicatorDto) throws AirIndicatorException {
 		AirIndicator airIndicatorUpdate = getAirIndicatorById(id);
-		airIndicatorUpdate.setCodeStation(airIndicatorDTO.getCodeStation());
-		airIndicatorUpdate.setNameStation(airIndicatorDTO.getNameStation());
-		airIndicatorUpdate.setLabel(airIndicatorDTO.getLabel());
-		airIndicatorUpdate.setValue(airIndicatorDTO.getValue());
-		airIndicatorUpdate.setDateTime(airIndicatorDTO.getDateTime());
+		airIndicatorUpdate.setCodeStation(airIndicatorDto.getCodeStation());
+		airIndicatorUpdate.setNameStation(airIndicatorDto.getNameStation());
+		airIndicatorUpdate.setLabel(airIndicatorDto.getLabel());
+		airIndicatorUpdate.setValue(airIndicatorDto.getValue());
+		airIndicatorUpdate.setDateTime(airIndicatorDto.getDateTime());
 
 		return airIndicatorRepository.save(airIndicatorUpdate);
 	}

@@ -25,11 +25,15 @@ public class Favorite {
 	private String labelIndicator;
 
 	@OneToMany(mappedBy = "favorite")
-	private Set<AbstractIndicator> Indicator = new HashSet<>();
+	private Set<AbstractIndicator> indicator = new HashSet<>();
 
 	@ManyToOne
 	@JoinColumn(name = "id_town")
 	private Township township;
+	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	public Favorite() {
 		super();
@@ -68,17 +72,25 @@ public class Favorite {
 	}
 
 	public Set<AbstractIndicator> getIndicator() {
-		return Indicator;
+		return indicator;
 	}
 
 	public void setIndicator(Set<AbstractIndicator> indicator) {
-		Indicator = indicator;
+		this.indicator = indicator;
+	}
+	
+	public User getUser() {
+		return this.user;
 	}
 
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	@Override
 	public String toString() {
 		return "Favorite [id=" + id + ", duration=" + duration + ", labelIndicator=" + labelIndicator + ", Indicator="
-				+ Indicator + ", township=" + township + "]";
+				+ indicator + ", township=" + township + "]";
 	}
 	
 
