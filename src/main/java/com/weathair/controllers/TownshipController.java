@@ -44,7 +44,7 @@ public class TownshipController {
 	 * 
 	 * @param file				the CSV file with all the townships
 	 */
-	@PostMapping
+	
 	public void postTownships(File file) throws IOException {
 		townshipService.saveTownShips(file);
 	}
@@ -87,7 +87,7 @@ public class TownshipController {
 	 * @return	the township in database by the insee code
 	 * @throws TownshipException
 	 */
-	@GetMapping("{inseeCode}")
+	@GetMapping("/insee/{inseeCode}")
 	public ResponseEntity<?> getTownshipByInseeCode(@RequestParam String inseeCode) throws TownshipException {
 		Township township = townshipService.findByInseeCode(inseeCode);
 		
@@ -99,7 +99,7 @@ public class TownshipController {
 	 * @return	the township(s) in database by name
 	 * @throws TownshipException if any township in db has the name passed in parameter
 	 */
-	@GetMapping("{name}")
+	@GetMapping("name/{name}")
 	public ResponseEntity<?> getTownshipByName(@RequestParam String name) throws TownshipException {
 		List<Township> townshipsByName = townshipService.findByName(name);
 		
@@ -113,7 +113,7 @@ public class TownshipController {
 	 * @param newName					the new name for the township
 	 * @throws TownshipException
 	 */
-	@PutMapping("{inseeCode}")
+	@PutMapping("name/{inseeCode}")
 	public void updateTownshipName(@RequestParam String inseeCode, @RequestBody String newName) throws TownshipException {
 		townshipService.updateTownshipName(inseeCode, newName);
 	}
@@ -125,7 +125,7 @@ public class TownshipController {
 	 * @param newPopulation				the new population for the township
 	 * @throws TownshipException
 	 */
-	@PutMapping("{inseeCode}")
+	@PutMapping("population/{inseeCode}")
 	public void updateTownshipPopulation(@RequestParam String inseeCode, @RequestBody int newPopulation) throws TownshipException {
 		townshipService.updateTownshipPopulation(inseeCode, newPopulation);
 	}
