@@ -36,5 +36,5 @@ public class UserDto {
 	public Township getTownship() {
 		return township;
 	}
-	
+
 }

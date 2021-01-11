@@ -61,8 +61,8 @@ public class Notification {
 		return users;
 	}
 
-	public void setUsers(List<User> users) {
-		this.users = users;
+	public void setUsers(List<User> list) {
+		this.users = list;
 	}
 
 	public LocalDateTime getDateTime() {

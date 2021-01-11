@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.weathair.dto.indicators.MeteoIndicatorDTO;
+import com.weathair.dto.indicators.MeteoIndicatorDto;
 import com.weathair.entities.indicators.MeteoIndicator;
 import com.weathair.exceptions.MeteoIndicatorException;
 import com.weathair.repositories.MeteoIndicatorRepository;
@@ -54,15 +54,15 @@ public class MeteoIndicatorService {
 	 * @param dto : Create an Meteo indicator and save it in base
 	 * @return a meteo Indicator insert in data base
 	 */
-	public MeteoIndicator createMeteoIndicator(MeteoIndicatorDTO dto) {
+	public MeteoIndicator createMeteoIndicator(MeteoIndicatorDto meteoIndicatorDto) {
 
 		MeteoIndicator meteoIndicator = new MeteoIndicator();
-		meteoIndicator.setDateTime(dto.getDateTime());
-		meteoIndicator.setDirWind(dto.getDirWind());
-		meteoIndicator.setProbaFog(dto.getProbaFog());
-		meteoIndicator.setProbaRain(dto.getProbaRain());
-		meteoIndicator.setTemperature(dto.getTemperature());
-		meteoIndicator.setWind(dto.getWind());
+		meteoIndicator.setDateTime(meteoIndicatorDto.getDateTime());
+		meteoIndicator.setDirWind(meteoIndicatorDto.getDirWind());
+		meteoIndicator.setProbaFog(meteoIndicatorDto.getProbaFog());
+		meteoIndicator.setProbaRain(meteoIndicatorDto.getProbaRain());
+		meteoIndicator.setTemperature(meteoIndicatorDto.getTemperature());
+		meteoIndicator.setWind(meteoIndicatorDto.getWind());
 
 		return this.meteoIndicatorRepository.save(meteoIndicator);
 	}
@@ -73,14 +73,14 @@ public class MeteoIndicatorService {
 	 * @return New Temperature indicator in base
 	 * @throws MeteoIndicatorException
 	 */
-	public MeteoIndicator updateMeteoIndicator(Integer id, MeteoIndicatorDTO meteoIndicatorDTO)
+	public MeteoIndicator updateMeteoIndicator(Integer id, MeteoIndicatorDto meteoIndicatorDto)
 			throws MeteoIndicatorException {
 		MeteoIndicator meteoIndicatorUpdate = getMeteoIndicatorById(id);
-		meteoIndicatorUpdate.setTemperature(meteoIndicatorDTO.getTemperature());
-		meteoIndicatorUpdate.setDateTime(meteoIndicatorDTO.getDateTime());
-		meteoIndicatorUpdate.setWind(meteoIndicatorDTO.getWind());
-		meteoIndicatorUpdate.setDirWind(meteoIndicatorDTO.getDirWind());
-		meteoIndicatorUpdate.setProbaRain(meteoIndicatorDTO.getProbaRain());
+		meteoIndicatorUpdate.setTemperature(meteoIndicatorDto.getTemperature());
+		meteoIndicatorUpdate.setDateTime(meteoIndicatorDto.getDateTime());
+		meteoIndicatorUpdate.setWind(meteoIndicatorDto.getWind());
+		meteoIndicatorUpdate.setDirWind(meteoIndicatorDto.getDirWind());
+		meteoIndicatorUpdate.setProbaRain(meteoIndicatorDto.getProbaRain());
 
 		return meteoIndicatorRepository.save(meteoIndicatorUpdate);
 	}

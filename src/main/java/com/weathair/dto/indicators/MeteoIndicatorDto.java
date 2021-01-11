@@ -3,7 +3,7 @@ package com.weathair.dto.indicators;
 
 import java.time.LocalDateTime;
 
-public class MeteoIndicatorDTO {
+public class MeteoIndicatorDto {
 
 	// date
 	private LocalDateTime dateTime;
