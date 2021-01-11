@@ -25,7 +25,7 @@ import com.weathair.services.AirIndicatorService;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("airindicators")
+@RequestMapping("/airindicators")
 public class AirIndicatorController {
 
 	private AirIndicatorService airIndicatorService;
@@ -49,7 +49,7 @@ public class AirIndicatorController {
 	 * @return an air indicator by id
 	 * @throws AirIndicatorException
 	 */
-	@GetMapping("{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> airIndicatorByUser(@PathVariable Integer id) throws AirIndicatorException {
 		AirIndicator airIndicator = this.airIndicatorService.getAirIndicatorById(id);
 
@@ -72,7 +72,7 @@ public class AirIndicatorController {
 	 * @param newDateTime
 	 * @throws AirIndicatorException
 	 */
-	@PutMapping("{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<?> updateAirIndicator(@RequestParam Integer id, @RequestBody AirIndicatorDTO airIndicatorDTO)
 			throws AirIndicatorException {
 		airIndicatorService.updateAirIndicator(id, airIndicatorDTO);
@@ -84,7 +84,7 @@ public class AirIndicatorController {
 	 * delete an air indicator by id
 	 * @throws AirIndicatorException
 	 */
-	@DeleteMapping("{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteAirIndicatorByUser(@RequestParam Integer id) throws AirIndicatorException {
 		airIndicatorService.deleteAirIndicator(id);
 		return ResponseEntity.ok("The air indicator with id " + id + " has been successfully deleted");

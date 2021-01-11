@@ -27,7 +27,7 @@ import com.weathair.services.TownshipService;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("townships")
+@RequestMapping("/townships")
 public class TownshipController {
 	
 //	FIELDS
@@ -68,7 +68,7 @@ public class TownshipController {
 	 * @param name				name of the township
 	 * @param population		total population of the township
 	 */
-	@PostMapping("{inseeCode}")
+	@PostMapping("/{inseeCode}")
 	public void postTownship(String inseeCode, String name, int population) {
 		townshipService.saveTownship(inseeCode, name, population);
 	}
@@ -99,7 +99,7 @@ public class TownshipController {
 	 * @return	the township(s) in database by name
 	 * @throws TownshipException if any township in db has the name passed in parameter
 	 */
-	@GetMapping("name/{name}")
+	@GetMapping("/name/{name}")
 	public ResponseEntity<?> getTownshipByName(@RequestParam String name) throws TownshipException {
 		List<Township> townshipsByName = townshipService.findByName(name);
 		
@@ -113,7 +113,7 @@ public class TownshipController {
 	 * @param newName					the new name for the township
 	 * @throws TownshipException
 	 */
-	@PutMapping("name/{inseeCode}")
+	@PutMapping("/name/{inseeCode}")
 	public void updateTownshipName(@RequestParam String inseeCode, @RequestBody String newName) throws TownshipException {
 		townshipService.updateTownshipName(inseeCode, newName);
 	}
@@ -125,7 +125,7 @@ public class TownshipController {
 	 * @param newPopulation				the new population for the township
 	 * @throws TownshipException
 	 */
-	@PutMapping("population/{inseeCode}")
+	@PutMapping("/population/{inseeCode}")
 	public void updateTownshipPopulation(@RequestParam String inseeCode, @RequestBody int newPopulation) throws TownshipException {
 		townshipService.updateTownshipPopulation(inseeCode, newPopulation);
 	}
@@ -136,7 +136,7 @@ public class TownshipController {
 	 * @param inseeCode				unique code of the township
 	 * @throws TownshipException
 	 */
-	@DeleteMapping("{inseeCode}")
+	@DeleteMapping("/{inseeCode}")
 	public ResponseEntity<?> deleteTownship(@RequestParam String inseeCode) throws TownshipException {
 		return ResponseEntity.ok(townshipService.deleteByInseeCode(inseeCode));
 	}

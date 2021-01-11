@@ -25,7 +25,7 @@ import com.weathair.services.MeteoIndicatorService;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("meteoindicators")
+@RequestMapping("/meteoindicators")
 public class MeteoIndicatorController {
 
 	private MeteoIndicatorService meteoIndicatorService;
@@ -48,7 +48,7 @@ public class MeteoIndicatorController {
 	 * @return a meteo indicator by id
 	 * @throws MeteoIndicatorException
 	 */
-	@GetMapping("{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> meteoIndicatorByUser(@PathVariable Integer id) throws MeteoIndicatorException {
 		MeteoIndicator meteoIndicator = this.meteoIndicatorService.getMeteoIndicatorById(id);
 		return ResponseEntity.ok(meteoIndicator);
@@ -69,7 +69,7 @@ public class MeteoIndicatorController {
 	 * @param newTemperature
 	 * @throws MeteoIndicatorException
 	 */
-	@PutMapping("{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<?> updateMeteoIndicator(@RequestParam Integer id, @RequestBody MeteoIndicatorDTO meteoIndicatorDTO) throws MeteoIndicatorException {
 		meteoIndicatorService.updateMeteoIndicator(id, meteoIndicatorDTO);
 		return ResponseEntity.ok("The meteo indicator with id " + id + " has been successfully updated");
@@ -80,7 +80,7 @@ public class MeteoIndicatorController {
 	 * @param id
 	 * @throws MeteoIndicatorException
 	 */
-	@DeleteMapping("{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteMeteoIndicatorByUser(@RequestParam Integer id) throws MeteoIndicatorException {
 		meteoIndicatorService.deleteMeteoIndicator(id);
 		return ResponseEntity.ok("The meteo indicator with id " + id + " has been successfully deleted");
