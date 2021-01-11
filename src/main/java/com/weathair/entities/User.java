@@ -90,6 +90,14 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public Township getTownship() {
+		return township;
+	}
+
+	public void setTownship(Township township) {
+		this.township = township;
+	}
 
 	public List<Notification> getNotifications() {
 		return notifications;
