@@ -1,5 +1,6 @@
 package com.weathair.entities;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Notification {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String label;
+	private LocalDateTime dateTime;
 	@ManyToMany
 	@JoinTable(name = "user_notification", 
 			joinColumns = @JoinColumn(name = "notification_id", referencedColumnName = "id"), 
@@ -61,6 +63,14 @@ public class Notification {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	public LocalDateTime getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
 	}
 
 }

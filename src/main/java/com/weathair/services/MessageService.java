@@ -74,10 +74,10 @@ public class MessageService {
 	}
 	
 	/**
-	 * This method updates the text in a Message
+	 * This method updates a Message
 	 * 
 	 * @param 			id the id of the Message to update
-	 * @param 			newText the text to insert into the message
+	 * @param 			messageDto contains the attributes to insert into the message
 	 * @return			The saved Message
 	 * @throws 			MessageException 
 	 */
@@ -93,7 +93,7 @@ public class MessageService {
 	/**
 	 * This method deletes a message
 	 * 
-	 * @param 			id the id of the Message to update
+	 * @param 			id the id of the Message to delete
 	 * @throws 			MessageException
 	 */
 	public void deleteMessage(Integer id) throws MessageException{

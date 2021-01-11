@@ -37,7 +37,7 @@ public class TownshipService {
 	 * 
 	 * @param file					The csv file
 	 * @throws IOException			The method "readFile(file)" can throws an IOException
-	 **/
+	 */
 	@Transactional
 	public void saveTownShips(File file) throws IOException {
 		
