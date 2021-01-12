@@ -25,7 +25,7 @@ public class Role {
 	private Integer id;
 	
 	@Enumerated(EnumType.STRING)
-	private RoleEnumeration label;
+	private  RoleEnumeration label;
 	
 	@ManyToMany
 	@JoinTable(name = "role_has_right",
@@ -37,7 +37,7 @@ public class Role {
 	@OneToMany(targetEntity = User.class, mappedBy = "role")
 	private List<User> users = new ArrayList<>();
 
-	public RoleEnumeration getLabel() {
+	public  RoleEnumeration getLabel() {
 		return label;
 	}
 
@@ -60,6 +60,16 @@ public class Role {
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	
 	
 	
 }

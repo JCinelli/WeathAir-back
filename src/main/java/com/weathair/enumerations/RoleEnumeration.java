@@ -2,5 +2,5 @@ package com.weathair.enumerations;
 
 public enum RoleEnumeration {
 
-	ADMINISTRATOR, USER
+	ADMINISTRATOR, USER, USER_BAN
 }

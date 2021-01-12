@@ -1,6 +1,7 @@
 package com.weathair.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weathair.dto.UserDto;
+import com.weathair.exceptions.RepositoryException;
 import com.weathair.exceptions.UserException;
 import com.weathair.services.UserService;
 
@@ -39,6 +41,7 @@ public class UserController {
 		return ResponseEntity.ok().body(userService.findUserById(id));
 	}
 	
+	
 	@PostMapping
 	public ResponseEntity<?> postUser (@Validated @RequestBody UserDto userDto, BindingResult resVal){
 		if (!resVal.hasErrors()) {
@@ -54,6 +57,22 @@ public class UserController {
 		return ResponseEntity.ok("The user with id " + id + " has been successfully updated");
 	}
 	
+	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
+	@PutMapping("ban/{id}")
+	public ResponseEntity<?> putBanUser (@RequestParam Integer id) throws UserException, RepositoryException{
+		userService.banUser(id);
+		return ResponseEntity.ok("The user with id " + id + " has been successfully banned");
+	}
+	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
+	@PutMapping("unban/{id}")
+	public ResponseEntity<?> putUnBanUser (@RequestParam Integer id) throws UserException{
+		userService.unBanUser(id);
+		return ResponseEntity.ok("The user with id " + id + " has been successfully unban");
+	}
+	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteUser (@RequestParam Integer id) throws UserException {
 		userService.deleteUser(id);

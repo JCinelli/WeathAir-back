@@ -3,10 +3,12 @@ package com.weathair.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.weathair.dto.UserDto;
 import com.weathair.entities.User;
+import com.weathair.exceptions.RepositoryException;
 import com.weathair.exceptions.UserException;
 import com.weathair.repositories.UserRepository;
 
@@ -20,7 +22,10 @@ import com.weathair.repositories.UserRepository;
 public class UserService {
 	
 	private UserRepository userRepository;
-
+	
+	@Autowired
+	private RoleService roleService;
+	
 	public UserService(UserRepository userRepository) {
 		super();
 		this.userRepository = userRepository;
@@ -86,6 +91,29 @@ public class UserService {
 		userToUpdate.setEmail(userDto.getEmail());
 		userToUpdate.setTownship(userDto.getTownship());
 		return userRepository.save(userToUpdate);
+	}
+	
+	/**
+	 * @param id
+	 * @return user ban by Id
+	 * @throws UserException
+	 * @throws RepositoryException 
+	 */
+	public User banUser(Integer id) throws UserException, RepositoryException {
+		User userToBan = findUserById(id);
+		userToBan.setBan(true);
+		return userRepository.save(userToBan);
+	}
+	
+	/**
+	 * @param id
+	 * @return user unban by Id
+	 * @throws UserException
+	 */
+	public User unBanUser (Integer id) throws UserException {
+		User userToUnBan = findUserById(id);
+		userToUnBan.setBan(false);
+		return userRepository.save(userToUnBan);
 	}
 	
 	/**

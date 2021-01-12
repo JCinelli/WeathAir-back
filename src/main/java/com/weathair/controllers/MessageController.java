@@ -1,6 +1,7 @@
 package com.weathair.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,7 +38,7 @@ public class MessageController {
 	public ResponseEntity<?> getMessageById (Integer id) throws MessageException {
 		return ResponseEntity.ok().body(messageService.findMessageById(id));
 	}
-	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR', 'ROLE_USER')")
 	@PostMapping
 	public ResponseEntity<?> postMessage (@Validated @RequestBody MessageDto messageDto, BindingResult resVal){
 		if (!resVal.hasErrors()) {
@@ -47,12 +48,13 @@ public class MessageController {
 		}
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> putMessage(@RequestParam Integer id, @RequestBody MessageDto messageDto) throws MessageException{
 		messageService.updateMessage(id, messageDto);
 		return ResponseEntity.ok("The message with id " + id + " has been successfully updated");
 	}
-	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteMessage (@RequestParam Integer id) throws MessageException {
 		messageService.deleteMessage(id);
