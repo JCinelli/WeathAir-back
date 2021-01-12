@@ -3,21 +3,32 @@ package com.weathair.dto.indicators;
 
 import java.time.LocalDateTime;
 
+import com.weathair.entities.Township;
+
 public class MeteoIndicatorDTO {
 
-	// date
+//	FIELDS
 	private LocalDateTime dateTime;
-	// temperature
-	private Integer temperature;
-	// vent
-	private Integer wind;
-	// direction du vent
-	private Integer dirWind;
-	// probabilité de pluie entre 0 et 100%
-	private Integer probaRain;
-	// probabilité de brouillard entre 0 et 100%
-	private Integer probaFog;
+	
+	private String description;
 
+	private Double temperature;
+	
+	private Double feelsLike;
+	
+	private Double windSpeed;
+	
+	private Integer windDeg;
+	
+	private Integer humidity;
+	
+	private String townshipName;
+
+//	CONSTUCTOR
+	public MeteoIndicatorDTO() {
+	}
+
+//	GETTERS & SETTERS
 	public LocalDateTime getDateTime() {
 		return dateTime;
 	}
@@ -26,44 +37,66 @@ public class MeteoIndicatorDTO {
 		this.dateTime = dateTime;
 	}
 
-	public Integer getTemperature() {
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Double getTemperature() {
 		return temperature;
 	}
 
-	public void setTemperature(Integer temperature) {
+	public void setTemperature(Double temperature) {
 		this.temperature = temperature;
 	}
 
-	public Integer getWind() {
-		return wind;
+	public Double getFeelsLike() {
+		return feelsLike;
 	}
 
-	public void setWind(Integer wind) {
-		this.wind = wind;
+	public void setFeelsLike(Double feelsLike) {
+		this.feelsLike = feelsLike;
 	}
 
-	public Integer getDirWind() {
-		return dirWind;
+	public Double getWindSpeed() {
+		return windSpeed;
 	}
 
-	public void setDirWind(Integer dirWind) {
-		this.dirWind = dirWind;
+	public void setWindSpeed(Double windSpeed) {
+		this.windSpeed = windSpeed;
 	}
 
-	public Integer getProbaRain() {
-		return probaRain;
+	public Integer getWindDeg() {
+		return windDeg;
 	}
 
-	public void setProbaRain(Integer probaRain) {
-		this.probaRain = probaRain;
+	public void setWindDeg(Integer windDeg) {
+		this.windDeg = windDeg;
 	}
 
-	public Integer getProbaFog() {
-		return probaFog;
+	public Integer getHumidity() {
+		return humidity;
 	}
 
-	public void setProbaFog(Integer probaFog) {
-		this.probaFog = probaFog;
+	public void setHumidity(Integer humidity) {
+		this.humidity = humidity;
 	}
 
+	public String getTownshipName() {
+		return townshipName;
+	}
+
+	public void setTownshipName(String townshipName) {
+		this.townshipName = townshipName;
+	}
+
+	@Override
+	public String toString() {
+		return "MeteoIndicatorDTO [dateTime=" + dateTime + ", description=" + description + ", temperature="
+				+ temperature + ", feelsLike=" + feelsLike + ", windSpeed=" + windSpeed + ", windDeg=" + windDeg
+				+ ", humidity=" + humidity + ", townshipName=" + townshipName + "]";
+	}
 }

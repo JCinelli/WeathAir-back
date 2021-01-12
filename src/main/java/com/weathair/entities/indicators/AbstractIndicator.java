@@ -28,6 +28,10 @@ public abstract class AbstractIndicator {
 	@JoinColumn(name="township_id")
 	private Township township;
 
+	public AbstractIndicator() {
+		super();
+	}
+
 	public Integer getId() {
 		return id;
 	}

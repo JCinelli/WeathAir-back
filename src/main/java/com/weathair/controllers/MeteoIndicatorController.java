@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.weathair.dto.indicators.MeteoIndicatorDTO;
 import com.weathair.entities.indicators.MeteoIndicator;
 import com.weathair.exceptions.MeteoIndicatorException;
@@ -36,12 +38,19 @@ public class MeteoIndicatorController {
 	}
 
 	/**
-	 * @return all meteo indicators with "all" on url
+	 * @return all meteo indicators
 	 */
 	@GetMapping
 	public List<MeteoIndicator> listAllMeteoIndicator() throws MeteoIndicatorException {
 		return meteoIndicatorService.getAllMeteoIndicators();
 	}
+	
+//	@GetMapping("{townshipName}")
+//	public ResponseEntity<?> meteoIndicatorByTownshipName(@PathVariable String townshipName) throws JsonMappingException, JsonProcessingException {
+//		MeteoIndicatorDTO meteoIndicatorDto = this.meteoIndicatorService.findByTownshipName(townshipName);
+//		return ResponseEntity.ok(meteoIndicatorDto);
+//
+//	}
 
 	/**
 	 * @param id

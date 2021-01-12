@@ -47,6 +47,8 @@ public class TownshipService {
 		for (Township township : townShips) {
 			townshipRepository.save(township);
 		}
+		
+		System.err.println("All townships saved in database !");
 	}
 	
 	/**

@@ -47,6 +47,8 @@ public class TownshipController {
 	
 	public void postTownships(File file) throws IOException {
 		townshipService.saveTownShips(file);
+		
+		System.err.println("finit");
 	}
 	
 	/**

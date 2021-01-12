@@ -6,5 +6,6 @@ import com.weathair.entities.indicators.MeteoIndicator;
 
 public interface MeteoIndicatorRepository  extends JpaRepository<MeteoIndicator, Integer>  {
 
+	MeteoIndicator findByTownship_Name(String townshipName);
 	
 }
