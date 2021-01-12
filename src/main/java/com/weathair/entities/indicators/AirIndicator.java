@@ -8,14 +8,10 @@ import javax.persistence.Entity;
 public class AirIndicator extends AbstractIndicator {
 
 	private LocalDateTime dateTime;
-
-	private String nameStation;
-
-	private String codeStation;
-
-	private String label;
-
-	private Double value;
+	private Integer aqi;
+	private Double no2;
+	private Double o3;
+	private Double pm10;
 
 	public AirIndicator() {
 		super();
@@ -29,36 +25,36 @@ public class AirIndicator extends AbstractIndicator {
 		this.dateTime = dateTime;
 	}
 
-	public String getNameStation() {
-		return nameStation;
+	public Integer getAqi() {
+		return aqi;
 	}
 
-	public void setNameStation(String nameStation) {
-		this.nameStation = nameStation;
+	public void setAqi(Integer aqi) {
+		this.aqi = aqi;
 	}
 
-	public String getCodeStation() {
-		return codeStation;
+	public Double getNo2() {
+		return no2;
 	}
 
-	public void setCodeStation(String codeStation) {
-		this.codeStation = codeStation;
+	public void setNo2(Double no2) {
+		this.no2 = no2;
 	}
 
-	public String getLabel() {
-		return label;
+	public Double getO3() {
+		return o3;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
+	public void setO3(Double o3) {
+		this.o3 = o3;
 	}
 
-	public Double getValue() {
-		return value;
+	public Double getPm10() {
+		return pm10;
 	}
 
-	public void setValue(Double value) {
-		this.value = value;
+	public void setPm10(Double pm10) {
+		this.pm10 = pm10;
 	}
 
 }
