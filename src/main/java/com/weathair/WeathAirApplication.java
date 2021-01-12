@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.weathair.controllers.TownshipController;
+import com.weathair.exceptions.TownshipException;
+import com.weathair.services.AirIndicatorService;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.weathair")
@@ -19,11 +21,16 @@ public class WeathAirApplication {
 	@Autowired
 	private TownshipController townshipController;
 	
+	@Autowired
+	private AirIndicatorService airIndicatorService;
+	
 	@PostConstruct
-	public void init()  throws IOException {
+	public void init()  throws IOException, TownshipException {
 		File file = new File("src/main/resources/Communes.csv");
 		
 		townshipController.postTownships(file);
+		
+		airIndicatorService.insertAirIndicatorsFromApiWaqi();
 	}
 
 	public static void main(String[] args) throws IOException {
