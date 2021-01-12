@@ -1,5 +1,6 @@
 package com.weathair.dto;
 
+import com.weathair.entities.Role;
 import com.weathair.entities.Township;
 
 public class UserDto {
@@ -9,18 +10,20 @@ public class UserDto {
 	private String password;
 	private Township township;
 	private boolean isBan;
+	private Role role;
 	
 	public UserDto() {
 		super();
 	}
 	
-	public UserDto(String pseudo, String email, String password, Township township, boolean isBan) {
+	public UserDto(String pseudo, String email, String password, Township township, boolean isBan, Role role) {
 		super();
 		this.pseudo = pseudo;
 		this.email = email;
 		this.password = password;
 		this.township = township;
 		this.isBan = isBan;
+		this.role = role;
 	}
 
 	public String getPseudo() {
@@ -62,6 +65,17 @@ public class UserDto {
 	public void setTownship(Township township) {
 		this.township = township;
 	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	
+	
 	
 
 }

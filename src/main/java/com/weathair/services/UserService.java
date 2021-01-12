@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.weathair.dto.UserDto;
 import com.weathair.entities.User;
+import com.weathair.enumerations.RoleEnumeration;
 import com.weathair.exceptions.RepositoryException;
 import com.weathair.exceptions.UserException;
 import com.weathair.repositories.UserRepository;
@@ -22,9 +23,7 @@ import com.weathair.repositories.UserRepository;
 public class UserService {
 	
 	private UserRepository userRepository;
-	
-	@Autowired
-	private RoleService roleService;
+
 	
 	public UserService(UserRepository userRepository) {
 		super();
@@ -73,6 +72,7 @@ public class UserService {
 		user.setPassword(userDto.getPassword());
 		user.setEmail(userDto.getEmail());
 		user.setTownship(userDto.getTownship());
+		user.setRole(userDto.getRole());
 		return userRepository.save(user);
 	}
 	
@@ -127,4 +127,8 @@ public class UserService {
 		userRepository.delete(userToDelete);
 	}
 
+	
+	
+		
+	
 }

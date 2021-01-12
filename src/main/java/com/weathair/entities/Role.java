@@ -25,7 +25,7 @@ public class Role {
 	private Integer id;
 	
 	@Enumerated(EnumType.STRING)
-	private  RoleEnumeration label;
+	private RoleEnumeration label;
 	
 	@ManyToMany
 	@JoinTable(name = "role_has_right",

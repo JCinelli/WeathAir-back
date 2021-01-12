@@ -35,15 +35,15 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			
+			.antMatchers(HttpMethod.GET, "/login").permitAll()
 			.antMatchers(HttpMethod.GET, "/townships").permitAll()
 			.antMatchers(HttpMethod.GET, "/meteoindicators").permitAll()
 			.antMatchers(HttpMethod.GET, "/airindicators").permitAll()
+			.antMatchers(HttpMethod.GET, "/utils").permitAll()
 			.antMatchers(HttpMethod.GET, "/posts").permitAll()
 			.antMatchers("/topics").permitAll()
 			.antMatchers("/messages").permitAll()
-			.antMatchers(HttpMethod.GET, "/login").permitAll()
-			.antMatchers(HttpMethod.GET, "/utils").permitAll()
+			.antMatchers("/users").permitAll()
 			
 //			.antMatchers(HttpMethod.POST, "/topics").hasRole("ADMINISTRATOR")
 //			.antMatchers(HttpMethod.PUT, "/topics").hasRole("ADMINISTRATOR")
