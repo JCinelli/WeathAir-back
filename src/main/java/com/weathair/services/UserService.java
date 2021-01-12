@@ -3,10 +3,13 @@ package com.weathair.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.weathair.dto.UserDto;
 import com.weathair.entities.User;
+import com.weathair.enumerations.RoleEnumeration;
+import com.weathair.exceptions.RepositoryException;
 import com.weathair.exceptions.UserException;
 import com.weathair.repositories.UserRepository;
 
@@ -21,6 +24,7 @@ public class UserService {
 	
 	private UserRepository userRepository;
 
+	
 	public UserService(UserRepository userRepository) {
 		super();
 		this.userRepository = userRepository;
@@ -68,6 +72,7 @@ public class UserService {
 		user.setPassword(userDto.getPassword());
 		user.setEmail(userDto.getEmail());
 		user.setTownship(userDto.getTownship());
+		user.setRole(userDto.getRole());
 		return userRepository.save(user);
 	}
 	
@@ -89,6 +94,29 @@ public class UserService {
 	}
 	
 	/**
+	 * @param id
+	 * @return user ban by Id
+	 * @throws UserException
+	 * @throws RepositoryException 
+	 */
+	public User banUser(Integer id) throws UserException, RepositoryException {
+		User userToBan = findUserById(id);
+		userToBan.setBan(true);
+		return userRepository.save(userToBan);
+	}
+	
+	/**
+	 * @param id
+	 * @return user unban by Id
+	 * @throws UserException
+	 */
+	public User unBanUser (Integer id) throws UserException {
+		User userToUnBan = findUserById(id);
+		userToUnBan.setBan(false);
+		return userRepository.save(userToUnBan);
+	}
+	
+	/**
 	 * This method deletes an user
 	 * 
 	 * @param 			id the id of the User to delete
@@ -99,4 +127,8 @@ public class UserService {
 		userRepository.delete(userToDelete);
 	}
 
+	
+	
+		
+	
 }

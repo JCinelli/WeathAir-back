@@ -1,6 +1,7 @@
 package com.weathair.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,11 +35,13 @@ public class FavoriteController {
 		return ResponseEntity.ok().body(favoriteService.findAllFavorites());
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR', 'ROLE_USER', 'ROLE_USER_BAN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getFavoriteById (Integer id) throws FavoriteException {
 		return ResponseEntity.ok().body(favoriteService.findFavoriteById(id));
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PostMapping
 	public ResponseEntity<?> postFavorite (@Validated @RequestBody FavoriteDto favoriteDto, BindingResult resVal){
 		if (!resVal.hasErrors()) {
@@ -48,12 +51,14 @@ public class FavoriteController {
 		}
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> putFavorite (@RequestParam Integer id, @RequestBody FavoriteDto favoriteDto) throws FavoriteException {
 		favoriteService.updateFavorite(id, favoriteDto);
 		return ResponseEntity.ok("The favorite with id " + id + " has been successfully updated");
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteFavorite (@RequestParam Integer id) throws FavoriteException {
 		favoriteService.deleteFavorite(id);

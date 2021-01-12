@@ -33,6 +33,7 @@ public class User {
 	private String pseudo;
 	private String email; 
 	private String password;
+	private boolean isBan = false;
 	
 	@ManyToOne
 	@JoinColumn(name = "role_id")
@@ -66,6 +67,14 @@ public class User {
 	
 	public Integer getId() {
 		return id;
+	}
+
+	public boolean isBan() {
+		return isBan;
+	}
+
+	public void setBan(boolean isBan) {
+		this.isBan = isBan;
 	}
 
 	public Role getRole() {
@@ -143,5 +152,9 @@ public class User {
 	public void setFavorites(List<Favorite> favorites) {
 		this.favorites = favorites;
 	}
+
+	
+
+
 
 }
