@@ -6,9 +6,15 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.weathair.dto.forum.MessageDto;
+import com.weathair.entities.User;
 import com.weathair.entities.forum.Message;
+import com.weathair.entities.forum.Post;
 import com.weathair.exceptions.MessageException;
+import com.weathair.exceptions.PostException;
+import com.weathair.exceptions.UserException;
 import com.weathair.repositories.MessageRepository;
+import com.weathair.repositories.PostRepository;
+import com.weathair.repositories.UserRepository;
 
 /**
  * @author MIACHELL
@@ -20,10 +26,14 @@ import com.weathair.repositories.MessageRepository;
 public class MessageService {
 	
 	private MessageRepository messageRepository;
+	private PostRepository postRepository;
+	private UserRepository userRepository;
 
-	public MessageService(MessageRepository messageRepository) {
+	public MessageService(MessageRepository messageRepository, PostRepository postRepository, UserRepository userRepository) {
 		super();
 		this.messageRepository = messageRepository;
+		this.postRepository = postRepository;
+		this.userRepository = userRepository;
 	}
 	
 	/**
@@ -61,16 +71,15 @@ public class MessageService {
 	 * 
 	 * @param 			messageDto
 	 * @return			The saved message
+	 * @throws PostException 
+	 * @throws UserException 
 	 */
-	public Message createMessage(MessageDto messageDto) {
+	public Message createMessage(MessageDto messageDto) throws UserException, PostException {
 		Message message = new Message();
-		message.setText(messageDto.getText());
-		message.setDateTime(messageDto.getDateTime());
-		//TODO replace by find by user id
-		message.setUser(messageDto.getUser());
+		dtoToEntity(message, messageDto);
 		return messageRepository.save(message);
 	}
-	
+
 	/**
 	 * This method updates a Message
 	 * 
@@ -78,12 +87,12 @@ public class MessageService {
 	 * @param 			messageDto contains the attributes to insert into the message
 	 * @return			The saved Message
 	 * @throws 			MessageException 
+	 * @throws PostException 
+	 * @throws UserException 
 	 */
-	public Message updateMessage(Integer id, MessageDto messageDto) throws MessageException {
+	public Message updateMessage(Integer id, MessageDto messageDto) throws MessageException, UserException, PostException {
 		Message messageToUpdate = findMessageById(id);
-		messageToUpdate.setText(messageDto.getText());
-		messageToUpdate.setDateTime(messageDto.getDateTime());
-		messageToUpdate.setUser(messageDto.getUser());
+		dtoToEntity(messageToUpdate, messageDto);
 		return messageRepository.save(messageToUpdate);
 	}
 	
@@ -97,5 +106,30 @@ public class MessageService {
 		Message messageToDelete = findMessageById(id);
 		messageRepository.delete(messageToDelete);
 	}
+	
+	private Message dtoToEntity(Message message, MessageDto messageDto) throws UserException, PostException {
+		message.setText(messageDto.getText());
+		message.setUser(getUserById(messageDto.getUserId()));
+		message.setPost(getPostById(messageDto.getPostId()));
+		return message;
+	}
+	
+	private Post getPostById(Integer id) throws PostException {
+		Optional<Post> postOptional = postRepository.findById(id);
+		if (!postOptional.isEmpty()) {
+			return postOptional.get();
+		} else {
+			throw new PostException("No Post with id " + id + " has been found in DB");
+		}
+	}
 
+	private User getUserById(Integer id) throws UserException {
+		Optional<User> userOptional = userRepository.findById(id);
+		if (!userOptional.isEmpty()) {
+			return userOptional.get();
+		} else {
+			throw new UserException("No User with id " + id + " has been found in DB");
+		}
+	}
+	
 }

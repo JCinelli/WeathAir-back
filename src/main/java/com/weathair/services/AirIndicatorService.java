@@ -113,7 +113,7 @@ public class AirIndicatorService {
 		return airIndicatorRepository.save(airIndicator);
 	}
 
-	@Scheduled(initialDelay = 300 * 1000, fixedDelay = 3600 * 1000)
+	//@Scheduled(initialDelay = 300 * 1000, fixedDelay = 3600 * 1000)
 	public void insertAirIndicatorsFromApiWaqi() throws TownshipException, JsonProcessingException {
 		System.out.println("Inserting AirIndicators into DB...");
 		Long start = System.currentTimeMillis();

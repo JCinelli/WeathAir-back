@@ -1,12 +1,5 @@
 package com.weathair.dto.forum;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.weathair.entities.User;
-import com.weathair.entities.forum.Message;
-
 /**
  * @author MIACHELL
  *
@@ -16,24 +9,19 @@ public class PostDto {
 
 	private String title; 
 	private String text; 
-	private LocalDateTime dateTime;
-	private List<Message> messages = new ArrayList<>();
-	private User user;
+	private Integer topicId;
+	private Integer userId;
 	
-	public PostDto(String title, String text, LocalDateTime dateTime) {
+	public PostDto() {
 		super();
-		this.title = title;
-		this.text = text;
-		this.dateTime = dateTime;
 	}
 
-	public PostDto(String title, String text, LocalDateTime dateTime, List<Message> messages, User user) {
+	public PostDto(String title, String text, Integer topicId, Integer userId) {
 		super();
 		this.title = title;
 		this.text = text;
-		this.dateTime = dateTime;
-		this.messages = messages;
-		this.user = user;
+		this.topicId = topicId;
+		this.userId = userId;
 	}
 
 	//GETTERS
@@ -45,16 +33,20 @@ public class PostDto {
 		return text;
 	}
 	
-	public LocalDateTime getDateTime() {
-		return dateTime;
+	public Integer getTopicId() {
+		return topicId;
 	}
-	
-	public List<Message> getMessages() {
-		return messages;
+
+	public void setTopicId(Integer topicId) {
+		this.topicId = topicId;
 	}
-	
-	public User getUser() {
-		return user;
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	
 }

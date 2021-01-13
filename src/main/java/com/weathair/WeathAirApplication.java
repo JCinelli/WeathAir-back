@@ -34,9 +34,9 @@ public class WeathAirApplication {
 		
 		townshipController.postTownships(file);
 		
-		airIndicatorService.insertAirIndicatorsFromApiWaqi();
-		
-		meteoIndicatorService.saveUpdateIndicatorsForOccitanie();
+//		airIndicatorService.insertAirIndicatorsFromApiWaqi();
+//		
+//		meteoIndicatorService.saveUpdateIndicatorsForOccitanie();
 
 	}
 

@@ -6,9 +6,15 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.weathair.dto.forum.PostDto;
+import com.weathair.entities.User;
 import com.weathair.entities.forum.Post;
+import com.weathair.entities.forum.Topic;
 import com.weathair.exceptions.PostException;
+import com.weathair.exceptions.TopicException;
+import com.weathair.exceptions.UserException;
 import com.weathair.repositories.PostRepository;
+import com.weathair.repositories.TopicRepository;
+import com.weathair.repositories.UserRepository;
 
 /**
  * @author MIACHELL
@@ -20,10 +26,14 @@ import com.weathair.repositories.PostRepository;
 public class PostService {
 	
 	private PostRepository postRepository;
+	private TopicRepository topicRepository;
+	private UserRepository userRepository;
 
-	public PostService(PostRepository postRepository) {
+	public PostService(PostRepository postRepository, TopicRepository topicRepository, UserRepository userRepository) {
 		super();
 		this.postRepository = postRepository;
+		this.topicRepository = topicRepository;
+		this.userRepository = userRepository;
 	}
 	
 	/**
@@ -62,14 +72,12 @@ public class PostService {
 	 * 
 	 * @param 			postDto
 	 * @return			The saved post
+	 * @throws UserException 
+	 * @throws TopicException 
 	 */
-	public Post createPost(PostDto postDto) {
+	public Post createPost(PostDto postDto) throws TopicException, UserException {
 		Post post = new Post();
-		post.setTitle(postDto.getTitle());
-		post.setText(postDto.getText());
-		post.setDateTime(postDto.getDateTime());
-		post.setMessages(postDto.getMessages());
-		post.setUser(postDto.getUser());
+		dtoToEntity(post, postDto);
 		return postRepository.save(post);
 	}
 	
@@ -80,14 +88,12 @@ public class PostService {
 	 * @param 			postDto the post to update into the DB
 	 * @return			The saved post
 	 * @throws 			PostException 
+	 * @throws UserException 
+	 * @throws TopicException 
 	 */
-	public Post updatePost(Integer id, PostDto postDto) throws PostException {
+	public Post updatePost(Integer id, PostDto postDto) throws PostException, TopicException, UserException {
 		Post postToUpdate = findPostById(id);
-		postToUpdate.setTitle(postDto.getTitle());
-		postToUpdate.setText(postDto.getText());
-		postToUpdate.setDateTime(postDto.getDateTime());;
-		postToUpdate.setMessages(postDto.getMessages());
-		postToUpdate.setUser(postDto.getUser());
+		dtoToEntity(postToUpdate, postDto);
 		return postRepository.save(postToUpdate);
 	}
 	
@@ -100,6 +106,32 @@ public class PostService {
 	public void deletePost(Integer id) throws PostException {
 		Post postToDelete = findPostById(id);
 		postRepository.delete(postToDelete);
+	}
+	
+	private Post dtoToEntity (Post post, PostDto postDto) throws TopicException, UserException {
+		post.setTitle(postDto.getTitle());
+		post.setText(postDto.getText());
+		post.setTopic(getTopicById(postDto.getTopicId()));
+		post.setUser(getUserById(postDto.getUserId()));
+		return post;
+	}
+	
+	private Topic getTopicById(Integer id) throws TopicException {
+		Optional<Topic> topicOptional = topicRepository.findById(id);
+		if (!topicOptional.isEmpty()) {
+			return topicOptional.get();
+		} else {
+			throw new TopicException("No Topic with id " + id + " has been found in DB");
+		}
+	}
+	
+	private User getUserById(Integer id) throws UserException {
+		Optional<User> userOptional = userRepository.findById(id);
+		if (!userOptional.isEmpty()) {
+			return userOptional.get();
+		} else {
+			throw new UserException("No User with id " + id + " has been found in DB");
+		}
 	}
 
 }

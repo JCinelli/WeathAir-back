@@ -1,9 +1,5 @@
 package com.weathair.dto.forum;
 
-import java.time.LocalDateTime;
-
-import com.weathair.entities.User;
-
 /**
  * @author MIACHELL
  * 
@@ -13,15 +9,15 @@ import com.weathair.entities.User;
 public class MessageDto {
 	
 	private String text; 
-	private LocalDateTime dateTime;
-	private User user;
+	private Integer postId;
+	private Integer userId;
 	
 	//Constructor
-	public MessageDto(String text, LocalDateTime dateTime, User user) {
+	public MessageDto(String text, Integer postId, Integer userId) {
 		super();
 		this.text = text;
-		this.dateTime = dateTime;
-		this.user = user;
+		this.postId = postId;
+		this.userId = userId;
 	}
 
 	//GETTERS
@@ -29,12 +25,16 @@ public class MessageDto {
 		return text;
 	}
 
-	public LocalDateTime getDateTime() {
-		return dateTime;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public User getUser() {
-		return user;
+	public Integer getPostId() {
+		return postId;
+	}
+
+	public void setPost(Integer postId) {
+		this.postId = postId;
 	}
 
 }
