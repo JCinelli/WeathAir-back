@@ -15,5 +15,6 @@ public interface TownshipRepository extends JpaRepository<Township, String> {
 	
 	@Query("SELECT DISTINCT ai.township FROM AirIndicator ai")
 	List<Township> findInAirIndicator();
-	
+
+	List<Township> findByNameContainingOrderByPopulationDesc(String name);
 }
