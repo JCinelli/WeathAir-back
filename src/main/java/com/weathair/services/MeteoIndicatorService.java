@@ -134,7 +134,7 @@ public class MeteoIndicatorService {
 	 * @throws JsonMappingException
 	 * @throws JsonProcessingException
 	 */
-	@Scheduled(initialDelay = 300 * 1000, fixedDelay = 3600 * 1000)
+	//@Scheduled(initialDelay = 300 * 1000, fixedDelay = 3600 * 1000)
 	public void saveUpdateIndicatorsForOccitanie() throws JsonMappingException, JsonProcessingException {
 		List<Township> townships = townshipRepository.findAll();
 		List<MeteoIndicatorDto> indicators = new ArrayList<>();

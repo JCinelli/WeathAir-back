@@ -7,15 +7,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weathair.dto.forum.MessageDto;
 import com.weathair.exceptions.MessageException;
+import com.weathair.exceptions.PostException;
+import com.weathair.exceptions.UserException;
 import com.weathair.services.MessageService;
 
 @RestController
@@ -35,13 +37,13 @@ public class MessageController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getMessageById (Integer id) throws MessageException {
+	public ResponseEntity<?> getMessageById (@PathVariable Integer id) throws MessageException {
 		return ResponseEntity.ok().body(messageService.findMessageById(id));
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
 	@PostMapping
-	public ResponseEntity<?> postMessage (@Validated @RequestBody MessageDto messageDto, BindingResult resVal){
+	public ResponseEntity<?> postMessage (@Validated @RequestBody MessageDto messageDto, BindingResult resVal) throws UserException, PostException{
 		if (!resVal.hasErrors()) {
 			return ResponseEntity.ok().body(messageService.createMessage(messageDto));
 		} else {
@@ -51,13 +53,14 @@ public class MessageController {
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("/{id}")
-	public ResponseEntity<?> putMessage(@RequestParam Integer id, @RequestBody MessageDto messageDto) throws MessageException{
+	public ResponseEntity<?> putMessage(@PathVariable  Integer id, @RequestBody MessageDto messageDto) throws MessageException, UserException, PostException{
 		messageService.updateMessage(id, messageDto);
 		return ResponseEntity.ok("The message with id " + id + " has been successfully updated");
 	}
+	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteMessage (@RequestParam Integer id) throws MessageException {
+	public ResponseEntity<?> deleteMessage (@PathVariable  Integer id) throws MessageException {
 		messageService.deleteMessage(id);
 		return ResponseEntity.ok("The message with id " + id + " has been successfully deleted");
 	}
