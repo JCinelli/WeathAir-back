@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,6 +58,7 @@ public class TownshipController {
 	 * 
 	 * @param township			a township
 	 */
+
 	@PostMapping
 	public void postTownship(Township township) {
 		townshipService.saveTownShip(township);
@@ -79,6 +81,7 @@ public class TownshipController {
 	 * @return a list of all the townships from the DB
 	 * @throws TownshipException 
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@GetMapping
 	public List<Township> getTownships() throws TownshipException {
 		return townshipService.findAll();
@@ -89,6 +92,7 @@ public class TownshipController {
 	 * @return	the township in database by the insee code
 	 * @throws TownshipException
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@GetMapping("/insee/{inseeCode}")
 	public ResponseEntity<?> getTownshipByInseeCode(@RequestParam String inseeCode) throws TownshipException {
 		Township township = townshipService.findByInseeCode(inseeCode);
@@ -101,6 +105,7 @@ public class TownshipController {
 	 * @return	the township(s) in database by name
 	 * @throws TownshipException if any township in db has the name passed in parameter
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@GetMapping("name/{name}")
 	public ResponseEntity<?> getTownshipByName(@RequestParam String name) throws TownshipException {
 		List<Township> townshipsByName = townshipService.findByName(name);
@@ -115,6 +120,7 @@ public class TownshipController {
 	 * @param newName					the new name for the township
 	 * @throws TownshipException
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("name/{inseeCode}")
 	public void updateTownshipName(@RequestParam String inseeCode, @RequestBody String newName) throws TownshipException {
 		townshipService.updateTownshipName(inseeCode, newName);
@@ -127,6 +133,7 @@ public class TownshipController {
 	 * @param newPopulation				the new population for the township
 	 * @throws TownshipException
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("population/{inseeCode}")
 	public void updateTownshipPopulation(@RequestParam String inseeCode, @RequestBody int newPopulation) throws TownshipException {
 		townshipService.updateTownshipPopulation(inseeCode, newPopulation);
@@ -138,6 +145,7 @@ public class TownshipController {
 	 * @param inseeCode				unique code of the township
 	 * @throws TownshipException
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("{inseeCode}")
 	public ResponseEntity<?> deleteTownship(@RequestParam String inseeCode) throws TownshipException {
 		return ResponseEntity.ok(townshipService.deleteByInseeCode(inseeCode));
