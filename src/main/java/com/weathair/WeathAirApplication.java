@@ -2,6 +2,7 @@ package com.weathair;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -11,7 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.weathair.controllers.TownshipController;
+import com.weathair.entities.Township;
 import com.weathair.exceptions.TownshipException;
+import com.weathair.repositories.TownshipRepository;
 import com.weathair.services.AirIndicatorService;
 import com.weathair.services.MeteoIndicatorService;
 
@@ -37,7 +40,7 @@ public class WeathAirApplication {
 		airIndicatorService.insertAirIndicatorsFromApiWaqi();
 		
 		meteoIndicatorService.saveUpdateIndicatorsForOccitanie();
-		
+
 	}
 
 	public static void main(String[] args) throws IOException {

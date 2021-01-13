@@ -154,7 +154,7 @@ public class AirIndicatorService {
 	}
 	
 	private List<Township> getAllTownships() throws TownshipException {
-		List<Township> townships = townshipRepository.findAll();
+		List<Township> townships = townshipRepository.findInAirIndicator();
 		if (!townships.isEmpty()) {
 			return townships;
 		} else {
