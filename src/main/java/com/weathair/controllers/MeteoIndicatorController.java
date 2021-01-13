@@ -36,12 +36,19 @@ public class MeteoIndicatorController {
 	}
 
 	/**
-	 * @return all meteo indicators with "all" on url
+	 * @return all meteo indicators
 	 */
 	@GetMapping
 	public List<MeteoIndicator> listAllMeteoIndicator() throws MeteoIndicatorException {
 		return meteoIndicatorService.getAllMeteoIndicators();
 	}
+	
+//	@GetMapping("{townshipName}")
+//	public ResponseEntity<?> meteoIndicatorByTownshipName(@PathVariable String townshipName) throws JsonMappingException, JsonProcessingException {
+//		MeteoIndicatorDTO meteoIndicatorDto = this.meteoIndicatorService.findByTownshipName(townshipName);
+//		return ResponseEntity.ok(meteoIndicatorDto);
+//
+//	}
 
 	/**
 	 * @param id

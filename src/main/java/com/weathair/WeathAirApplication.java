@@ -13,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import com.weathair.controllers.TownshipController;
 import com.weathair.exceptions.TownshipException;
 import com.weathair.services.AirIndicatorService;
+import com.weathair.services.MeteoIndicatorService;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.weathair")
@@ -24,13 +25,19 @@ public class WeathAirApplication {
 	@Autowired
 	private AirIndicatorService airIndicatorService;
 	
+	@Autowired
+	private MeteoIndicatorService meteoIndicatorService;
+	
 	@PostConstruct
-	public void init()  throws IOException, TownshipException {
+	public void init()  throws IOException, InterruptedException, TownshipException {
 		File file = new File("src/main/resources/Communes.csv");
 		
 		townshipController.postTownships(file);
 		
 		airIndicatorService.insertAirIndicatorsFromApiWaqi();
+		
+		meteoIndicatorService.saveUpdateIndicatorsForOccitanie();
+		
 	}
 
 	public static void main(String[] args) throws IOException {
