@@ -35,7 +35,7 @@ public class FavoriteController {
 		return ResponseEntity.ok().body(favoriteService.findAllFavorites());
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR', 'ROLE_USER', 'ROLE_USER_BAN')")
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER') || hasAuthority('ROLE_USER_BAN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getFavoriteById (Integer id) throws FavoriteException {
 		return ResponseEntity.ok().body(favoriteService.findFavoriteById(id));

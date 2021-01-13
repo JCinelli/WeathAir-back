@@ -40,7 +40,7 @@ public class PostController {
 		return ResponseEntity.ok().body(postService.findPostById(id));
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR', 'ROLE_USER')")
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
 	@PostMapping
 	public ResponseEntity<?> postPost (@Validated @RequestBody PostDto postDto, BindingResult resVal) {
 		if (!resVal.hasErrors()) {

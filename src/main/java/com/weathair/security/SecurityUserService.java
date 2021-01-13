@@ -44,10 +44,10 @@ public class SecurityUserService implements UserDetailsService {
 		Role role = user.getRole();
 		
 		if (role != null) {
-			if (role.getRights() != null) {
-				authorities = role.getRights().stream().map(right -> new SimpleGrantedAuthority(right.getLabel().name()))
-						.collect(Collectors.toSet());
-			}
+//			if (role.getRights() != null) {
+//				authorities = role.getRights().stream().map(right -> new SimpleGrantedAuthority(right.getLabel().name()))
+//						.collect(Collectors.toSet());
+//			}
 			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getLabel().name()));
 		}
 		return authorities;

@@ -35,7 +35,7 @@ public class NotificationController {
 		return ResponseEntity.ok().body(notificationService.findAllNotifications());
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR', 'ROLE_USER')")
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getNotificationById (Integer id) throws NotificationException {
 		return ResponseEntity.ok().body(notificationService.findNotificationById(id));

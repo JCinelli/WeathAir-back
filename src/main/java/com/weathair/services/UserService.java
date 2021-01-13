@@ -3,14 +3,15 @@ package com.weathair.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.weathair.dto.UserDto;
+import com.weathair.entities.Role;
 import com.weathair.entities.User;
 import com.weathair.enumerations.RoleEnumeration;
 import com.weathair.exceptions.RepositoryException;
 import com.weathair.exceptions.UserException;
+import com.weathair.repositories.RoleRepository;
 import com.weathair.repositories.UserRepository;
 
 /**
@@ -23,11 +24,12 @@ import com.weathair.repositories.UserRepository;
 public class UserService {
 	
 	private UserRepository userRepository;
-
+	private RoleRepository roleRepository;
 	
-	public UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository, RoleRepository roleRepository) {
 		super();
 		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
 	}
 	
 	/**
@@ -101,7 +103,7 @@ public class UserService {
 	 */
 	public User banUser(Integer id) throws UserException, RepositoryException {
 		User userToBan = findUserById(id);
-		userToBan.setBan(true);
+		userToBan.setRole(getRoleByLabel(RoleEnumeration.USER_BAN));
 		return userRepository.save(userToBan);
 	}
 	
@@ -112,7 +114,7 @@ public class UserService {
 	 */
 	public User unBanUser (Integer id) throws UserException {
 		User userToUnBan = findUserById(id);
-		userToUnBan.setBan(false);
+		userToUnBan.setRole(getRoleByLabel(RoleEnumeration.USER));
 		return userRepository.save(userToUnBan);
 	}
 	
@@ -127,7 +129,21 @@ public class UserService {
 		userRepository.delete(userToDelete);
 	}
 
-	
+	/**
+	 * This method extracts a role entity from DB
+	 * 
+	 * @param 			role
+	 * @return			The role found in DB
+	 * @throws 			UserException
+	 */
+	private Role getRoleByLabel(RoleEnumeration role) throws UserException {
+		Optional<Role> findByLabel = roleRepository.findByLabel(role);
+		if (!findByLabel.isEmpty()) {
+			return findByLabel.get();
+		} else {
+			throw new UserException("Role " + role + " has not been found in DB");
+		}
+	}
 	
 		
 	

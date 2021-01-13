@@ -38,7 +38,8 @@ public class MessageController {
 	public ResponseEntity<?> getMessageById (Integer id) throws MessageException {
 		return ResponseEntity.ok().body(messageService.findMessageById(id));
 	}
-	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR', 'ROLE_USER')")
+	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
 	@PostMapping
 	public ResponseEntity<?> postMessage (@Validated @RequestBody MessageDto messageDto, BindingResult resVal){
 		if (!resVal.hasErrors()) {
