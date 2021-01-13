@@ -59,14 +59,14 @@ public class UserController {
 	
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
-	@PutMapping("ban/{id}")
+	@PutMapping("/ban")
 	public ResponseEntity<?> putBanUser (@RequestParam Integer id) throws UserException, RepositoryException{
 		userService.banUser(id);
 		return ResponseEntity.ok("The user with id " + id + " has been successfully banned");
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
-	@PutMapping("unban/{id}")
+	@PutMapping("/unban")
 	public ResponseEntity<?> putUnBanUser (@RequestParam Integer id) throws UserException{
 		userService.unBanUser(id);
 		return ResponseEntity.ok("The user with id " + id + " has been successfully unban");

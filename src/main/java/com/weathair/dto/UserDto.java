@@ -9,20 +9,18 @@ public class UserDto {
 	private String email; 
 	private String password;
 	private Township township;
-	private boolean isBan;
 	private Role role;
 	
 	public UserDto() {
 		super();
 	}
 	
-	public UserDto(String pseudo, String email, String password, Township township, boolean isBan, Role role) {
+	public UserDto(String pseudo, String email, String password, Township township, Role role) {
 		super();
 		this.pseudo = pseudo;
 		this.email = email;
 		this.password = password;
 		this.township = township;
-		this.isBan = isBan;
 		this.role = role;
 	}
 
@@ -40,14 +38,6 @@ public class UserDto {
 
 	public Township getTownship() {
 		return township;
-	}
-
-	public boolean isBan() {
-		return isBan;
-	}
-
-	public void setBan(boolean isBan) {
-		this.isBan = isBan;
 	}
 
 	public void setPseudo(String pseudo) {
