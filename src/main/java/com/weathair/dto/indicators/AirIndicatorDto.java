@@ -1,21 +1,18 @@
-package com.weathair.entities.indicators;
+package com.weathair.dto.indicators;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
 
-@Entity
-public class AirIndicator extends AbstractIndicator {
+public class AirIndicatorDto {
 
+	
 	private LocalDateTime dateTime;
+	private String nameTownship;
 	private Integer aqi;
 	private Double no2;
 	private Double o3;
 	private Double pm10;
-
-	public AirIndicator() {
-		super();
-	}
+	
 
 	public LocalDateTime getDateTime() {
 		return dateTime;
@@ -23,6 +20,14 @@ public class AirIndicator extends AbstractIndicator {
 
 	public void setDateTime(LocalDateTime dateTime) {
 		this.dateTime = dateTime;
+	}
+
+	public String getNameTownship() {
+		return nameTownship;
+	}
+
+	public void setNameTownship(String nameTownship) {
+		this.nameTownship = nameTownship;
 	}
 
 	public Integer getAqi() {
@@ -56,5 +61,5 @@ public class AirIndicator extends AbstractIndicator {
 	public void setPm10(Double pm10) {
 		this.pm10 = pm10;
 	}
-
+	
 }

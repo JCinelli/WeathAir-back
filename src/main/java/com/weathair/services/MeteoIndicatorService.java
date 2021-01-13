@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.weathair.dto.indicators.MeteoIndicatorDTO;
+import com.weathair.dto.indicators.MeteoIndicatorDto;
 import com.weathair.entities.Township;
 import com.weathair.entities.indicators.MeteoIndicator;
 import com.weathair.exceptions.MeteoIndicatorException;
@@ -71,7 +71,7 @@ public class MeteoIndicatorService {
 	 * @param dto : Create an Meteo indicator and save it in base
 	 * @return a meteo Indicator insert in data base
 	 */
-	public MeteoIndicator createMeteoIndicator(MeteoIndicatorDTO dto) {
+	public MeteoIndicator createMeteoIndicator(MeteoIndicatorDto dto) {
 		
 		MeteoIndicator meteoIndicator = this.dtoToEntity(dto);
 
@@ -85,11 +85,11 @@ public class MeteoIndicatorService {
 	 * @param dtos 			List of DTOs
 	 * @return
 	 */
-	public List<MeteoIndicator> saveAllMeteoIndicators(List<MeteoIndicatorDTO> dtos) {
+	public List<MeteoIndicator> saveAllMeteoIndicators(List<MeteoIndicatorDto> dtos) {
 		
 		List<MeteoIndicator> meteoIndicators = new ArrayList<>();
 		
-		for (MeteoIndicatorDTO dto : dtos) {
+		for (MeteoIndicatorDto dto : dtos) {
 			meteoIndicators.add(this.dtoToEntity(dto));
 		}
 		return this.meteoIndicatorRepository.saveAll(meteoIndicators);
@@ -101,7 +101,7 @@ public class MeteoIndicatorService {
 	 * @return New Temperature indicator in base
 	 * @throws MeteoIndicatorException
 	 */
-	public MeteoIndicator updateMeteoIndicator(Integer id, MeteoIndicatorDTO dto)
+	public MeteoIndicator updateMeteoIndicator(Integer id, MeteoIndicatorDto dto)
 			throws MeteoIndicatorException {
 		MeteoIndicator meteoIndicatorUpdate = getMeteoIndicatorById(id);
 		meteoIndicatorUpdate.setDateTime(dto.getDateTime());
@@ -137,11 +137,11 @@ public class MeteoIndicatorService {
 	@Scheduled(initialDelay = 300 * 1000, fixedDelay = 3600 * 1000)
 	public void saveUpdateIndicatorsForOccitanie() throws JsonMappingException, JsonProcessingException {
 		List<Township> townships = townshipRepository.findAll();
-		List<MeteoIndicatorDTO> indicators = new ArrayList<>();
+		List<MeteoIndicatorDto> indicators = new ArrayList<>();
 		for (Township township : townships) {
 			try {
 				
-				MeteoIndicatorDTO meteoIndicatorDto = this.findByTownshipName(township.getName());
+				MeteoIndicatorDto meteoIndicatorDto = this.findByTownshipName(township.getName());
 				meteoIndicatorDto.setTownshipName(township.getName());
 				indicators.add(meteoIndicatorDto);
 				
@@ -164,7 +164,7 @@ public class MeteoIndicatorService {
 	 * @throws JsonProcessingException
 	 * @throws MeteoIndicatorException 
 	 */
-	private MeteoIndicatorDTO findByTownshipName(String townshipName) throws JsonMappingException, JsonProcessingException, MeteoIndicatorException {
+	private MeteoIndicatorDto findByTownshipName(String townshipName) throws JsonMappingException, JsonProcessingException, MeteoIndicatorException {
 		
 		String url = "https://api.openweathermap.org/data/2.5/weather?appid=32fa512dfbcfffec2a96f222e2a0e6dd&units=metric&q=";
 		
@@ -185,7 +185,7 @@ public class MeteoIndicatorService {
 				JsonNode main = root.path("main");
 				JsonNode wind = root.path("wind");
 
-				MeteoIndicatorDTO meteoIndicatorDto = new MeteoIndicatorDTO();
+				MeteoIndicatorDto meteoIndicatorDto = new MeteoIndicatorDto();
 				meteoIndicatorDto.setDateTime(LocalDateTime.now());
 				meteoIndicatorDto.setDescription(weather.findPath("description").asText());
 				meteoIndicatorDto.setTemperature(main.path("temp").asDouble());
@@ -201,7 +201,7 @@ public class MeteoIndicatorService {
 			}
 	}
 	
-	private MeteoIndicator dtoToEntity(MeteoIndicatorDTO dto) {
+	private MeteoIndicator dtoToEntity(MeteoIndicatorDto dto) {
 		MeteoIndicator meteoIndicatorUpdate = new MeteoIndicator();
 		meteoIndicatorUpdate.setDateTime(dto.getDateTime());
 		meteoIndicatorUpdate.setDescription(dto.getDescription());

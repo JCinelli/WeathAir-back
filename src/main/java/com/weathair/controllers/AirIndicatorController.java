@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.weathair.dto.indicators.AirIndicatorDTO;
+import com.weathair.dto.indicators.AirIndicatorDto;
 import com.weathair.entities.indicators.AirIndicator;
 import com.weathair.exceptions.AirIndicatorException;
+import com.weathair.exceptions.TownshipException;
 import com.weathair.services.AirIndicatorService;
 
 /**
@@ -61,21 +62,23 @@ public class AirIndicatorController {
 	 * @param dto
 	 * @return a new air indicator
 	 * @throws AirIndicatorException
+	 * @throws TownshipException 
 	 */
 	@PostMapping
-	public ResponseEntity<?> createNewAirIndicator(@RequestBody AirIndicatorDTO dto) throws AirIndicatorException {
-		return ResponseEntity.ok(airIndicatorService.createAirIndicator(dto));
+	public ResponseEntity<?> createNewAirIndicator(@RequestBody AirIndicatorDto airIndicatorDto) throws AirIndicatorException, TownshipException {
+		return ResponseEntity.ok(airIndicatorService.createAirIndicator(airIndicatorDto));
 	}
 
 	/**
 	 * @param id
 	 * @param newDateTime
 	 * @throws AirIndicatorException
+	 * @throws TownshipException 
 	 */
 	@PutMapping("{id}")
-	public ResponseEntity<?> updateAirIndicator(@RequestParam Integer id, @RequestBody AirIndicatorDTO airIndicatorDTO)
-			throws AirIndicatorException {
-		airIndicatorService.updateAirIndicator(id, airIndicatorDTO);
+	public ResponseEntity<?> updateAirIndicator(@RequestParam Integer id, @RequestBody AirIndicatorDto airIndicatorDto)
+			throws AirIndicatorException, TownshipException {
+		airIndicatorService.updateAirIndicator(id, airIndicatorDto);
 		return ResponseEntity.ok("The air indicator with id " + id + " has been successfully updated");
 	}
 

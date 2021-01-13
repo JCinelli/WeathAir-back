@@ -1,6 +1,7 @@
 package com.weathair.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,6 +40,7 @@ public class TopicController {
 		return ResponseEntity.ok().body(topicService.findTopicById(id));
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PostMapping
 	public ResponseEntity<?> postTopic (@Validated @RequestBody TopicDto topicDto, BindingResult resVal){
 		if (!resVal.hasErrors()) {
@@ -48,12 +50,14 @@ public class TopicController {
 		}
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> putTopic(@RequestParam Integer id, TopicDto topicDto) throws TopicException{
 		topicService.updateTopic(id, topicDto);
 		return ResponseEntity.ok("The topic with id " + id + " has been successfully updated");
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteTopic (@RequestParam Integer id) throws TopicException {
 		topicService.deleteTopic(id);

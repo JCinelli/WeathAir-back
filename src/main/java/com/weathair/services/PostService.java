@@ -69,7 +69,6 @@ public class PostService {
 		post.setText(postDto.getText());
 		post.setDateTime(postDto.getDateTime());
 		post.setMessages(postDto.getMessages());
-		post.setTopic(postDto.getTopic());
 		post.setUser(postDto.getUser());
 		return postRepository.save(post);
 	}
@@ -88,7 +87,6 @@ public class PostService {
 		postToUpdate.setText(postDto.getText());
 		postToUpdate.setDateTime(postDto.getDateTime());;
 		postToUpdate.setMessages(postDto.getMessages());
-		postToUpdate.setTopic(postDto.getTopic());
 		postToUpdate.setUser(postDto.getUser());
 		return postRepository.save(postToUpdate);
 	}

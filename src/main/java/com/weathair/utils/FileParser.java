@@ -6,7 +6,7 @@ import java.util.List;
 import com.weathair.entities.Township;
 
 public class FileParser {
-
+	
 	public static List<Township> parse(List<String> fileLines) {
 		
 		List<Township> townShips = new ArrayList<>();
@@ -42,6 +42,5 @@ public class FileParser {
 		
 		return townShips;
 		
-	}
-	
+	}	
 }

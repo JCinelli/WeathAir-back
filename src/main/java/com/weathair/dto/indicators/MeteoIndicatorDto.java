@@ -3,9 +3,7 @@ package com.weathair.dto.indicators;
 
 import java.time.LocalDateTime;
 
-import com.weathair.entities.Township;
-
-public class MeteoIndicatorDTO {
+public class MeteoIndicatorDto {
 
 //	FIELDS
 	private LocalDateTime dateTime;
@@ -25,7 +23,7 @@ public class MeteoIndicatorDTO {
 	private String townshipName;
 
 //	CONSTUCTOR
-	public MeteoIndicatorDTO() {
+	public MeteoIndicatorDto() {
 	}
 
 //	GETTERS & SETTERS

@@ -6,8 +6,12 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.weathair.dto.UserDto;
+import com.weathair.entities.Role;
 import com.weathair.entities.User;
+import com.weathair.enumerations.RoleEnumeration;
+import com.weathair.exceptions.RepositoryException;
 import com.weathair.exceptions.UserException;
+import com.weathair.repositories.RoleRepository;
 import com.weathair.repositories.UserRepository;
 
 /**
@@ -20,10 +24,12 @@ import com.weathair.repositories.UserRepository;
 public class UserService {
 	
 	private UserRepository userRepository;
-
-	public UserService(UserRepository userRepository) {
+	private RoleRepository roleRepository;
+	
+	public UserService(UserRepository userRepository, RoleRepository roleRepository) {
 		super();
 		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
 	}
 	
 	/**
@@ -68,6 +74,7 @@ public class UserService {
 		user.setPassword(userDto.getPassword());
 		user.setEmail(userDto.getEmail());
 		user.setTownship(userDto.getTownship());
+		user.setRole(userDto.getRole());
 		return userRepository.save(user);
 	}
 	
@@ -89,6 +96,29 @@ public class UserService {
 	}
 	
 	/**
+	 * @param id
+	 * @return user ban by Id
+	 * @throws UserException
+	 * @throws RepositoryException 
+	 */
+	public User banUser(Integer id) throws UserException, RepositoryException {
+		User userToBan = findUserById(id);
+		userToBan.setRole(getRoleByLabel(RoleEnumeration.USER_BAN));
+		return userRepository.save(userToBan);
+	}
+	
+	/**
+	 * @param id
+	 * @return user unban by Id
+	 * @throws UserException
+	 */
+	public User unBanUser (Integer id) throws UserException {
+		User userToUnBan = findUserById(id);
+		userToUnBan.setRole(getRoleByLabel(RoleEnumeration.USER));
+		return userRepository.save(userToUnBan);
+	}
+	
+	/**
 	 * This method deletes an user
 	 * 
 	 * @param 			id the id of the User to delete
@@ -99,4 +129,22 @@ public class UserService {
 		userRepository.delete(userToDelete);
 	}
 
+	/**
+	 * This method extracts a role entity from DB
+	 * 
+	 * @param 			role
+	 * @return			The role found in DB
+	 * @throws 			UserException
+	 */
+	private Role getRoleByLabel(RoleEnumeration role) throws UserException {
+		Optional<Role> findByLabel = roleRepository.findByLabel(role);
+		if (!findByLabel.isEmpty()) {
+			return findByLabel.get();
+		} else {
+			throw new UserException("Role " + role + " has not been found in DB");
+		}
+	}
+	
+		
+	
 }

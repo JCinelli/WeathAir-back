@@ -67,6 +67,7 @@ public class FavoriteService {
 		favorite.setDuration(favoriteDto.getDuration());
 		favorite.setLabelIndicator(favoriteDto.getLabelIndicator());
 		favorite.setTownship(favoriteDto.getTownship());
+		favorite.setUser(favoriteDto.getUser());
 		return favoriteRepository.save(favorite);
 	}
 	
@@ -74,7 +75,7 @@ public class FavoriteService {
 	 * This method updates a Favorite
 	 * 
 	 * @param 			id the id of the Favorite to update
-	 * @param 			notificationDto the Favorite
+	 * @param 			favoriteDto the Favorite
 	 * @return			The saved Favorite
 	 * @throws 			FavoriteException 
 	 */
@@ -83,6 +84,7 @@ public class FavoriteService {
 		favoriteToUpdate.setDuration(favoriteDto.getDuration());
 		favoriteToUpdate.setLabelIndicator(favoriteDto.getLabelIndicator());
 		favoriteToUpdate.setTownship(favoriteDto.getTownship());
+		favoriteToUpdate.setUser(favoriteDto.getUser());
 		return favoriteRepository.save(favoriteToUpdate);
 	}
 	

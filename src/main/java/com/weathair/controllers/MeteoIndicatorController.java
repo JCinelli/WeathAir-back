@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.weathair.dto.indicators.MeteoIndicatorDTO;
+import com.weathair.dto.indicators.MeteoIndicatorDto;
 import com.weathair.entities.indicators.MeteoIndicator;
 import com.weathair.exceptions.MeteoIndicatorException;
 import com.weathair.services.MeteoIndicatorService;
@@ -69,8 +67,8 @@ public class MeteoIndicatorController {
 	 * @return a new meteo indicator
 	 */
 	@PostMapping
-	public ResponseEntity<?> createNewMeteoIndicator(@RequestBody MeteoIndicatorDTO dto) {
-		return ResponseEntity.ok(meteoIndicatorService.createMeteoIndicator(dto));
+	public ResponseEntity<?> createNewMeteoIndicator(@RequestBody MeteoIndicatorDto meteoIndicatorDto) {
+		return ResponseEntity.ok(meteoIndicatorService.createMeteoIndicator(meteoIndicatorDto));
 	}
 
 	/**
@@ -79,8 +77,8 @@ public class MeteoIndicatorController {
 	 * @throws MeteoIndicatorException
 	 */
 	@PutMapping("{id}")
-	public ResponseEntity<?> updateMeteoIndicator(@RequestParam Integer id, @RequestBody MeteoIndicatorDTO meteoIndicatorDTO) throws MeteoIndicatorException {
-		meteoIndicatorService.updateMeteoIndicator(id, meteoIndicatorDTO);
+	public ResponseEntity<?> updateMeteoIndicator(@RequestParam Integer id, @RequestBody MeteoIndicatorDto meteoIndicatorDto) throws MeteoIndicatorException {
+		meteoIndicatorService.updateMeteoIndicator(id, meteoIndicatorDto);
 		return ResponseEntity.ok("The meteo indicator with id " + id + " has been successfully updated");
 	}
 	
