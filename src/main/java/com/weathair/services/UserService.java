@@ -62,6 +62,15 @@ public class UserService {
 		}
 	}
 	
+	public User findUserByEmail(String email) throws UserException{
+		Optional<User> userOptional = userRepository.findByEmail(email);
+		if (userOptional.isPresent()) {
+			return userOptional.get();
+		} else {
+			throw new UserException("No User with email " + email + " was found in the DB");
+		}
+	}
+	
 	/**
 	 * This method creates a new user in the DB
 	 * 

@@ -110,7 +110,7 @@ root : http://localhost:8080/topics
 
 /posts : ACCESS FOR EVERYONE (GET), USER can (GET-POST), ADMINISTRATOR can (GET-POST-PUT-DELETE)
 
-root : http://localost:8080/posts
+root : http://localhost:8080/posts
 
 <table>
     <thead>
@@ -127,7 +127,7 @@ root : http://localost:8080/posts
 
 /messages : ACCESS FOR EVERYONE (GET), USER can (GET-POST), ADMINISTRATOR can (GET-POST-PUT-DELETE)
 
-root : http://localost:8080/messages 
+root : http://localhost:8080/messages 
 
 <table>
     <thead>
@@ -144,7 +144,7 @@ root : http://localost:8080/messages
 
 TOWNSHIPS : ACCESS FOR ADMINISTRATOR ONLY (GET-POST-PUT-DELETE)
 
-root : http://localost:8080/townships 
+root : http://localhost:8080/townships 
 
 <table>
     <thead>
@@ -160,3 +160,12 @@ root : http://localost:8080/townships
         <tr> <td>DELETE</td>     <td>"/townships/{inseeCode}"</td>     <td> delete a township with him inseeCode</td> </tr>
     </tbody>
 </table>
+
+LOGIN : ACCESS FOR EVERYONE, CREATE A USER 
+
+root : http://localhost:8080/login
+
+First step create a user : Pseudo/Password/email/Township/role
+2nd step : generate a BCRYPT Password : http://localhost:8080/passToEncode="id", take the pass and put it in Database.
+3rd step : login with your email & password (not encoded pasword), take your Bearer token 
+4th step : when you make an action (get post put delete) put your Bearer token instead of authenticate
