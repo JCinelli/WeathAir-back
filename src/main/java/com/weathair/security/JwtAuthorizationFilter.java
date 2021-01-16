@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -48,7 +49,6 @@ public class JwtAuthorizationFilter extends UsernamePasswordAuthenticationFilter
 	@Override
 	public Authentication attemptAuthentication (HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		
 		try {
 			InputStream requestBody = request.getInputStream();
 			AuthenticationPojo authenticationInfo = new ObjectMapper().readValue(requestBody, AuthenticationPojo.class);
@@ -56,7 +56,8 @@ public class JwtAuthorizationFilter extends UsernamePasswordAuthenticationFilter
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationInfo.getUsername(),
 					authenticationInfo.getPassword(), new ArrayList<>()));
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			System.err.println("Request body is empty.");
+			throw new AuthenticationCredentialsNotFoundException("Request body is empty.");
 		}
 	}
 	

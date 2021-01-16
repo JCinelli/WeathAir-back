@@ -22,7 +22,7 @@ import com.weathair.services.MessageService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/messages")
+@RequestMapping("/forum/topics/{idTopic}/posts/{idPost}/messages")
 public class MessageController {
 	
 	private MessageService messageService;

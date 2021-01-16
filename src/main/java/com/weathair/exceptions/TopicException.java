@@ -4,7 +4,7 @@ package com.weathair.exceptions;
  * @author MIACHELL
  *
  */
-public class TopicException extends Exception {
+public class TopicException extends WeathairException {
 
 	/**
 	 * 

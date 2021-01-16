@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author MIACHELL
  *
@@ -25,6 +27,7 @@ public class Topic {
 	private Integer id;
 	private String label; 
 	@OneToMany(mappedBy = "topic")
+	@JsonIgnore
 	private List<Post> posts = new ArrayList<>();
 	
 	//CONSTRUCTOR

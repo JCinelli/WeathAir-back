@@ -1,17 +1,17 @@
 package com.weathair.exceptions;
 
-public class FavoriteException extends WeathairException {
+public class WeathairException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public FavoriteException() {
+	public WeathairException() {
 		super();
 	}
 
-	public FavoriteException(String message) {
+	public WeathairException(String message) {
 		super(message);
 	}
 
