@@ -38,7 +38,7 @@ root : http://localhost:8080/airindicators
     </tbody>
 </table>
 
-/meteoindicators : Access for everyone (GET), USER can (POST) and ADMINISTRATOR can (POST-PUT-DELETE)
+/meteoindicators : Access for everyone (GET), ADMINISTRATOR can (GET-POST-PUT-DELETE)
 
 root : http://localhost:8080/meteoindicators
 
@@ -55,7 +55,7 @@ root : http://localhost:8080/meteoindicators
     </tbody>
 </table>
 
-/favorites : Just for USER and ADMINISTRATOR, USER Can (GET) and ADMINISTRATOR can (GET-POST-PUT-DELETE)
+/favorites : Just for USER and ADMINISTRATOR, USER Can (GET-POST-PUT-DELETE) and ADMINISTRATOR can (GET-POST-PUT-DELETE)
 
 root : http://localhost:8080/favorites
 

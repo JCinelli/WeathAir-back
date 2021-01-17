@@ -3,6 +3,7 @@ package com.weathair.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,6 +65,7 @@ public class AirIndicatorController {
 	 * @throws AirIndicatorException
 	 * @throws TownshipException 
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PostMapping
 	public ResponseEntity<?> createNewAirIndicator(@RequestBody AirIndicatorDto airIndicatorDto) throws AirIndicatorException, TownshipException {
 		return ResponseEntity.ok(airIndicatorService.createAirIndicator(airIndicatorDto));
@@ -75,6 +77,7 @@ public class AirIndicatorController {
 	 * @throws AirIndicatorException
 	 * @throws TownshipException 
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("{id}")
 	public ResponseEntity<?> updateAirIndicator(@RequestParam Integer id, @RequestBody AirIndicatorDto airIndicatorDto)
 			throws AirIndicatorException, TownshipException {
@@ -87,6 +90,7 @@ public class AirIndicatorController {
 	 * delete an air indicator by id
 	 * @throws AirIndicatorException
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> deleteAirIndicatorByUser(@RequestParam Integer id) throws AirIndicatorException {
 		airIndicatorService.deleteAirIndicator(id);

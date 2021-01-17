@@ -28,7 +28,7 @@ public class AirIndicatorServiceTest {
 	private AirIndicatorService airIndicatorService;
 	
 	@Test
-	public void testFindAllAirsIndicatos() throws UserException, AirIndicatorException {
+	public void testFindAllAirsIndicators() throws UserException, AirIndicatorException {
 		List<AirIndicator> airIndicators = airIndicatorService.getAllAirIndicators();
 		assertThat(!airIndicators.isEmpty());
 	}

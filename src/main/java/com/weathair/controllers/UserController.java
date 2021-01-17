@@ -51,6 +51,7 @@ public class UserController {
 		}
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> putUser (@RequestParam Integer id, @RequestBody UserDto userDto) throws UserException{
 		userService.updateUser(id, userDto);

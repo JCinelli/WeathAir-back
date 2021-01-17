@@ -3,6 +3,7 @@ package com.weathair.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,6 +67,7 @@ public class MeteoIndicatorController {
 	 * @param dto
 	 * @return a new meteo indicator
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PostMapping
 	public ResponseEntity<?> createNewMeteoIndicator(@RequestBody MeteoIndicatorDto meteoIndicatorDto) {
 		return ResponseEntity.ok(meteoIndicatorService.createMeteoIndicator(meteoIndicatorDto));
@@ -76,6 +78,7 @@ public class MeteoIndicatorController {
 	 * @param newTemperature
 	 * @throws MeteoIndicatorException
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("{id}")
 	public ResponseEntity<?> updateMeteoIndicator(@RequestParam Integer id, @RequestBody MeteoIndicatorDto meteoIndicatorDto) throws MeteoIndicatorException {
 		meteoIndicatorService.updateMeteoIndicator(id, meteoIndicatorDto);
@@ -87,6 +90,7 @@ public class MeteoIndicatorController {
 	 * @param id
 	 * @throws MeteoIndicatorException
 	 */
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> deleteMeteoIndicatorByUser(@RequestParam Integer id) throws MeteoIndicatorException {
 		meteoIndicatorService.deleteMeteoIndicator(id);
