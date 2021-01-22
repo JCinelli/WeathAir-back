@@ -2,6 +2,7 @@ package com.weathair.dto;
 
 import com.weathair.entities.Role;
 import com.weathair.entities.Township;
+import com.weathair.entities.User;
 
 public class UserDto {
 	
@@ -24,6 +25,13 @@ public class UserDto {
 		this.role = role;
 	}
 
+	public UserDto(User user) {
+		this.pseudo = user.getPseudo();
+		this.email = user.getEmail();
+		this.password = user.getPassword();
+		this.role = user.getRole();
+	}
+	
 	public String getPseudo() {
 		return pseudo;
 	}
