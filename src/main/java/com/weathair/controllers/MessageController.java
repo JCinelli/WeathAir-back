@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.weathair.dto.forum.MessageDto;
 import com.weathair.exceptions.MessageException;
 import com.weathair.exceptions.PostException;
+import com.weathair.exceptions.TopicException;
 import com.weathair.exceptions.UserException;
 import com.weathair.services.MessageService;
 
@@ -32,8 +33,8 @@ public class MessageController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<?> getAllMessages () throws MessageException {
-		return ResponseEntity.ok().body(messageService.findAllMessages());
+	public ResponseEntity<?> getAllMessagesByPost (Integer idTopic, Integer idPost) throws MessageException, PostException {
+		return ResponseEntity.ok().body(messageService.findAllMessagesByPost(idTopic, idPost));
 	}
 	
 	@GetMapping("/{id}")
@@ -53,15 +54,15 @@ public class MessageController {
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("/{id}")
-	public ResponseEntity<?> putMessage(@PathVariable  Integer id, @RequestBody MessageDto messageDto) throws MessageException, UserException, PostException{
-		messageService.updateMessage(id, messageDto);
+	public ResponseEntity<?> putMessage(Integer idTopic, Integer idPost, @PathVariable  Integer id, @RequestBody MessageDto messageDto) throws MessageException, UserException, PostException, TopicException{
+		messageService.updateMessage(idTopic, idPost, id, messageDto);
 		return ResponseEntity.ok("The message with id " + id + " has been successfully updated");
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteMessage (@PathVariable  Integer id) throws MessageException {
-		messageService.deleteMessage(id);
+	public ResponseEntity<?> deleteMessage (Integer idTopic, Integer idPost, @PathVariable  Integer id) throws MessageException, PostException, TopicException {
+		messageService.deleteMessage(idTopic, idPost, id);
 		return ResponseEntity.ok("The message with id " + id + " has been successfully deleted");
 	}
 
