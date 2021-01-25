@@ -2,6 +2,7 @@ package com.weathair.security;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,6 +14,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 @EnableWebSecurity
@@ -32,10 +37,13 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
 	}
 	
+	
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers(HttpMethod.GET, "/api/login").permitAll()
+			.antMatchers(HttpMethod.POST, "/login").permitAll()  
+			.antMatchers(HttpMethod.GET, "/login").permitAll() 
 			.antMatchers(HttpMethod.GET, "/townships").permitAll()
 			.antMatchers(HttpMethod.GET, "/meteoindicators").permitAll()
 			.antMatchers(HttpMethod.GET, "/airindicators").permitAll()
@@ -65,7 +73,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 //			.antMatchers("/favorites").hasRole("USER")
 //			.antMatchers("/favorites").hasRole("ADMINISTRATOR")
 			
-			
+
 			
 			.antMatchers("/**")
 			.authenticated()
@@ -82,12 +90,12 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 			.authenticationEntryPoint(
 				(request, response, authException) -> response.setStatus(HttpServletResponse.SC_FORBIDDEN))
 			
-			
 			.and()
 			.httpBasic()
 			
 			.and()
 			.csrf()
-			.disable();
+			.disable()
+			.cors();
 	}
 }

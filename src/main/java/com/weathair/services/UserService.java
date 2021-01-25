@@ -32,6 +32,16 @@ public class UserService {
 		this.roleRepository = roleRepository;
 	}
 	
+	
+	public User getByEmail(String email) throws RepositoryException {
+		Optional<User> optional = userRepository.findByEmail(email);
+		if (optional.isPresent()) {
+			return optional.get();
+		} else {
+			throw new RepositoryException("user not found with this email");
+		}
+	}
+	
 	/**
 	 * This method finds all the Users in the DB
 	 * 
