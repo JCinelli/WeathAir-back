@@ -37,7 +37,7 @@ public class UserController {
 	public ResponseEntity<?> getConnectedUser(Principal principal) {
 		try {
 			return ResponseEntity.ok().body(userService.getByEmail(principal.getName()));
-		} catch (RepositoryException e) {
+		} catch (UserException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
@@ -68,6 +68,7 @@ public class UserController {
 		userService.updateUser(id, userDto);
 		return ResponseEntity.ok("The user with id " + id + " has been successfully updated");
 	}
+	
 	
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
