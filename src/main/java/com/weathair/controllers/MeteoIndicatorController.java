@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weathair.dto.indicators.MeteoIndicatorDto;
+import com.weathair.entities.indicators.AirIndicator;
 import com.weathair.entities.indicators.MeteoIndicator;
+import com.weathair.exceptions.AirIndicatorException;
 import com.weathair.exceptions.MeteoIndicatorException;
 import com.weathair.services.MeteoIndicatorService;
 
@@ -41,6 +43,11 @@ public class MeteoIndicatorController {
 	@GetMapping
 	public List<MeteoIndicator> listAllMeteoIndicator() throws MeteoIndicatorException {
 		return meteoIndicatorService.getAllMeteoIndicators();
+	}
+	
+	@GetMapping("township={townshipName}/{limit}")
+	public List<MeteoIndicator> listMeteoIndicatorsByTownshipName(@PathVariable String townshipName, @PathVariable int limit) throws MeteoIndicatorException{
+		return meteoIndicatorService.getMeteoIndicatorsByTownshipName(townshipName, limit);
 	}
 	
 //	@GetMapping("{townshipName}")
