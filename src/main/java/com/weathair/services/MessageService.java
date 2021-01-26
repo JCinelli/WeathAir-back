@@ -11,6 +11,7 @@ import com.weathair.entities.forum.Message;
 import com.weathair.entities.forum.Post;
 import com.weathair.exceptions.MessageException;
 import com.weathair.exceptions.PostException;
+import com.weathair.exceptions.TopicException;
 import com.weathair.exceptions.UserException;
 import com.weathair.repositories.MessageRepository;
 import com.weathair.repositories.PostRepository;
@@ -48,6 +49,16 @@ public class MessageService {
 			return listMessages;
 		} else {
 			throw new MessageException("There is no Message in the DB");
+		}
+	}
+	
+	public Object findAllMessagesByPost(Integer idTopic, Integer idPost) throws MessageException, PostException {
+		Post post = getPostById(idPost);
+		List<Message> listMessages = messageRepository.findByPost(post);
+		if (!listMessages.isEmpty()) {
+			return listMessages;
+		} else {
+			throw new MessageException("There is no Message in post with id " + idPost + " in the DB");
 		}
 	}
 	
@@ -89,11 +100,19 @@ public class MessageService {
 	 * @throws 			MessageException 
 	 * @throws PostException 
 	 * @throws UserException 
+	 * @throws TopicException 
 	 */
-	public Message updateMessage(Integer id, MessageDto messageDto) throws MessageException, UserException, PostException {
+	public Message updateMessage(Integer idTopic, Integer idPost, Integer id, MessageDto messageDto) throws MessageException, UserException, PostException, TopicException {
 		Message messageToUpdate = findMessageById(id);
-		dtoToEntity(messageToUpdate, messageDto);
-		return messageRepository.save(messageToUpdate);
+		if (messageToUpdate.getPost().getId() == idPost && messageToUpdate.getPost().getTopic().getId() == idTopic) {
+			dtoToEntity(messageToUpdate, messageDto);
+			return messageRepository.save(messageToUpdate);
+		} else if (messageToUpdate.getPost().getId() != idPost) {
+			throw new PostException("No message with id " + id + " in Post with id " + idPost + " has been found in the DB");
+		} else {
+			throw new TopicException("No message with id " + id + " in Topic with id " + idTopic + " has been found in the DB");
+		}
+		
 	}
 	
 	/**
@@ -101,10 +120,18 @@ public class MessageService {
 	 * 
 	 * @param 			id the id of the Message to delete
 	 * @throws 			MessageException
+	 * @throws PostException 
+	 * @throws TopicException 
 	 */
-	public void deleteMessage(Integer id) throws MessageException{
+	public void deleteMessage(Integer idTopic, Integer idPost, Integer id) throws MessageException, PostException, TopicException{
 		Message messageToDelete = findMessageById(id);
-		messageRepository.delete(messageToDelete);
+		if (messageToDelete.getPost().getId() == idPost && messageToDelete.getPost().getTopic().getId() == idTopic) {
+			messageRepository.delete(messageToDelete);
+		} else if (messageToDelete.getPost().getId() != idPost) {
+			throw new PostException("No message with id " + id + " in Post with id " + idPost + " has been found in the DB");
+		} else {
+			throw new TopicException("No message with id " + id + " in Topic with id " + idTopic + " has been found in the DB");
+		}
 	}
 	
 	private Message dtoToEntity(Message message, MessageDto messageDto) throws UserException, PostException {

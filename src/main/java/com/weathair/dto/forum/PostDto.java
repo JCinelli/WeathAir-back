@@ -1,5 +1,7 @@
 package com.weathair.dto.forum;
 
+import java.time.LocalDateTime;
+
 /**
  * @author MIACHELL
  *
@@ -11,17 +13,20 @@ public class PostDto {
 	private String text; 
 	private Integer topicId;
 	private Integer userId;
+	private LocalDateTime dateTime;
+
 	
 	public PostDto() {
 		super();
 	}
 
-	public PostDto(String title, String text, Integer topicId, Integer userId) {
+	public PostDto(String title, String text, Integer topicId, Integer userId, 	LocalDateTime dateTime) {
 		super();
 		this.title = title;
 		this.text = text;
 		this.topicId = topicId;
 		this.userId = userId;
+		this.dateTime = dateTime;
 	}
 
 	//GETTERS
@@ -29,8 +34,16 @@ public class PostDto {
 		return title;
 	}
 	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
 	public String getText() {
 		return text;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
 	}
 	
 	public Integer getTopicId() {
@@ -49,4 +62,7 @@ public class PostDto {
 		this.userId = userId;
 	}
 	
+	public LocalDateTime getDateTime() {
+		return this.dateTime;
+	}
 }

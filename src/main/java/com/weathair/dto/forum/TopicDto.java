@@ -1,9 +1,6 @@
 package com.weathair.dto.forum;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.weathair.entities.forum.Post;
+import java.time.LocalDateTime;
 
 /**
  * @author MIACHELL
@@ -13,25 +10,20 @@ import com.weathair.entities.forum.Post;
 public class TopicDto {
 	
 	private String label; 
-	private List<Post> posts = new ArrayList<>();
+	private LocalDateTime dateTime;
 	
-	public TopicDto(String label, List<Post> posts) {
+	public TopicDto(String label, LocalDateTime dateTime) {
 		super();
 		this.label = label;
-		this.posts = posts;
-	}
-
-	public TopicDto(String label) {
-		super();
-		this.label = label;
+		this.dateTime = dateTime;
 	}
 
 	public String getLabel() {
 		return label;
 	}
-
-	public List<Post> getPosts() {
-		return posts;
+	
+	public LocalDateTime getDateTime() {
+		return this.dateTime;
 	}
 	
 }

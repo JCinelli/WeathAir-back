@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.weathair.entities.User;
 
 /**
@@ -32,6 +33,7 @@ public class Post {
 	private String text; 
 	private LocalDateTime dateTime;
 	@OneToMany(mappedBy = "post")
+	@JsonIgnore
 	private List<Message> messages = new ArrayList<>();
 	@ManyToOne
 	@JoinColumn(name="topic_id")

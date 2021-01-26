@@ -18,7 +18,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weathair.dto.indicators.MeteoIndicatorDto;
 import com.weathair.entities.Township;
+import com.weathair.entities.indicators.AirIndicator;
 import com.weathair.entities.indicators.MeteoIndicator;
+import com.weathair.exceptions.AirIndicatorException;
 import com.weathair.exceptions.MeteoIndicatorException;
 import com.weathair.repositories.MeteoIndicatorRepository;
 import com.weathair.repositories.TownshipRepository;
@@ -64,6 +66,21 @@ public class MeteoIndicatorService {
 			return meteoIndicatorOptional.get();
 		} else {
 			throw new MeteoIndicatorException("There is no meteo indicator with this id.");
+		}
+	}
+	
+	/**
+	 * @param townshipName
+	 * @param limit
+	 * @return
+	 * @throws MeteoIndicatorException
+	 */
+	public List<MeteoIndicator> getMeteoIndicatorsByTownshipName(String townshipName, int limit) throws MeteoIndicatorException{
+		List<MeteoIndicator> listMeteoIndicators = meteoIndicatorRepository.findByTownshipName(townshipName, limit); 
+		if (!listMeteoIndicators.isEmpty()) {
+			return listMeteoIndicators;
+		} else { 
+			throw new MeteoIndicatorException("No Meteo Indicator with Township name " + townshipName + " has been found in DB");
 		}
 	}
 

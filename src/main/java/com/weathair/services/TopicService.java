@@ -1,11 +1,13 @@
 package com.weathair.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.weathair.dto.forum.TopicDto;
+import com.weathair.dto.forum.TopicResponseDto;
 import com.weathair.entities.forum.Topic;
 import com.weathair.exceptions.TopicException;
 import com.weathair.repositories.TopicRepository;
@@ -32,10 +34,14 @@ public class TopicService {
 	 * @return			List of topics
 	 * @throws			TopicException
 	 */
-	public List<Topic> findAllTopics() throws TopicException{
-		List<Topic> topicList = topicRepository.findAll();
-		if (!topicList.isEmpty()) {
-			return topicList;
+	public List<TopicResponseDto> findAllTopics() throws TopicException{
+		List<Topic> topics = topicRepository.findAll();
+		if (!topics.isEmpty()) {
+			List<TopicResponseDto> topicResponseDtos = new ArrayList<>();
+			for (Topic topic : topics) {
+				topicResponseDtos.add(entityToDto(topic));
+			}
+			return topicResponseDtos;
 		} else {
 			throw new TopicException("There is no Topic in the DB");
 		}
@@ -48,10 +54,10 @@ public class TopicService {
 	 * @return			topic
 	 * @throws 			TopicException 
 	 */
-	public Topic findTopicById(Integer id) throws TopicException{
+	public TopicResponseDto findTopicById(Integer id) throws TopicException{
 		Optional<Topic> topicOptional = topicRepository.findById(id);
 		if (topicOptional.isPresent()) {
-			return topicOptional.get();
+			return entityToDto(topicOptional.get());
 		} else {
 			throw new TopicException("No Topic with id " + id + " was found in the DB");
 		}
@@ -66,8 +72,6 @@ public class TopicService {
 	public Topic createTopic(TopicDto topicDto) {
 		Topic topic = new Topic();
 		topic.setLabel(topicDto.getLabel());
-		//TODO replace by find by post id
-		topic.setPosts(topicDto.getPosts());
 		return topicRepository.save(topic);
 	}
 	
@@ -80,10 +84,14 @@ public class TopicService {
 	 * @throws 			TopicException 
 	 */
 	public Topic updateTopic(Integer id, TopicDto topicDto) throws TopicException {
-		Topic topicToUpdate = findTopicById(id);
-		topicToUpdate.setLabel(topicDto.getLabel());;
-		topicToUpdate.setPosts(topicDto.getPosts());
-		return topicRepository.save(topicToUpdate);
+		Optional<Topic> topicOptToUpdate = topicRepository.findById(id);
+		if (!topicOptToUpdate.isEmpty()) {
+			Topic topicToUpdate = topicOptToUpdate.get();
+			topicToUpdate.setLabel(topicDto.getLabel());
+			return topicRepository.save(topicToUpdate);
+		} else {
+			throw new TopicException("No Topic with id " + id + " was found in the DB");
+		}
 	}
 	
 	/**
@@ -93,7 +101,18 @@ public class TopicService {
 	 * @throws 			TopicException
 	 */
 	public void deleteTopic(Integer id) throws TopicException{
-		Topic topicToDelete = findTopicById(id);
-		topicRepository.delete(topicToDelete);
+		Optional<Topic> topicToDelete = topicRepository.findById(id);
+		if (!topicToDelete.isEmpty()) {
+			topicRepository.delete(topicToDelete.get());
+		} else {
+			throw new TopicException("No Topic with id " + id + " was found in the DB");
+		}
+		
+	}
+	
+	private TopicResponseDto entityToDto (Topic topic) {
+		TopicResponseDto topicDto = new TopicResponseDto();
+		topicDto.setLabel(topic.getLabel());
+		return topicDto;
 	}
 }

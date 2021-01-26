@@ -7,11 +7,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weathair.dto.forum.TopicDto;
@@ -20,7 +20,7 @@ import com.weathair.services.TopicService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/topics")
+@RequestMapping("/forum/topics")
 public class TopicController {
 	
 	private TopicService topicService;
@@ -52,14 +52,14 @@ public class TopicController {
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("/{id}")
-	public ResponseEntity<?> putTopic(@RequestParam Integer id, TopicDto topicDto) throws TopicException{
+	public ResponseEntity<?> putTopic(@PathVariable Integer id, TopicDto topicDto) throws TopicException{
 		topicService.updateTopic(id, topicDto);
 		return ResponseEntity.ok("The topic with id " + id + " has been successfully updated");
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteTopic (@RequestParam Integer id) throws TopicException {
+	public ResponseEntity<?> deleteTopic (@PathVariable Integer id) throws TopicException {
 		topicService.deleteTopic(id);
 		return ResponseEntity.ok("The topic with id " + id + " has been successfully deleted");
 	}
