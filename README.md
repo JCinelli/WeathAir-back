@@ -1,5 +1,6 @@
 # WeathAir-back
 
+
 root : http://localhost:8080
 
 /users : Access for everyone (GET-POST), ADMINISTRATOR can PUT(update a user, or BAN a user , or UNBAN a user), he also can DELETE him.
@@ -38,7 +39,7 @@ root : http://localhost:8080/api/airindicators
     </tbody>
 </table>
 
-/meteoindicators : Access for everyone (GET), USER can (POST) and ADMINISTRATOR can (POST-PUT-DELETE)
+/meteoindicators : Access for everyone (GET), ADMINISTRATOR can (GET-POST-PUT-DELETE)
 
 root : http://localhost:8080/api/meteoindicators
 
@@ -55,7 +56,7 @@ root : http://localhost:8080/api/meteoindicators
     </tbody>
 </table>
 
-/favorites : Just for USER and ADMINISTRATOR, USER Can (GET) and ADMINISTRATOR can (GET-POST-PUT-DELETE)
+/favorites : Just for USER and ADMINISTRATOR, USER Can (GET-POST-PUT-DELETE) and ADMINISTRATOR can (GET-POST-PUT-DELETE)
 
 root : http://localhost:8080/api/favorites
 

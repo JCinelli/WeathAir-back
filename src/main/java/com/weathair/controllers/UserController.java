@@ -1,5 +1,7 @@
 package com.weathair.controllers;
 
+import java.security.Principal;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -31,6 +33,15 @@ public class UserController {
 		this.userService = userService;
 	}
 	
+	@GetMapping("/me")
+	public ResponseEntity<?> getConnectedUser(Principal principal) {
+		try {
+			return ResponseEntity.ok().body(userService.getByEmail(principal.getName()));
+		} catch (RepositoryException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
 	@GetMapping
 	public ResponseEntity<?> getAllUsers () throws UserException {
 		return ResponseEntity.ok().body(userService.findAllUsers());
@@ -51,6 +62,7 @@ public class UserController {
 		}
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> putUser (@RequestParam Integer id, @RequestBody UserDto userDto) throws UserException{
 		userService.updateUser(id, userDto);
