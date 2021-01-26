@@ -45,6 +45,11 @@ public class AirIndicatorController {
 	public List<AirIndicator> listAllAirIndicator() throws AirIndicatorException {
 		return airIndicatorService.getAllAirIndicators();
 	}
+	
+	@GetMapping("township={townshipName}/{limit}")
+	public List<AirIndicator> listAirIndicatorsByTownshipName(@PathVariable String townshipName, @PathVariable int limit) throws AirIndicatorException{
+		return airIndicatorService.getAirIndicatorsByTownshipName(townshipName, limit);
+	}
 
 	/**
 	 * @param id

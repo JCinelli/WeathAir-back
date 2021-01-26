@@ -1,8 +1,11 @@
 package com.weathair.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.weathair.entities.forum.Post;
+import com.weathair.entities.forum.Topic;
 
 /**
  * @author MIACHELL
@@ -11,5 +14,5 @@ import com.weathair.entities.forum.Post;
  *
  */
 public interface PostRepository extends JpaRepository<Post, Integer> {
-
+	List<Post> findByTopic(Topic topic);
 }

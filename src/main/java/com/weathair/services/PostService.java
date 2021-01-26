@@ -1,11 +1,13 @@
 package com.weathair.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.weathair.dto.forum.PostDto;
+import com.weathair.dto.forum.PostResponseDto;
 import com.weathair.entities.User;
 import com.weathair.entities.forum.Post;
 import com.weathair.entities.forum.Topic;
@@ -41,13 +43,19 @@ public class PostService {
 	 * 
 	 * @return			List of posts
 	 * @throws			PostException
+	 * @throws 			TopicException 
 	 */
-	public List<Post> findAllPosts() throws PostException{
-		List<Post> postList = postRepository.findAll();
+	public List<PostResponseDto> findAllPosts(Integer idTopic) throws PostException, TopicException{
+		Topic topic = getTopicById(idTopic);
+		List<Post> postList = postRepository.findByTopic(topic);
 		if (!postList.isEmpty()) {
-			return postList;
+			List<PostResponseDto> postDtoList = new ArrayList<>();
+			for(Post post: postList) {
+				postDtoList.add(entityToDto(post));
+			}
+			return postDtoList;
 		} else {
-			throw new PostException("There is no Message in the DB");
+			throw new PostException("There is no Post in the DB");
 		}
 		
 	}
@@ -58,12 +66,17 @@ public class PostService {
 	 * @return			post
 	 * @throws 			PostException 
 	 */
-	public Post findPostById(Integer id) throws PostException{
+	public PostResponseDto findPostById(Integer idTopic, Integer id) throws PostException {
 		Optional<Post> postOptional = postRepository.findById(id);
 		if (postOptional.isPresent()) {
-			return postOptional.get();
+			Post post = postOptional.get();
+			if (post.getTopic().getId() == idTopic) {
+				return entityToDto(post);
+			} else {
+				throw new PostException("No Post with id " + id + " in topic with id " + idTopic + " was found in the DB");
+			}
 		} else {
-			throw new PostException("No Message with id " + id + " was found in the DB");
+			throw new PostException("No Post with id " + id + " was found in the DB");
 		}
 	}
 	
@@ -72,12 +85,13 @@ public class PostService {
 	 * 
 	 * @param 			postDto
 	 * @return			The saved post
-	 * @throws UserException 
-	 * @throws TopicException 
+	 * @throws 			UserException 
+	 * @throws 			TopicException 
 	 */
-	public Post createPost(PostDto postDto) throws TopicException, UserException {
+	public Post createPost(Integer idTopic, PostDto postDto) throws TopicException, UserException {
 		Post post = new Post();
 		dtoToEntity(post, postDto);
+		//post.setTopic(getTopicById(idTopic));
 		return postRepository.save(post);
 	}
 	
@@ -88,13 +102,23 @@ public class PostService {
 	 * @param 			postDto the post to update into the DB
 	 * @return			The saved post
 	 * @throws 			PostException 
-	 * @throws UserException 
-	 * @throws TopicException 
+	 * @throws 			UserException 
+	 * @throws 			TopicException 
 	 */
-	public Post updatePost(Integer id, PostDto postDto) throws PostException, TopicException, UserException {
-		Post postToUpdate = findPostById(id);
-		dtoToEntity(postToUpdate, postDto);
-		return postRepository.save(postToUpdate);
+	public Post updatePost(Integer idTopic, Integer id, PostDto postDto) throws PostException, TopicException, UserException {
+		Optional<Post> findById = postRepository.findById(id);
+		if (!findById.isEmpty()) {
+			Post postToUpdate = findById.get();
+			if (postToUpdate.getTopic().getId() == idTopic) {
+				dtoToEntity(postToUpdate, postDto);
+				return postRepository.save(postToUpdate);
+			} else {
+				throw new PostException("No Post with id " + id + " in topic with id " + idTopic + " was found in the DB");
+			}
+		} else {
+			throw new PostException("No Post with id " + id + " was found in the DB");
+		}
+		
 	}
 	
 	/**
@@ -103,9 +127,18 @@ public class PostService {
 	 * @param 			id the id of the post to update
 	 * @throws 			PostException
 	 */
-	public void deletePost(Integer id) throws PostException {
-		Post postToDelete = findPostById(id);
-		postRepository.delete(postToDelete);
+	public void deletePost(Integer idTopic, Integer id) throws PostException {
+		Optional<Post> findById = postRepository.findById(id);
+		if (!findById.isEmpty()) {
+			Post postToDelete = findById.get();
+			if (postToDelete.getTopic().getId() == idTopic) {
+				postRepository.save(postToDelete);
+			} else {
+				throw new PostException("No Post with id " + id + " in topic with id " + idTopic + " was found in the DB");
+			}
+		} else {
+			throw new PostException("No Post with id " + id + " was found in the DB");
+		}
 	}
 	
 	private Post dtoToEntity (Post post, PostDto postDto) throws TopicException, UserException {
@@ -114,6 +147,15 @@ public class PostService {
 		post.setTopic(getTopicById(postDto.getTopicId()));
 		post.setUser(getUserById(postDto.getUserId()));
 		return post;
+	}
+	
+	private PostResponseDto entityToDto (Post post) {
+		PostResponseDto postDto = new PostResponseDto();
+		postDto.setTitle(post.getTitle());
+		postDto.setText(post.getText());
+		postDto.setTopic(post.getTopic());
+		postDto.setUser(post.getUser());
+		return postDto;
 	}
 	
 	private Topic getTopicById(Integer id) throws TopicException {

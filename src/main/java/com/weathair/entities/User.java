@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.weathair.entities.forum.Message;
 import com.weathair.entities.forum.Post;
 
@@ -46,14 +47,19 @@ public class User {
 	@JoinTable(name = "user_notification", 
 			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), 
 			inverseJoinColumns = @JoinColumn(name = "notification_id", referencedColumnName = "id"))
+	@JsonIgnore
 	private List<Notification> notifications = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private List<Post> posts = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private List<Message> messages = new ArrayList<>();
+	
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private List<Favorite> favorites = new ArrayList<>();
 	
 	//CONSTRUCTOR

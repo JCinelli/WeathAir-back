@@ -1,6 +1,6 @@
 package com.weathair.exceptions;
 
-public class NotificationException extends Exception {
+public class NotificationException extends WeathairException {
 
 	/**
 	 * 

@@ -22,7 +22,7 @@ import com.weathair.services.PostService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/posts")
+@RequestMapping("/forum/topics/{idTopic}/posts")
 public class PostController {
 	
 	private PostService postService;
@@ -33,20 +33,20 @@ public class PostController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<?> getAllPosts () throws PostException {
-		return ResponseEntity.ok().body(postService.findAllPosts());
+	public ResponseEntity<?> getAllPosts (@PathVariable Integer idTopic) throws PostException, TopicException {
+		return ResponseEntity.ok().body(postService.findAllPosts(idTopic));
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getPostById (@PathVariable Integer id) throws PostException {
-		return ResponseEntity.ok().body(postService.findPostById(id));
+	public ResponseEntity<?> getPostById (@PathVariable Integer idTopic, @PathVariable Integer id) throws PostException {
+		return ResponseEntity.ok().body(postService.findPostById(idTopic, id));
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
 	@PostMapping
-	public ResponseEntity<?> postPost (@Validated @RequestBody PostDto postDto, BindingResult resVal) throws TopicException, UserException {
+	public ResponseEntity<?> postPost (@PathVariable Integer idTopic, @Validated @RequestBody PostDto postDto, BindingResult resVal) throws TopicException, UserException {
 		if (!resVal.hasErrors()) {
-			return ResponseEntity.ok().body(postService.createPost(postDto));
+			return ResponseEntity.ok().body(postService.createPost(idTopic, postDto));
 		} else {
 			return ResponseEntity.badRequest().body(resVal.getAllErrors());
 		}
@@ -54,15 +54,15 @@ public class PostController {
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PutMapping("/{id}")
-	public ResponseEntity<?> putPost(@PathVariable Integer id, @RequestBody PostDto postDto) throws PostException, TopicException, UserException{
-		postService.updatePost(id, postDto);
+	public ResponseEntity<?> putPost(@PathVariable Integer idTopic, @PathVariable Integer id, @RequestBody PostDto postDto) throws PostException, TopicException, UserException{
+		postService.updatePost(idTopic, id, postDto);
 		return ResponseEntity.ok("The post with id " + id + " has been successfully updated");
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletePost (@PathVariable Integer id) throws PostException {
-		postService.deletePost(id);;
+	public ResponseEntity<?> deletePost (@PathVariable Integer idTopic, @PathVariable Integer id) throws PostException {
+		postService.deletePost(idTopic, id);;
 		return ResponseEntity.ok("The post with id " + id + " has been successfully deleted");
 	}
 

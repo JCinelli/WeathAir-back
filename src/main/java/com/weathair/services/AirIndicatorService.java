@@ -54,6 +54,21 @@ public class AirIndicatorService {
 			throw new AirIndicatorException("There is no Air Indicator in this base.");
 		}
 	}
+	
+	/**
+	 * @param townshipName
+	 * @param limit
+	 * @return
+	 * @throws AirIndicatorException
+	 */
+	public List<AirIndicator> getAirIndicatorsByTownshipName(String townshipName, int limit) throws AirIndicatorException{
+		List<AirIndicator> listAirIndicators = airIndicatorRepository.findByTownshipName(townshipName, limit); 
+		if (!listAirIndicators.isEmpty()) {
+			return listAirIndicators;
+		} else { 
+			throw new AirIndicatorException("No Air Indicator with Township name " + townshipName + " has been found in DB");
+		}
+	}
 
 	/**
 	 * @param id
