@@ -3,6 +3,9 @@ package com.weathair.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.weathair.dto.UserDto;
@@ -25,20 +28,22 @@ public class UserService {
 	
 	private UserRepository userRepository;
 	private RoleRepository roleRepository;
+	private PasswordEncoder passwordEncoder;
 	
-	public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+	public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
 		super();
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	
-	public User getByEmail(String email) throws RepositoryException {
+	public User getByEmail(String email) throws UserException {
 		Optional<User> optional = userRepository.findByEmail(email);
 		if (optional.isPresent()) {
 			return optional.get();
 		} else {
-			throw new RepositoryException("user not found with this email");
+			throw new UserException("user not found with this email");
 		}
 	}
 	
@@ -90,7 +95,7 @@ public class UserService {
 	public User createUser(UserDto userDto) {
 		User user = new User();
 		user.setPseudo(userDto.getPseudo());
-		user.setPassword(userDto.getPassword());
+		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		user.setEmail(userDto.getEmail());
 		user.setTownship(userDto.getTownship());
 		user.setRole(userDto.getRole());
@@ -113,6 +118,8 @@ public class UserService {
 		userToUpdate.setTownship(userDto.getTownship());
 		return userRepository.save(userToUpdate);
 	}
+	
+	
 	
 	/**
 	 * @param id

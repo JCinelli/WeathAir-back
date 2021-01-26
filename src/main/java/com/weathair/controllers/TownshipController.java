@@ -48,8 +48,6 @@ public class TownshipController {
 	
 	public void postTownships(File file) throws IOException {
 		townshipService.saveTownShips(file);
-		
-		System.err.println("finit");
 	}
 	
 	/**
@@ -81,7 +79,7 @@ public class TownshipController {
 	 * @return a list of all the townships from the DB
 	 * @throws TownshipException 
 	 */
-	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
+//	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@GetMapping
 	public List<Township> getTownships() throws TownshipException {
 		return townshipService.findAll();

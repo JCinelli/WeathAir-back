@@ -1,5 +1,11 @@
 package com.weathair.security;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+import javax.servlet.FilterChain;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.annotation.Bean;
@@ -11,6 +17,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -41,6 +48,15 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
+		Properties properties = new Properties();
+		try {
+			properties.load(new FileInputStream("src/main/resources/application.properties"));
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		}
+		String TOKEN_COOKIE = properties.getProperty("jwt.auth_name");
+		
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/login").permitAll()  
 			.antMatchers(HttpMethod.GET, "/login").permitAll() 
@@ -52,50 +68,37 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 			.antMatchers("/topics").permitAll()
 			.antMatchers("/messages").permitAll()
 			.antMatchers("/users").permitAll()
-			
-//			.antMatchers(HttpMethod.POST, "/topics").hasRole("ADMINISTRATOR")
-//			.antMatchers(HttpMethod.PUT, "/topics").hasRole("ADMINISTRATOR")
-//			.antMatchers(HttpMethod.DELETE, "/topics").hasRole("ADMINISTRATOR")
-			
-//			.antMatchers(HttpMethod.POST, "/posts").hasRole("USER")
-//			.antMatchers(HttpMethod.POST, "/posts").hasRole("ADMINISTRATOR")
-//			.antMatchers(HttpMethod.PUT, "/posts").hasRole("ADMINISTRATOR")
-//			.antMatchers(HttpMethod.DELETE, "/posts").hasRole("ADMINISTRATOR")
-			
-//			.antMatchers(HttpMethod.POST, "/messages").hasRole("USER")
-//			.antMatchers(HttpMethod.POST, "/messages").hasRole("ADMINISTRATOR")
-//			.antMatchers(HttpMethod.PUT, "/messages").hasRole("ADMINISTRATOR")
-//			.antMatchers(HttpMethod.DELETE, "/messages").hasRole("ADMINISTRATOR")
-			
-//			.antMatchers(HttpMethod.GET, "/notifications").hasRole("USER")
-//			.antMatchers("/notifications").hasRole("ADMINISTRATOR")
-			
-//			.antMatchers("/favorites").hasRole("USER")
-//			.antMatchers("/favorites").hasRole("ADMINISTRATOR")
-			
-
-			
 			.antMatchers("/**")
 			.authenticated()
-			
 			.and()
-			.addFilter(new JwtAuthorizationFilter(authenticationManager()))
-			.addFilterAfter(new JwtAuthenticationFilter(userDetailsService), BasicAuthenticationFilter.class)
-			
 			.sessionManagement()
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			
 			.and()
 			.exceptionHandling()
 			.authenticationEntryPoint(
 				(request, response, authException) -> response.setStatus(HttpServletResponse.SC_FORBIDDEN))
 			
 			.and()
+			
 			.httpBasic()
 			
 			.and()
 			.csrf()
 			.disable()
-			.cors();
+			.cors()
+			.and()
+			.addFilter(new JwtAuthorizationFilter(authenticationManager()))
+			.addFilterAfter(new JwtAuthenticationFilter(userDetailsService), BasicAuthenticationFilter.class)
+			.logout()
+			.logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpServletResponse.SC_OK))
+			.deleteCookies(TOKEN_COOKIE);
+		
+			http.headers().frameOptions().sameOrigin();
+	
+
+			
 	}
+	
+	
+
 }
