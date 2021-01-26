@@ -46,9 +46,9 @@ public class MeteoIndicatorController {
 		return meteoIndicatorService.getAllMeteoIndicators();
 	}
 	
-	@GetMapping("township={townshipName}/{limit}")
-	public List<MeteoIndicator> listMeteoIndicatorsByTownshipName(@PathVariable String townshipName, @PathVariable int limit) throws MeteoIndicatorException{
-		return meteoIndicatorService.getMeteoIndicatorsByTownshipName(townshipName, limit);
+	@GetMapping("township={townshipName}")
+	public List<MeteoIndicator> listMeteoIndicatorsByTownshipName(@PathVariable String townshipName) throws MeteoIndicatorException{
+		return meteoIndicatorService.getMeteoIndicatorsByTownshipName(townshipName);
 	}
 	
 //	@GetMapping("{townshipName}")

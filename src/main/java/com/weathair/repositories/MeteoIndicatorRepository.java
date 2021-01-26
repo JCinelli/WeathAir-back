@@ -9,7 +9,7 @@ import com.weathair.entities.indicators.MeteoIndicator;
 
 public interface MeteoIndicatorRepository  extends JpaRepository<MeteoIndicator, Integer>  {
 
-	@Query("FROM MeteoIndicator m JOIN m.township t WHERE t.name= :townshipName ORDER BY m.dateTime ASC LIMIT :limit")
-	List<MeteoIndicator> findByTownshipName(String townshipName, int limit);
+	@Query("SELECT m FROM MeteoIndicator m JOIN m.township t WHERE t.name= :townshipName ORDER BY m.dateTime ASC")
+	List<MeteoIndicator> findByTownshipName(String townshipName);
 	
 }

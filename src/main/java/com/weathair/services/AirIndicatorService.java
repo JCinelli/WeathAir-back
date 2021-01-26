@@ -61,8 +61,8 @@ public class AirIndicatorService {
 	 * @return
 	 * @throws AirIndicatorException
 	 */
-	public List<AirIndicator> getAirIndicatorsByTownshipName(String townshipName, int limit) throws AirIndicatorException{
-		List<AirIndicator> listAirIndicators = airIndicatorRepository.findByTownshipName(townshipName, limit); 
+	public List<AirIndicator> getAirIndicatorsByTownshipName(String townshipName) throws AirIndicatorException{
+		List<AirIndicator> listAirIndicators = airIndicatorRepository.findByTownshipName(townshipName); 
 		if (!listAirIndicators.isEmpty()) {
 			return listAirIndicators;
 		} else { 

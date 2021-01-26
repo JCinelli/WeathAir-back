@@ -75,8 +75,8 @@ public class MeteoIndicatorService {
 	 * @return
 	 * @throws MeteoIndicatorException
 	 */
-	public List<MeteoIndicator> getMeteoIndicatorsByTownshipName(String townshipName, int limit) throws MeteoIndicatorException{
-		List<MeteoIndicator> listMeteoIndicators = meteoIndicatorRepository.findByTownshipName(townshipName, limit); 
+	public List<MeteoIndicator> getMeteoIndicatorsByTownshipName(String townshipName) throws MeteoIndicatorException{
+		List<MeteoIndicator> listMeteoIndicators = meteoIndicatorRepository.findByTownshipName(townshipName); 
 		if (!listMeteoIndicators.isEmpty()) {
 			return listMeteoIndicators;
 		} else { 
