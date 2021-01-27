@@ -57,7 +57,7 @@ public class AirIndicatorController {
 	 * @throws AirIndicatorException
 	 */
 	@GetMapping("{id}")
-	public ResponseEntity<?> airIndicatorByUser(@PathVariable Integer id) throws AirIndicatorException {
+	public ResponseEntity<?> airIndicatorById(@PathVariable Integer id) throws AirIndicatorException {
 		AirIndicator airIndicator = this.airIndicatorService.getAirIndicatorById(id);
 
 		return ResponseEntity.ok(airIndicator);

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.weathair.controllers.TownshipController;
 import com.weathair.exceptions.TownshipException;
 import com.weathair.services.AirIndicatorService;
+import com.weathair.services.GpsCoordinateService;
 import com.weathair.services.MeteoIndicatorService;
 
 @SpringBootApplication
@@ -35,6 +36,9 @@ public class WeathAirApplication {
 
 	@Autowired
 	private MeteoIndicatorService meteoIndicatorService;
+	
+	@Autowired
+	private GpsCoordinateService gpsCoordinateService;
 
 	@PostConstruct
 	public void init() throws IOException, InterruptedException, TownshipException {
@@ -45,6 +49,8 @@ public class WeathAirApplication {
 //		airIndicatorService.insertAirIndicatorsFromApiWaqi();
 
 //  	meteoIndicatorService.saveUpdateIndicatorsForOccitanie();
+		
+//		gpsCoordinateService.insertGpsCoordinatesFromApiWaqi();
 	}
 
 	@Bean
