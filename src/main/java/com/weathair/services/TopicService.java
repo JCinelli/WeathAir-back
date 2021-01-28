@@ -113,6 +113,7 @@ public class TopicService {
 	private TopicResponseDto entityToDto (Topic topic) {
 		TopicResponseDto topicDto = new TopicResponseDto();
 		topicDto.setLabel(topic.getLabel());
+		topicDto.setId(topic.getId());
 		return topicDto;
 	}
 }

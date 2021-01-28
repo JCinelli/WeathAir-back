@@ -40,7 +40,7 @@ public class TopicController {
 		return ResponseEntity.ok().body(topicService.findTopicById(id));
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
+//	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PostMapping
 	public ResponseEntity<?> postTopic (@Validated @RequestBody TopicDto topicDto, BindingResult resVal){
 		if (!resVal.hasErrors()) {

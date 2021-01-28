@@ -42,6 +42,11 @@ public class PostController {
 		return ResponseEntity.ok().body(postService.findPostById(idTopic, id));
 	}
 	
+//	@GetMapping("/{id}")
+//	public ResponseEntity<?> getPostByTopics (@PathVariable Integer idTopic, @PathVariable Integer id) throws PostException {
+//		return ResponseEntity.ok().body(postService.findPostById(idTopic, id));
+//	} 
+	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
 	@PostMapping
 	public ResponseEntity<?> postPost (@PathVariable Integer idTopic, @Validated @RequestBody PostDto postDto, BindingResult resVal) throws TopicException, UserException {

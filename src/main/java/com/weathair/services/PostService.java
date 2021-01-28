@@ -151,6 +151,7 @@ public class PostService {
 	
 	private PostResponseDto entityToDto (Post post) {
 		PostResponseDto postDto = new PostResponseDto();
+		postDto.setId(post.getId());
 		postDto.setTitle(post.getTitle());
 		postDto.setText(post.getText());
 		postDto.setTopic(post.getTopic());
