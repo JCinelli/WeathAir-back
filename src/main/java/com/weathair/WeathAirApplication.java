@@ -48,7 +48,7 @@ public class WeathAirApplication {
 
 //		airIndicatorService.insertAirIndicatorsFromApiWaqi();
 
-//  	meteoIndicatorService.saveUpdateIndicatorsForOccitanie();
+	//	meteoIndicatorService.saveUpdateIndicatorsForOccitanie();
 		
 //		gpsCoordinateService.insertGpsCoordinatesFromApiWaqi();
 	}

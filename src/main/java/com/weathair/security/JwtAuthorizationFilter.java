@@ -42,6 +42,8 @@ public class JwtAuthorizationFilter extends UsernamePasswordAuthenticationFilter
 		setFilterProcessesUrl("/login");
 	}
 	
+	
+	
 
 	/**
 	 * We try to authenticate here,

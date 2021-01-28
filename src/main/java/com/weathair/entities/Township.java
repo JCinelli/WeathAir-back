@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.weathair.entities.indicators.AbstractIndicator;
 
 /**
@@ -29,12 +30,15 @@ public class Township {
 	private int population;
 	
 	@OneToMany(mappedBy = "township")
+	@JsonIgnore
 	private List<User> users = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "township")
+	@JsonIgnore
 	private List<AbstractIndicator> indicators = new ArrayList<>();
 
 	@OneToMany(mappedBy = "township")
+	@JsonIgnore
 	private List<Favorite> favorite = new ArrayList<>();
 
 //	CONSTRUCTOR

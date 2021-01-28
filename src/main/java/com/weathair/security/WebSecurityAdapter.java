@@ -4,11 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.servlet.FilterChain;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,14 +14,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 @EnableWebSecurity
@@ -59,15 +51,13 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 		
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.POST, "/login").permitAll()  
-			.antMatchers(HttpMethod.GET, "/login").permitAll() 
-			.antMatchers(HttpMethod.GET, "/townships").permitAll()
-			.antMatchers(HttpMethod.GET, "/meteoindicators").permitAll()
-			.antMatchers(HttpMethod.GET, "/airindicators").permitAll()
-			.antMatchers(HttpMethod.GET, "/utils").permitAll()
-			.antMatchers(HttpMethod.GET, "/posts").permitAll()
-			.antMatchers("/topics").permitAll()
-			.antMatchers("/messages").permitAll()
-			.antMatchers("/users").permitAll()
+			.antMatchers(HttpMethod.GET, "/townships/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/meteoindicators/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/gpscoordinates/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/airindicators/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/utils/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/forum/posts/**").permitAll()
+			.antMatchers("/users/*").permitAll()
 			.antMatchers("/**")
 			.authenticated()
 			.and()
@@ -88,9 +78,11 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 			.cors()
 			.and()
 			.addFilter(new JwtAuthorizationFilter(authenticationManager()))
-			.addFilterAfter(new JwtAuthenticationFilter(userDetailsService), BasicAuthenticationFilter.class)
-			.logout()
-			.logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpServletResponse.SC_OK))
+			.addFilterBefore(new JwtAuthenticationFilter(userDetailsService), BasicAuthenticationFilter.class)
+			.logout().logoutUrl("/logout")
+			.logoutSuccessHandler((req, resp, auth) -> {
+				resp.setStatus(HttpServletResponse.SC_OK);
+			})
 			.deleteCookies(TOKEN_COOKIE);
 		
 			http.headers().frameOptions().sameOrigin();
