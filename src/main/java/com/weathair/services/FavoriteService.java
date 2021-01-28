@@ -41,6 +41,17 @@ public class FavoriteService {
 		}
 	}
 	
+	
+	/**
+	 * This method finds all the Favorite associate to the user id in the DB
+	 * 
+	 * @param id
+	 * @return a List of Favorite
+	 */
+	public List<Favorite> findFavoriteByUserId(Integer id) {
+		return favoriteRepository.findByUserId(id);
+	}
+	
 	/**
 	 * This method finds a Favorite in the DB using an id
 	 * 
@@ -55,6 +66,8 @@ public class FavoriteService {
 			throw new FavoriteException("No Favorite with id " + id + " was found in the DB");
 		}
 	}
+	
+
 	
 	/**
 	 * This method creates a new Favorite in the DB
@@ -98,5 +111,4 @@ public class FavoriteService {
 		Favorite favoriteToDelete = findFavoriteById(id);
 		favoriteRepository.delete(favoriteToDelete);
 	}
-
 }

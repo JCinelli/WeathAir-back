@@ -38,8 +38,14 @@ public class FavoriteController {
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER') || hasAuthority('ROLE_USER_BAN')")
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getFavoriteById (Integer id) throws FavoriteException {
+	public ResponseEntity<?> getFavoriteById (@RequestParam Integer id) throws FavoriteException {
 		return ResponseEntity.ok().body(favoriteService.findFavoriteById(id));
+	}
+	
+	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER') || hasAuthority('ROLE_USER_BAN')")
+	@GetMapping("user{id}")
+	public ResponseEntity<?> getFavoriteByUserId (@RequestParam Integer id) throws FavoriteException {
+		return ResponseEntity.ok().body(favoriteService.findFavoriteByUserId(id));
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
