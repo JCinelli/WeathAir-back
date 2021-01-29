@@ -33,8 +33,8 @@ public class MessageController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<?> getAllMessagesByPost (Integer idTopic, Integer idPost) throws MessageException, PostException {
-		return ResponseEntity.ok().body(messageService.findAllMessagesByPost(idTopic, idPost));
+	public ResponseEntity<?> getAllMessages (@PathVariable Integer idTopic,@PathVariable Integer idPost) throws MessageException, PostException {
+		return ResponseEntity.ok().body(messageService.findAllMessages(idPost));
 	}
 	
 	@GetMapping("/{id}")

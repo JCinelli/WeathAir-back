@@ -1,11 +1,13 @@
 package com.weathair.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.weathair.dto.forum.MessageDto;
+import com.weathair.dto.forum.MessageDtoResponse;
 import com.weathair.entities.User;
 import com.weathair.entities.forum.Message;
 import com.weathair.entities.forum.Post;
@@ -42,25 +44,24 @@ public class MessageService {
 	 * 
 	 * @return			List of message
 	 * @throws 			MessageException
+	 * @throws PostException 
+	 * @throws TopicException 
 	 */
-	public List<Message> findAllMessages() throws MessageException{
-		List<Message> listMessages = messageRepository.findAll();
+	public List<MessageDtoResponse> findAllMessages(Integer idPost) throws PostException, MessageException{
+		Post post = getPostById(idPost);
+	
+		List<Message> listMessages = messageRepository.findByPost(post);
 		if (!listMessages.isEmpty()) {
-			return listMessages;
+			List<MessageDtoResponse> messageDtoList  = new ArrayList<>();
+			for(Message message : listMessages) {
+				messageDtoList.add(entityToDto(message));
+			}
+			return messageDtoList;
 		} else {
 			throw new MessageException("There is no Message in the DB");
 		}
 	}
 	
-	public Object findAllMessagesByPost(Integer idTopic, Integer idPost) throws MessageException, PostException {
-		Post post = getPostById(idPost);
-		List<Message> listMessages = messageRepository.findByPost(post);
-		if (!listMessages.isEmpty()) {
-			return listMessages;
-		} else {
-			throw new MessageException("There is no Message in post with id " + idPost + " in the DB");
-		}
-	}
 	
 	/**
 	 * This method finds a message in the DB using an id
@@ -140,6 +141,16 @@ public class MessageService {
 		message.setPost(getPostById(messageDto.getPostId()));
 		return message;
 	}
+	
+	private MessageDtoResponse entityToDto (Message message) {
+		MessageDtoResponse messageDto = new MessageDtoResponse();
+		messageDto.setId(message.getId());
+		messageDto.setTexte(message.getText());
+		messageDto.setPost(message.getPost());
+		messageDto.setUser(message.getUser());
+		return messageDto;
+	}
+	
 	
 	private Post getPostById(Integer id) throws PostException {
 		Optional<Post> postOptional = postRepository.findById(id);
