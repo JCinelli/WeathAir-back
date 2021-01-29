@@ -4,7 +4,7 @@ import com.weathair.entities.User;
 import com.weathair.entities.forum.Topic;
 
 public class PostResponseDto {
-
+	private Integer id;
 	private String title; 
 	private String text; 
 	private Topic topic;
@@ -14,6 +14,15 @@ public class PostResponseDto {
 		super();
 	}
 	
+	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getTitle() {
 		return title;
 	}

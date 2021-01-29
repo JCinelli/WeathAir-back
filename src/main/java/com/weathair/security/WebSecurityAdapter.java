@@ -56,6 +56,7 @@ public class WebSecurityAdapter extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET, "/gpscoordinates/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/airindicators/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/utils/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/forum/topics/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/forum/posts/**").permitAll()
 			.antMatchers("/users/*").permitAll()
 			.antMatchers("/**")

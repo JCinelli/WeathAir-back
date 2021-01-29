@@ -1,11 +1,13 @@
 package com.weathair.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.weathair.dto.forum.MessageDto;
+import com.weathair.dto.forum.MessageDtoResponse;
 import com.weathair.entities.User;
 import com.weathair.entities.forum.Message;
 import com.weathair.entities.forum.Post;
@@ -42,25 +44,24 @@ public class MessageService {
 	 * 
 	 * @return			List of message
 	 * @throws 			MessageException
+	 * @throws PostException 
+	 * @throws TopicException 
 	 */
-	public List<Message> findAllMessages() throws MessageException{
-		List<Message> listMessages = messageRepository.findAll();
+	public List<MessageDtoResponse> findAllMessages(Integer idPost) throws PostException, MessageException{
+		Post post = getPostById(idPost);
+	
+		List<Message> listMessages = messageRepository.findByPost(post);
 		if (!listMessages.isEmpty()) {
-			return listMessages;
+			List<MessageDtoResponse> messageDtoList  = new ArrayList<>();
+			for(Message message : listMessages) {
+				messageDtoList.add(entityToDto(message));
+			}
+			return messageDtoList;
 		} else {
 			throw new MessageException("There is no Message in the DB");
 		}
 	}
 	
-	public Object findAllMessagesByPost(Integer idTopic, Integer idPost) throws MessageException, PostException {
-		Post post = getPostById(idPost);
-		List<Message> listMessages = messageRepository.findByPost(post);
-		if (!listMessages.isEmpty()) {
-			return listMessages;
-		} else {
-			throw new MessageException("There is no Message in post with id " + idPost + " in the DB");
-		}
-	}
 	
 	/**
 	 * This method finds a message in the DB using an id
@@ -85,9 +86,9 @@ public class MessageService {
 	 * @throws PostException 
 	 * @throws UserException 
 	 */
-	public Message createMessage(MessageDto messageDto) throws UserException, PostException {
+	public Message createMessage(Integer idTopic, Integer idPost, Integer idUser, MessageDto messageDto) throws UserException, PostException {
 		Message message = new Message();
-		dtoToEntity(message, messageDto);
+		dtoToEntity(message, messageDto, idUser);
 		return messageRepository.save(message);
 	}
 
@@ -105,7 +106,7 @@ public class MessageService {
 	public Message updateMessage(Integer idTopic, Integer idPost, Integer id, MessageDto messageDto) throws MessageException, UserException, PostException, TopicException {
 		Message messageToUpdate = findMessageById(id);
 		if (messageToUpdate.getPost().getId() == idPost && messageToUpdate.getPost().getTopic().getId() == idTopic) {
-			dtoToEntity(messageToUpdate, messageDto);
+		//	dtoToEntity(messageToUpdate, messageDto);
 			return messageRepository.save(messageToUpdate);
 		} else if (messageToUpdate.getPost().getId() != idPost) {
 			throw new PostException("No message with id " + id + " in Post with id " + idPost + " has been found in the DB");
@@ -134,12 +135,23 @@ public class MessageService {
 		}
 	}
 	
-	private Message dtoToEntity(Message message, MessageDto messageDto) throws UserException, PostException {
+	private Message dtoToEntity(Message message, MessageDto messageDto, Integer userId) throws UserException, PostException {
 		message.setText(messageDto.getText());
-		message.setUser(getUserById(messageDto.getUserId()));
 		message.setPost(getPostById(messageDto.getPostId()));
+		message.setUser(getUserById(userId));
 		return message;
 	}
+	
+	private MessageDtoResponse entityToDto (Message message) {
+		MessageDtoResponse messageDto = new MessageDtoResponse();
+		messageDto.setId(message.getId());
+		messageDto.setText(message.getText());
+		messageDto.setPost(message.getPost());
+		messageDto.setUser(message.getUser());
+		messageDto.setDate_time(message.getDateTime());
+		return messageDto;
+	}
+	
 	
 	private Post getPostById(Integer id) throws PostException {
 		Optional<Post> postOptional = postRepository.findById(id);
