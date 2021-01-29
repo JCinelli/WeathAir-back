@@ -86,9 +86,9 @@ public class MessageService {
 	 * @throws PostException 
 	 * @throws UserException 
 	 */
-	public Message createMessage(MessageDto messageDto) throws UserException, PostException {
+	public Message createMessage(Integer idTopic, Integer idPost, Integer idUser, MessageDto messageDto) throws UserException, PostException {
 		Message message = new Message();
-		dtoToEntity(message, messageDto);
+		dtoToEntity(message, messageDto, idUser);
 		return messageRepository.save(message);
 	}
 
@@ -106,7 +106,7 @@ public class MessageService {
 	public Message updateMessage(Integer idTopic, Integer idPost, Integer id, MessageDto messageDto) throws MessageException, UserException, PostException, TopicException {
 		Message messageToUpdate = findMessageById(id);
 		if (messageToUpdate.getPost().getId() == idPost && messageToUpdate.getPost().getTopic().getId() == idTopic) {
-			dtoToEntity(messageToUpdate, messageDto);
+		//	dtoToEntity(messageToUpdate, messageDto);
 			return messageRepository.save(messageToUpdate);
 		} else if (messageToUpdate.getPost().getId() != idPost) {
 			throw new PostException("No message with id " + id + " in Post with id " + idPost + " has been found in the DB");
@@ -135,19 +135,20 @@ public class MessageService {
 		}
 	}
 	
-	private Message dtoToEntity(Message message, MessageDto messageDto) throws UserException, PostException {
+	private Message dtoToEntity(Message message, MessageDto messageDto, Integer userId) throws UserException, PostException {
 		message.setText(messageDto.getText());
-		message.setUser(getUserById(messageDto.getUserId()));
 		message.setPost(getPostById(messageDto.getPostId()));
+		message.setUser(getUserById(userId));
 		return message;
 	}
 	
 	private MessageDtoResponse entityToDto (Message message) {
 		MessageDtoResponse messageDto = new MessageDtoResponse();
 		messageDto.setId(message.getId());
-		messageDto.setTexte(message.getText());
+		messageDto.setText(message.getText());
 		messageDto.setPost(message.getPost());
 		messageDto.setUser(message.getUser());
+		messageDto.setDate_time(message.getDateTime());
 		return messageDto;
 	}
 	

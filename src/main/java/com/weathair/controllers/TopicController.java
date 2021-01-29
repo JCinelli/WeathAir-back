@@ -57,9 +57,10 @@ public class TopicController {
 		return ResponseEntity.ok("The topic with id " + id + " has been successfully updated");
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
+//	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteTopic (@PathVariable Integer id) throws TopicException {
+		System.out.println(id);
 		topicService.deleteTopic(id);
 		return ResponseEntity.ok("The topic with id " + id + " has been successfully deleted");
 	}
