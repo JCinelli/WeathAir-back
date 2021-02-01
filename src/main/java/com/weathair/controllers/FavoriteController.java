@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,14 +61,14 @@ public class FavoriteController {
 
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
 	@PutMapping("/{id}")
-	public ResponseEntity<?> putFavorite (@RequestParam Integer id, @RequestBody FavoriteDto favoriteDto) throws FavoriteException {
+	public ResponseEntity<?> putFavorite (@PathVariable Integer id, @RequestBody FavoriteDto favoriteDto) throws FavoriteException {
 		favoriteService.updateFavorite(id, favoriteDto);
 		return ResponseEntity.ok("The favorite with id " + id + " has been successfully updated");
 	}
 	
 	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteFavorite (@RequestParam Integer id) throws FavoriteException {
+	public ResponseEntity<?> deleteFavorite (@PathVariable Integer id) throws FavoriteException {
 		favoriteService.deleteFavorite(id);
 		return ResponseEntity.ok("The favorite with id " + id + " has been successfully deleted");
 	}

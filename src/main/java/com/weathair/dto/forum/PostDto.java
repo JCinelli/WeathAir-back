@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
  * DTO for Post Entity
  */
 public class PostDto {
-
+	
+	
 	private String title; 
 	private String text; 
 	private Integer topicId;
