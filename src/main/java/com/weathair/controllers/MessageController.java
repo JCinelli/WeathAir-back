@@ -1,5 +1,7 @@
 package com.weathair.controllers;
 
+import java.security.Principal;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -15,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weathair.dto.forum.MessageDto;
+import com.weathair.entities.User;
 import com.weathair.exceptions.MessageException;
 import com.weathair.exceptions.PostException;
 import com.weathair.exceptions.TopicException;
 import com.weathair.exceptions.UserException;
 import com.weathair.services.MessageService;
+import com.weathair.services.UserService;
 
 @RestController
 @CrossOrigin
@@ -27,14 +31,16 @@ import com.weathair.services.MessageService;
 public class MessageController {
 	
 	private MessageService messageService;
+	private UserService userService;
 	
-	public MessageController(MessageService messageService) {
+	public MessageController(MessageService messageService, UserService userService) {
 		this.messageService = messageService;
+		this.userService = userService;
 	}
 	
 	@GetMapping
-	public ResponseEntity<?> getAllMessagesByPost (Integer idTopic, Integer idPost) throws MessageException, PostException {
-		return ResponseEntity.ok().body(messageService.findAllMessagesByPost(idTopic, idPost));
+	public ResponseEntity<?> getAllMessages (@PathVariable Integer idTopic,@PathVariable Integer idPost) throws MessageException, PostException {
+		return ResponseEntity.ok().body(messageService.findAllMessages(idPost));
 	}
 	
 	@GetMapping("/{id}")
@@ -42,11 +48,14 @@ public class MessageController {
 		return ResponseEntity.ok().body(messageService.findMessageById(id));
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
+	//@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
 	@PostMapping
-	public ResponseEntity<?> postMessage (@Validated @RequestBody MessageDto messageDto, BindingResult resVal) throws UserException, PostException{
+	public ResponseEntity<?> postMessage (Principal principal, @PathVariable Integer idTopic, @PathVariable Integer idPost, @Validated @RequestBody MessageDto messageDto, BindingResult resVal) throws UserException, PostException{
+		System.out.println(principal.getName());
+		User user = userService.getByEmail(principal.getName());
+		System.out.println(user.getEmail());
 		if (!resVal.hasErrors()) {
-			return ResponseEntity.ok().body(messageService.createMessage(messageDto));
+			return ResponseEntity.ok().body(messageService.createMessage(idTopic, idPost, user.getId(), messageDto));
 		} else {
 			return ResponseEntity.badRequest().body(resVal.getAllErrors());
 		}

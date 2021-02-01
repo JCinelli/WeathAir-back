@@ -88,10 +88,10 @@ public class PostService {
 	 * @throws 			UserException 
 	 * @throws 			TopicException 
 	 */
-	public Post createPost(Integer idTopic, PostDto postDto) throws TopicException, UserException {
+	public Post createPost(Integer idTopic, Integer idUser, PostDto postDto) throws TopicException, UserException {
 		Post post = new Post();
-		dtoToEntity(post, postDto);
-		//post.setTopic(getTopicById(idTopic));
+		dtoToEntity(post, postDto, idUser);
+		
 		return postRepository.save(post);
 	}
 	
@@ -105,12 +105,12 @@ public class PostService {
 	 * @throws 			UserException 
 	 * @throws 			TopicException 
 	 */
-	public Post updatePost(Integer idTopic, Integer id, PostDto postDto) throws PostException, TopicException, UserException {
+	public Post updatePost(Integer idTopic, Integer id,  PostDto postDto) throws PostException, TopicException, UserException {
 		Optional<Post> findById = postRepository.findById(id);
 		if (!findById.isEmpty()) {
 			Post postToUpdate = findById.get();
 			if (postToUpdate.getTopic().getId() == idTopic) {
-				dtoToEntity(postToUpdate, postDto);
+			//	dtoToEntity(postToUpdate, postDto);
 				return postRepository.save(postToUpdate);
 			} else {
 				throw new PostException("No Post with id " + id + " in topic with id " + idTopic + " was found in the DB");
@@ -141,16 +141,17 @@ public class PostService {
 		}
 	}
 	
-	private Post dtoToEntity (Post post, PostDto postDto) throws TopicException, UserException {
+	private Post dtoToEntity (Post post, PostDto postDto, Integer userId) throws TopicException, UserException {
 		post.setTitle(postDto.getTitle());
 		post.setText(postDto.getText());
 		post.setTopic(getTopicById(postDto.getTopicId()));
-		post.setUser(getUserById(postDto.getUserId()));
+		post.setUser(getUserById(userId));
 		return post;
 	}
 	
 	private PostResponseDto entityToDto (Post post) {
 		PostResponseDto postDto = new PostResponseDto();
+		postDto.setId(post.getId());
 		postDto.setTitle(post.getTitle());
 		postDto.setText(post.getText());
 		postDto.setTopic(post.getTopic());

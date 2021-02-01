@@ -1,5 +1,7 @@
 package com.weathair.controllers;
 
+import java.security.Principal;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weathair.dto.forum.PostDto;
+import com.weathair.entities.User;
 import com.weathair.exceptions.PostException;
 import com.weathair.exceptions.TopicException;
 import com.weathair.exceptions.UserException;
 import com.weathair.services.PostService;
+import com.weathair.services.UserService;
 
 @RestController
 @CrossOrigin
@@ -26,10 +30,12 @@ import com.weathair.services.PostService;
 public class PostController {
 	
 	private PostService postService;
-
-	public PostController(PostService postService) {
+	private UserService userService;
+	
+	public PostController(PostService postService, UserService userService) {
 		super();
 		this.postService = postService;
+		this.userService = userService;
 	}
 	
 	@GetMapping
@@ -42,11 +48,23 @@ public class PostController {
 		return ResponseEntity.ok().body(postService.findPostById(idTopic, id));
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
+//	@GetMapping("/{id}")
+//	public ResponseEntity<?> getPostByTopics (@PathVariable Integer idTopic, @PathVariable Integer id) throws PostException {
+//		return ResponseEntity.ok().body(postService.findPostById(idTopic, id));
+//	} 
+	
+	//@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR') || hasAuthority('ROLE_USER')")
 	@PostMapping
-	public ResponseEntity<?> postPost (@PathVariable Integer idTopic, @Validated @RequestBody PostDto postDto, BindingResult resVal) throws TopicException, UserException {
+	public ResponseEntity<?> postPost (Principal principal, @PathVariable Integer idTopic, @Validated @RequestBody PostDto postDto,
+			BindingResult resVal) throws TopicException, UserException {
+		
+		System.out.println(principal.getName());
+		User user = userService.getByEmail(principal.getName());
+
+		
 		if (!resVal.hasErrors()) {
-			return ResponseEntity.ok().body(postService.createPost(idTopic, postDto));
+			
+			return ResponseEntity.ok().body(postService.createPost(idTopic,  user.getId(), postDto));
 		} else {
 			return ResponseEntity.badRequest().body(resVal.getAllErrors());
 		}
