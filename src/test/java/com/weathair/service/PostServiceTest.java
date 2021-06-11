@@ -1,7 +1,6 @@
 package com.weathair.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,16 +11,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.weathair.dto.forum.PostDto;
-import com.weathair.dto.forum.PostResponseDto;
-import com.weathair.entities.User;
 import com.weathair.entities.forum.Post;
-import com.weathair.entities.forum.Topic;
 import com.weathair.exceptions.PostException;
 import com.weathair.exceptions.TopicException;
 import com.weathair.exceptions.UserException;
 import com.weathair.services.PostService;
-import com.weathair.services.TopicService;
-import com.weathair.services.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @DataJpaTest
@@ -33,8 +27,8 @@ public class PostServiceTest {
 	
 	@Test
 	public void testFindAllPosts() throws PostException, TopicException {
-		List<PostResponseDto> posts = postService.findAllPosts(1);
-		assertThat(!posts.isEmpty());
+		int initialSize = postService.findAllPosts(1).size();
+		assertThat(initialSize).isEqualTo(3);
 	}
 	
 	@Test

@@ -1,10 +1,5 @@
 package com.weathair.service;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,8 +25,8 @@ public class UserServiceTest {
 	
 	@Test
 	public void testFindAllUsers() throws UserException {
-		List<User> users = userService.findAllUsers();
-		assertThat(!users.isEmpty());
+		int initialSize = userService.findAllUsers().size();
+		assertThat(initialSize).isEqualTo(3);
 	}
 	
 	@Test

@@ -1,8 +1,5 @@
 package com.weathair.service;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +23,8 @@ public class TopicServiceTest {
 	
 	@Test
 	public void testFindAllTopics() throws TopicException {
-		List<TopicResponseDto> topics = topicService.findAllTopics();
-		assertThat(!topics.isEmpty());
-	}
+		int initialSize = topicService.findAllTopics().size();
+		assertThat(initialSize).isEqualTo(4);	}
 	
 	@Test
 	public void testFindTopicById() throws  TopicException {
