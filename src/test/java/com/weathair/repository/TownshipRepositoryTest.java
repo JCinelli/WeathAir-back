@@ -24,7 +24,6 @@ public class TownshipRepositoryTest {
 	@Autowired
 	private TownshipRepository townshipRepository;
 
-	
 	@Test
 	public void testFindByNameOrderByPopulationDesc() {
 		List<Township> township = townshipRepository.findByNameOrderByPopulationDesc("Abancourt");

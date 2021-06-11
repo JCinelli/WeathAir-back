@@ -12,6 +12,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.weathair.dto.UserDto;
+import com.weathair.dto.indicators.MeteoIndicatorDto;
+import com.weathair.entities.User;
 import com.weathair.entities.indicators.MeteoIndicator;
 import com.weathair.exceptions.MeteoIndicatorException;
 import com.weathair.exceptions.UserException;
@@ -34,8 +37,20 @@ public class MeteoIndicatorServiceTest {
 	@Test
 	public void testFindMeteoIndicatorById() throws UserException, MeteoIndicatorException {
 		MeteoIndicator meteoIndicators = meteoIndicatorService.getMeteoIndicatorById(34996);
-		
 		assertThat(meteoIndicators.getDescription()).isEqualTo("mist");
+	}
+	
+	@Test
+	public void testFindMeteoIndicatorByTownshipname() throws UserException, MeteoIndicatorException {
+//		MeteoIndicator meteoIndicators = (MeteoIndicator) meteoIndicatorService.getMeteoIndicatorsByTownshipName("Montpellier");
+	//	assertThat(meteoIndicators.getDescription()).isEqualTo("mist");
+	}
+	
+	@Test
+	public void testCreateMeteoIndicator() throws UserException, MeteoIndicatorException {
+		MeteoIndicatorDto meteoIndicatorsNew = new MeteoIndicatorDto();
+		meteoIndicatorsNew.setDescription("new meteo indicator");
+		meteoIndicatorService.createMeteoIndicator(meteoIndicatorsNew);
 	}
 }
 
