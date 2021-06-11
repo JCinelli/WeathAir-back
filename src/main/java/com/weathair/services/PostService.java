@@ -66,12 +66,12 @@ public class PostService {
 	 * @return			post
 	 * @throws 			PostException 
 	 */
-	public PostResponseDto findPostById(Integer idTopic, Integer id) throws PostException {
+	public Post findPostById(Integer idTopic, Integer id) throws PostException {
 		Optional<Post> postOptional = postRepository.findById(id);
 		if (postOptional.isPresent()) {
 			Post post = postOptional.get();
 			if (post.getTopic().getId() == idTopic) {
-				return entityToDto(post);
+				return post;
 			} else {
 				throw new PostException("No Post with id " + id + " in topic with id " + idTopic + " was found in the DB");
 			}

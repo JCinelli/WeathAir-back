@@ -1,5 +1,8 @@
 package com.weathair.service;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -51,7 +54,6 @@ public class UserServiceTest {
 		userService.createUser(user1);
 		User user2 = userService.findUserByEmail("test1@test.fr");
 		assertThat(user1.getPseudo()).isEqualTo(user2.getPseudo());
-	
 	}
 	
 	@Test
@@ -62,6 +64,12 @@ public class UserServiceTest {
 		assertThat(userUpdate.getPseudo()).isEqualTo("toto");
 	}
 	
+	@Test
+	public void testDeleteUser() throws UserException {
+		int initialSize = userService.findAllUsers().size();
+		userService.deleteUser(4);
+		assertThat(userService.findAllUsers().size()+1).isEqualTo(initialSize);
+	}
 	
 	@Test
 	public void testBanUser() throws UserException, RepositoryException {

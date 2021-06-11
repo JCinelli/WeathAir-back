@@ -18,6 +18,9 @@ public class TopicDto {
 		this.dateTime = dateTime;
 	}
 
+	public TopicDto() {
+		
+	}
 	public String getLabel() {
 		return label;
 	}
