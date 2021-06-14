@@ -3,8 +3,6 @@ package com.weathair.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +11,6 @@ import com.weathair.entities.Role;
 import com.weathair.entities.User;
 import com.weathair.enumerations.RoleEnumeration;
 import com.weathair.exceptions.RepositoryException;
-import com.weathair.exceptions.TopicException;
 import com.weathair.exceptions.UserException;
 import com.weathair.repositories.RoleRepository;
 import com.weathair.repositories.UserRepository;

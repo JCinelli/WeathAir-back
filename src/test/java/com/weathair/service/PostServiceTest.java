@@ -1,6 +1,7 @@
 package com.weathair.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 
 import org.springframework.boot.test.context.SpringBootTest;
 import com.weathair.dto.forum.PostDto;
+import com.weathair.dto.forum.PostResponseDto;
 import com.weathair.entities.forum.Post;
 import com.weathair.exceptions.PostException;
 import com.weathair.exceptions.TopicException;
@@ -49,29 +51,35 @@ public class PostServiceTest {
 		post1.setTopicId(1);
 		post1.setUserId(45);
 		postService.createPost(1, 45, post1);
-		Post post2 = postService.findPostById(1, 28);
-		assertThat(post2.getId()).isEqualTo(28);
+		List<PostResponseDto> posts = postService.findAllPosts(1);
+		int lastIndex = posts.get(posts.size() - 1).getId();
+		Post post2 = postService.findPostById(1, lastIndex);
+		assertThat(post2.getId()).isEqualTo(lastIndex);
 	}
 	
 	@Test
 	@Order(4)
 	public void testUpdatePost() throws PostException, TopicException, UserException {
-		Post post = postService.findPostById(1,28);
+		List<PostResponseDto> posts = postService.findAllPosts(1);
+		int lastIndex = posts.get(posts.size() - 1).getId();
+		Post post = postService.findPostById(1,lastIndex);
 		post.setText("Modification texte test");
 		
 		PostDto postDto = new PostDto();
 		postDto.setText(post.getText());
 		postDto.setUserId(45);
 		postDto.setTopicId(1);
-		postService.updatePost(1, 28, postDto);
+		postService.updatePost(1, lastIndex, postDto);
 		assertThat(post.getText()).isEqualTo(postDto.getText());
 	}
 	
 	@Test
 	@Order(5)
 	public void testDeletePost() throws PostException, TopicException {
+		List<PostResponseDto> posts = postService.findAllPosts(1);
+		int lastIndex = posts.get(posts.size() - 1).getId();
 		int initialSize = postService.findAllPosts(1).size();
-		postService.deletePost(1, 28);
+		postService.deletePost(1, lastIndex);
 		assertThat(postService.findAllPosts(1).size()).isEqualTo(initialSize-1);
 	}
 }

@@ -1,6 +1,8 @@
 package com.weathair.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -44,14 +46,18 @@ public class TopicServiceTest {
 		TopicResponseDto topic = new TopicResponseDto();
 		topic.setLabel("Et c'est un new label");
 		topicService.createTopic(topic);
-		Topic topic2 = topicService.findTopicById(16);
+		List<TopicResponseDto> topics = topicService.findAllTopics();
+		int lastIndex = topics.get(topics.size() - 1).getId();
+		Topic topic2 = topicService.findTopicById(lastIndex);
 		assertThat(topic2.getLabel()).isEqualTo(topic.getLabel());
 	}
 	
 	@Test
 	@Order(4)
 	public void testUpdateTopic() throws TopicException {
-		Topic topic = topicService.findTopicById(16);
+		List<TopicResponseDto> topics = topicService.findAllTopics();
+		int lastIndex = topics.get(topics.size() - 1).getId();
+		Topic topic = topicService.findTopicById(lastIndex);
 		topic.setLabel("cest une modif sur l'id 16 aha");
 		
 		TopicDto topicDto = new TopicDto();
@@ -64,8 +70,10 @@ public class TopicServiceTest {
 	@Test
 	@Order(5)
 	public void testDeleteTopic() throws TopicException {
+		List<TopicResponseDto> topics = topicService.findAllTopics();
+		int lastIndex = topics.get(topics.size() - 1).getId();
 		int initialSize = topicService.findAllTopics().size();
-		topicService.deleteTopic(16);
+		topicService.deleteTopic(lastIndex);
 		assertThat(topicService.findAllTopics().size()).isEqualTo(initialSize-1);
 	}
 	

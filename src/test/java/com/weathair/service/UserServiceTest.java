@@ -1,5 +1,8 @@
 package com.weathair.service;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.weathair.dto.UserDto;
 import com.weathair.entities.User;
+import com.weathair.exceptions.RepositoryException;
 import com.weathair.exceptions.UserException;
 import com.weathair.services.UserService;
 
@@ -51,41 +55,57 @@ public class UserServiceTest {
 		user1.setPseudo("test");
 		user1.setPassword("password");
 		userService.createUser(user1);
-		User user = userService.findUserById(52);
+		
+		List<User> users = userService.findAllUsers();
+		int lastIndex = users.get(users.size() - 1).getId();
+		
+		User user = userService.findUserById(lastIndex);
 		assertThat(user.getPseudo()).isEqualTo(user1.getPseudo());
 	}
 	
 	@Test
 	@Order(5)
 	public void testUpdateUser() throws UserException {
-		User user = userService.findUserById(52);
+		List<User> users = userService.findAllUsers();
+		int lastIndex = users.get(users.size() - 1).getId();
+		User user = userService.findUserById(lastIndex);
 		user.setPseudo("toto");
 		
 		UserDto userDto = new UserDto();
-		userDto.setEmail(user.getPseudo());
+		userDto.setPseudo(user.getPseudo());
 		
-		userService.updateUser(52, userDto);
+		userService.updateUser(lastIndex, userDto);
 		assertThat(user.getPseudo()).isEqualTo(userDto.getPseudo());
 	}
 	
 	@Test
 	@Order(6)
 	public void testDeleteUser() throws UserException {
+		List<User> users = userService.findAllUsers();
+		int lastIndex = users.get(users.size() - 1).getId();
 		int initialSize = userService.findAllUsers().size();
-		userService.deleteUser(52);
+		userService.deleteUser(lastIndex);
 		assertThat(userService.findAllUsers().size()).isEqualTo(initialSize-1);
 	}
 	
-//	@Test
-//	public void testBanUser() throws UserException, RepositoryException {
-//		User user = userService.findUserById(42);
-//		userService.banUser(42);
-//	}
-//	
-//	@Test
-//	public void testUnBanUser() throws UserException, RepositoryException {
-//		User user = userService.findUserById(45);
-//		userService.unBanUser(45);
-//	}
+	@Test
+	@Order(7)
+	public void testBanUser() throws UserException, RepositoryException {
+		List<User> users = userService.findAllUsers();
+		int lastIndex = users.get(users.size() - 1).getId();
+		userService.banUser(lastIndex);
+		User user = userService.findUserById(lastIndex);
+		assertThat(user.getRole().getId()).isEqualTo(3);
+	}
+	
+	@Test
+	@Order(8)
+	public void testUnBanUser() throws UserException, RepositoryException {
+		List<User> users = userService.findAllUsers();
+		int lastIndex = users.get(users.size() - 1).getId();
+		userService.unBanUser(lastIndex);
+		User user = userService.findUserById(lastIndex);
+		assertThat(user.getRole().getId()).isEqualTo(2);
+	}
 	
 }

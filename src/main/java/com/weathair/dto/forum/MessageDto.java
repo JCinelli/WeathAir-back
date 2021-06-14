@@ -24,26 +24,39 @@ public class MessageDto {
 		this.userId = userId;
 		this.dateTime = dateTime;
 	}
+	
+	public MessageDto() {
+		super();
+	}
 
 	//GETTERS
 	public String getText() {
 		return text;
 	}
 
+	public void setText(String text) {
+		this.text = text;
+	}
+	
 	public Integer getUserId() {
 		return userId;
 	}
 
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	
 	public Integer getPostId() {
 		return postId;
 	}
 
-	public void setPost(Integer postId) {
+	public void setPostId(Integer postId) {
 		this.postId = postId;
 	}
+	
 	
 	public LocalDateTime getDateTime() {
 		return this.dateTime;
 	}
-
+	
 }
