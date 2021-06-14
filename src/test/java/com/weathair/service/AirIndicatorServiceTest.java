@@ -16,7 +16,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.weathair.dto.indicators.AirIndicatorDto;
+import org.springframework.boot.test.context.SpringBootTest;
 import com.weathair.entities.indicators.AirIndicator;
 import com.weathair.exceptions.AirIndicatorException;
 import com.weathair.exceptions.TownshipException;

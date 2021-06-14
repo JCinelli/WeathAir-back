@@ -15,14 +15,15 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
 import com.weathair.dto.indicators.MeteoIndicatorDto;
 import com.weathair.entities.indicators.MeteoIndicator;
 import com.weathair.exceptions.MeteoIndicatorException;
 import com.weathair.services.MeteoIndicatorService;
 
 @SpringBootTest
+@TestMethodOrder(OrderAnnotation.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MeteoIndicatorServiceTest {
 
 	@Autowired

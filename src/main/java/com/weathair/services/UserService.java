@@ -3,8 +3,6 @@ package com.weathair.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -151,8 +149,12 @@ public class UserService {
 	 * @throws 			UserException
 	 */
 	public void deleteUser(Integer id) throws UserException {
-		User userToDelete = findUserById(id);
-		userRepository.delete(userToDelete);
+		Optional<User> userToDelete = userRepository.findById(id);
+		if (!userToDelete.isEmpty()) {
+		userRepository.delete(userToDelete.get());
+		} else {
+			throw new UserException("No User with id " + id + " was found in the DB");
+		}
 	}
 
 	/**
