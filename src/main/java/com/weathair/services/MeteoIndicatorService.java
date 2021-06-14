@@ -18,9 +18,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weathair.dto.indicators.MeteoIndicatorDto;
 import com.weathair.entities.Township;
-import com.weathair.entities.indicators.AirIndicator;
 import com.weathair.entities.indicators.MeteoIndicator;
-import com.weathair.exceptions.AirIndicatorException;
 import com.weathair.exceptions.MeteoIndicatorException;
 import com.weathair.repositories.MeteoIndicatorRepository;
 import com.weathair.repositories.TownshipRepository;
@@ -57,7 +55,7 @@ public class MeteoIndicatorService {
 	}
 
 	/**
-	 * @param id
+	 * @param id the id of the air indicator
 	 * @return a meteo indicator from his id
 	 */
 	public MeteoIndicator getMeteoIndicatorById(Integer id) throws MeteoIndicatorException {
@@ -71,7 +69,7 @@ public class MeteoIndicatorService {
 	
 	/**
 	 * @param townshipName
-	 * @param limit
+	 * @param townshipName
 	 * @return
 	 * @throws MeteoIndicatorException
 	 */
@@ -94,27 +92,10 @@ public class MeteoIndicatorService {
 
 		return this.meteoIndicatorRepository.save(meteoIndicator);
 	}
-	
-	/**
-	 * Create meteo indicators from dto and save them all in database
-	 * 
-	 * 
-	 * @param dtos 			List of DTOs
-	 * @return
-	 */
-	public List<MeteoIndicator> saveAllMeteoIndicators(List<MeteoIndicatorDto> dtos) {
-		
-		List<MeteoIndicator> meteoIndicators = new ArrayList<>();
-		
-		for (MeteoIndicatorDto dto : dtos) {
-			meteoIndicators.add(this.dtoToEntity(dto));
-		}
-		return this.meteoIndicatorRepository.saveAll(meteoIndicators);
-	}
 
 	/**
 	 * @param id
-	 * @param newcodeStation
+	 * @param dto
 	 * @return New Temperature indicator in base
 	 * @throws MeteoIndicatorException
 	 */
@@ -151,7 +132,7 @@ public class MeteoIndicatorService {
 	 * @throws JsonMappingException
 	 * @throws JsonProcessingException
 	 */
-	//@Scheduled(initialDelay = 300 * 1000, fixedDelay = 3600 * 1000)
+	@Scheduled(initialDelay = 300 * 1000, fixedDelay = 3600 * 1000)
 	public void saveUpdateIndicatorsForOccitanie() throws JsonMappingException, JsonProcessingException {
 		List<Township> townships = townshipRepository.findInAirIndicator();
 		List<MeteoIndicatorDto> indicators = new ArrayList<>();
@@ -230,5 +211,22 @@ public class MeteoIndicatorService {
 		meteoIndicatorUpdate.setTownship(townshipRepository.findByNameContainingOrderByPopulationDesc(dto.getTownshipName()).get(0));
 		
 		return meteoIndicatorUpdate;
+	}
+
+	/**
+	 * Create meteo indicators from dto and save them all in database
+	 *
+	 *
+	 * @param dtos 			List of DTOs
+	 * @return
+	 */
+	private List<MeteoIndicator> saveAllMeteoIndicators(List<MeteoIndicatorDto> dtos) {
+
+		List<MeteoIndicator> meteoIndicators = new ArrayList<>();
+
+		for (MeteoIndicatorDto dto : dtos) {
+			meteoIndicators.add(this.dtoToEntity(dto));
+		}
+		return this.meteoIndicatorRepository.saveAll(meteoIndicators);
 	}
 }
