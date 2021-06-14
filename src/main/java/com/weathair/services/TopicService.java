@@ -54,10 +54,10 @@ public class TopicService {
 	 * @return			topic
 	 * @throws 			TopicException 
 	 */
-	public TopicResponseDto findTopicById(Integer id) throws TopicException{
+	public Topic findTopicById(Integer id) throws TopicException{
 		Optional<Topic> topicOptional = topicRepository.findById(id);
 		if (topicOptional.isPresent()) {
-			return entityToDto(topicOptional.get());
+			return topicOptional.get();
 		} else {
 			throw new TopicException("No Topic with id " + id + " was found in the DB");
 		}
@@ -66,12 +66,12 @@ public class TopicService {
 	/**
 	 * This method creates a new topic in the DB
 	 * 
-	 * @param 			topicDto
+	 * @param 			topic2
 	 * @return			The saved topic
 	 */
-	public Topic createTopic(TopicDto topicDto) {
+	public Topic createTopic(TopicResponseDto topic2) {
 		Topic topic = new Topic();
-		topic.setLabel(topicDto.getLabel());
+		topic.setLabel(topic2.getLabel());
 		return topicRepository.save(topic);
 	}
 	

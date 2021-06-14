@@ -45,7 +45,6 @@ public class Post {
 	//CONSTRUCTOR
 	public Post() {
 		super();
-		this.setDateTime();
 	}
 
 	//GETTERS & SETTERS
@@ -85,7 +84,7 @@ public class Post {
 		return dateTime;
 	}
 
-	public void setDateTime() {
+	public void setDateTime(LocalDateTime localDateTime) {
 		this.dateTime = LocalDateTime.now();
 	}
 

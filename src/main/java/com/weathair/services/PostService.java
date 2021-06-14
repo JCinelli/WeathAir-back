@@ -66,12 +66,12 @@ public class PostService {
 	 * @return			post
 	 * @throws 			PostException 
 	 */
-	public PostResponseDto findPostById(Integer idTopic, Integer id) throws PostException {
+	public Post findPostById(Integer idTopic, Integer id) throws PostException {
 		Optional<Post> postOptional = postRepository.findById(id);
 		if (postOptional.isPresent()) {
 			Post post = postOptional.get();
 			if (post.getTopic().getId() == idTopic) {
-				return entityToDto(post);
+				return post;
 			} else {
 				throw new PostException("No Post with id " + id + " in topic with id " + idTopic + " was found in the DB");
 			}
@@ -90,8 +90,11 @@ public class PostService {
 	 */
 	public Post createPost(Integer idTopic, Integer idUser, PostDto postDto) throws TopicException, UserException {
 		Post post = new Post();
-		dtoToEntity(post, postDto, idUser);
-		
+		post.setText(postDto.getText());
+		post.setDateTime(postDto.getDateTime());
+		post.setTitle(postDto.getTitle());
+		post.setTopic(getTopicById(postDto.getTopicId()));
+		post.setUser(getUserById(postDto.getUserId()));
 		return postRepository.save(post);
 	}
 	
@@ -110,7 +113,7 @@ public class PostService {
 		if (!findById.isEmpty()) {
 			Post postToUpdate = findById.get();
 			if (postToUpdate.getTopic().getId() == idTopic) {
-			//	dtoToEntity(postToUpdate, postDto);
+				dtoToEntity(postToUpdate, postDto, idTopic);
 				return postRepository.save(postToUpdate);
 			} else {
 				throw new PostException("No Post with id " + id + " in topic with id " + idTopic + " was found in the DB");
@@ -132,7 +135,7 @@ public class PostService {
 		if (!findById.isEmpty()) {
 			Post postToDelete = findById.get();
 			if (postToDelete.getTopic().getId() == idTopic) {
-				postRepository.save(postToDelete);
+				postRepository.delete(findById.get());
 			} else {
 				throw new PostException("No Post with id " + id + " in topic with id " + idTopic + " was found in the DB");
 			}

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.weathair.dto.forum.TopicDto;
+import com.weathair.dto.forum.TopicResponseDto;
 import com.weathair.exceptions.TopicException;
 import com.weathair.services.TopicService;
 
@@ -42,7 +43,7 @@ public class TopicController {
 	
 	//@PreAuthorize("hasAuthority('ROLE_ADMINISTRATOR')")
 	@PostMapping
-	public ResponseEntity<?> postTopic (@Validated @RequestBody TopicDto topicDto, BindingResult resVal){
+	public ResponseEntity<?> postTopic (@Validated @RequestBody TopicResponseDto topicDto, BindingResult resVal){
 		if (!resVal.hasErrors()) {
 			return ResponseEntity.ok().body(topicService.createTopic(topicDto));
 		} else {
