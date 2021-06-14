@@ -2,14 +2,15 @@ package com.weathair.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.springframework.boot.test.context.SpringBootTest;
 import com.weathair.dto.forum.PostDto;
 import com.weathair.entities.forum.Post;
 import com.weathair.exceptions.PostException;
@@ -17,8 +18,8 @@ import com.weathair.exceptions.TopicException;
 import com.weathair.exceptions.UserException;
 import com.weathair.services.PostService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@DataJpaTest
+@SpringBootTest
+@TestMethodOrder(OrderAnnotation.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class PostServiceTest {
 
@@ -26,39 +27,51 @@ public class PostServiceTest {
 	private PostService postService;
 	
 	@Test
+	@Order(1)
 	public void testFindAllPosts() throws PostException, TopicException {
 		int initialSize = postService.findAllPosts(1).size();
-		assertThat(initialSize).isEqualTo(3);
+		assertThat(initialSize).isEqualTo(5);
 	}
 	
 	@Test
+	@Order(2)
 	public void testFindPostById() throws PostException, TopicException {
 		Post post = postService.findPostById(1, 1);
 		assertThat(post.getTitle()).isEqualTo("Mon premier post sur la météo");
 	}
 	
 	@Test 
+	@Order(3)
 	public void testCreatePost() throws UserException, TopicException, PostException {
 		PostDto post1 = new PostDto();
 		post1.setTitle("new titre");
 		post1.setText("new text");
-		postService.createPost(1, 46, post1);
-		Post post2 = postService.findPostById(1, 25);
-		assertThat(post2.getId()).isEqualTo(25);
+		post1.setTopicId(1);
+		post1.setUserId(45);
+		postService.createPost(1, 45, post1);
+		Post post2 = postService.findPostById(1, 28);
+		assertThat(post2.getId()).isEqualTo(28);
 	}
 	
 	@Test
-	public void testUpdatPost() throws PostException {
-		Post post = postService.findPostById(1,25);
-		post.setText("modif du message ici");
-		Post postUpdate = postService.findPostById(1, 25);
-		assertThat(postUpdate.getText()).isEqualTo("modif du message ici");
+	@Order(4)
+	public void testUpdatePost() throws PostException, TopicException, UserException {
+		Post post = postService.findPostById(1,28);
+		post.setText("Modification texte test");
+		
+		PostDto postDto = new PostDto();
+		postDto.setText(post.getText());
+		postDto.setUserId(45);
+		postDto.setTopicId(1);
+		postService.updatePost(1, 28, postDto);
+		assertThat(post.getText()).isEqualTo(postDto.getText());
 	}
 	
 	@Test
+	@Order(5)
 	public void testDeletePost() throws PostException, TopicException {
 		int initialSize = postService.findAllPosts(1).size();
-		postService.deletePost(1, 14);
-		assertThat(postService.findAllPosts(1).size()+1).isEqualTo(initialSize);
+		postService.deletePost(1, 28);
+		assertThat(postService.findAllPosts(1).size()).isEqualTo(initialSize-1);
 	}
 }

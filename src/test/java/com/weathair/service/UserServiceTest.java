@@ -1,22 +1,21 @@
 package com.weathair.service;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.weathair.dto.UserDto;
 import com.weathair.entities.User;
-import com.weathair.exceptions.RepositoryException;
 import com.weathair.exceptions.UserException;
 import com.weathair.services.UserService;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@DataJpaTest
+@SpringBootTest
+@TestMethodOrder(OrderAnnotation.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class UserServiceTest {
 
@@ -24,60 +23,69 @@ public class UserServiceTest {
 	private UserService userService;
 	
 	@Test
+	@Order(1)
 	public void testFindAllUsers() throws UserException {
 		int initialSize = userService.findAllUsers().size();
-		assertThat(initialSize).isEqualTo(3);
+		assertThat(initialSize).isEqualTo(5);
 	}
 	
 	@Test
+	@Order(2)
 	public void testFindUserById() throws UserException {
 		User user = userService.findUserById(1);
 		assertThat(user.getPseudo()).isEqualTo("admin");
 	}
 	
 	@Test
+	@Order(3)
 	public void testFindUserByEmail() throws UserException {
 		User user = userService.findUserByEmail("administrator@gmail.com");
 		assertThat(user.getPseudo()).isEqualTo("admin");
 	}
 	
-	@Test 
+	@Test
+	@Order(4)
 	public void testCreateUser() throws UserException {
 		UserDto user1 = new UserDto();
 		user1.setEmail("test1@test.fr");
 		user1.setPseudo("test");
+		user1.setPassword("password");
 		userService.createUser(user1);
-		User user2 = userService.findUserByEmail("test1@test.fr");
-		assertThat(user1.getPseudo()).isEqualTo(user2.getPseudo());
+		User user = userService.findUserById(52);
+		assertThat(user.getPseudo()).isEqualTo(user1.getPseudo());
 	}
 	
 	@Test
+	@Order(5)
 	public void testUpdateUser() throws UserException {
-		User user = userService.findUserById(4);
+		User user = userService.findUserById(52);
 		user.setPseudo("toto");
-		User userUpdate = userService.findUserById(4);
-		assertThat(userUpdate.getPseudo()).isEqualTo("toto");
+		
+		UserDto userDto = new UserDto();
+		userDto.setEmail(user.getPseudo());
+		
+		userService.updateUser(52, userDto);
+		assertThat(user.getPseudo()).isEqualTo(userDto.getPseudo());
 	}
 	
 	@Test
+	@Order(6)
 	public void testDeleteUser() throws UserException {
 		int initialSize = userService.findAllUsers().size();
-		userService.deleteUser(4);
-		assertThat(userService.findAllUsers().size()+1).isEqualTo(initialSize);
+		userService.deleteUser(52);
+		assertThat(userService.findAllUsers().size()).isEqualTo(initialSize-1);
 	}
 	
-	@Test
-	public void testBanUser() throws UserException, RepositoryException {
-		User user = userService.findUserById(2);
-		userService.banUser(2);
-		assertThat(user.getRole()).isEqualTo("USER_BAN");
-	}
-	
-	@Test
-	public void testUnBanUser() throws UserException, RepositoryException {
-		User user = userService.findUserById(2);
-		userService.unBanUser(2);
-		assertThat(user.getRole()).isEqualTo("USER");
-	}
+//	@Test
+//	public void testBanUser() throws UserException, RepositoryException {
+//		User user = userService.findUserById(42);
+//		userService.banUser(42);
+//	}
+//	
+//	@Test
+//	public void testUnBanUser() throws UserException, RepositoryException {
+//		User user = userService.findUserById(45);
+//		userService.unBanUser(45);
+//	}
 	
 }

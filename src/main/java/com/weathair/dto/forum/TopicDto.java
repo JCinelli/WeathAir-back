@@ -28,5 +28,8 @@ public class TopicDto {
 	public LocalDateTime getDateTime() {
 		return this.dateTime;
 	}
+	public void setLabel(String label) {
+		this.label = label;
+	}
 	
 }
