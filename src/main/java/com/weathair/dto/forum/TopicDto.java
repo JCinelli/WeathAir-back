@@ -18,12 +18,18 @@ public class TopicDto {
 		this.dateTime = dateTime;
 	}
 
+	public TopicDto() {
+		
+	}
 	public String getLabel() {
 		return label;
 	}
 	
 	public LocalDateTime getDateTime() {
 		return this.dateTime;
+	}
+	public void setLabel(String label) {
+		this.label = label;
 	}
 	
 }

@@ -44,13 +44,13 @@ public class WeathAirApplication {
 	public void init() throws IOException, InterruptedException, TownshipException {
 		File file = new File("src/main/resources/Communes.csv");
 
-		// townshipController.postTownships(file);
+		 townshipController.postTownships(file);
 
-	//	airIndicatorService.insertAirIndicatorsFromApiWaqi();
+		airIndicatorService.insertAirIndicatorsFromApiWaqi();
 
-	//	meteoIndicatorService.saveUpdateIndicatorsForOccitanie();
+		meteoIndicatorService.saveUpdateIndicatorsForOccitanie();
 		
-		// gpsCoordinateService.insertGpsCoordinatesFromApiWaqi();
+		 gpsCoordinateService.insertGpsCoordinatesFromApiWaqi();
 	}
 
 	@Bean

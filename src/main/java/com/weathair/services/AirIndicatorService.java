@@ -103,7 +103,7 @@ public class AirIndicatorService {
         
         AirIndicatorDto airIndicatorDto = new AirIndicatorDto();
         airIndicatorDto.setDateTime(LocalDateTime.now());
-        airIndicatorDto.setNameTownship(townshipName);
+        airIndicatorDto.setTownshipName(townshipName);
         airIndicatorDto.setAqi(data.path("aqi").asInt());
         airIndicatorDto.setNo2(iaqi.path("no2").path("v").asDouble());
         airIndicatorDto.setO3(iaqi.path("o3").path("v").asDouble());
@@ -188,7 +188,7 @@ public class AirIndicatorService {
 	
 	private AirIndicator dtoToEntity(AirIndicator airIndicator, AirIndicatorDto airIndicatorDto) throws TownshipException {
 		airIndicator.setDateTime(airIndicatorDto.getDateTime());
-		airIndicator.setTownship(this.getTownshipByName(airIndicatorDto.getNameTownship()));
+		airIndicator.setTownship(this.getTownshipByName(airIndicatorDto.getTownshipName()));
 		airIndicator.setAqi(airIndicatorDto.getAqi());
 		airIndicator.setNo2(airIndicatorDto.getNo2());
 		airIndicator.setO3(airIndicatorDto.getO3());

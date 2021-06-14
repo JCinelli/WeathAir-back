@@ -7,7 +7,7 @@ public class AirIndicatorDto {
 
 	
 	private LocalDateTime dateTime;
-	private String nameTownship;
+	private String townshipName;
 	private Integer aqi;
 	private Double no2;
 	private Double o3;
@@ -22,12 +22,12 @@ public class AirIndicatorDto {
 		this.dateTime = dateTime;
 	}
 
-	public String getNameTownship() {
-		return nameTownship;
+	public String getTownshipName() {
+		return townshipName;
 	}
 
-	public void setNameTownship(String nameTownship) {
-		this.nameTownship = nameTownship;
+	public void setTownshipName(String townshipName) {
+		this.townshipName = townshipName;
 	}
 
 	public Integer getAqi() {
