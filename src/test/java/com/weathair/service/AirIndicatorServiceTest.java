@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.weathair.services.TownshipService;
+import com.weathair.dto.indicators.AirIndicatorDto;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import org.springframework.boot.test.context.SpringBootTest;
 import com.weathair.entities.indicators.AirIndicator;
 import com.weathair.exceptions.AirIndicatorException;
 import com.weathair.exceptions.TownshipException;
@@ -110,13 +109,13 @@ public class AirIndicatorServiceTest {
 		assertThat(initIndicNb).isGreaterThan(finalIndicNb);
 	}
 
-//	@Test
-//	@Order(8)
-//	public void insertAirIndicatorsFromApiWaqiTest() throws AirIndicatorException, TownshipException, JsonProcessingException {
-//		int initIndicNb = airIndicatorService.getAllAirIndicators().size();
-//		airIndicatorService.insertAirIndicatorsFromApiWaqi();
-//		int finIndicNb = airIndicatorService.getAllAirIndicators().size();
-//
-//		assertThat(finIndicNb).isGreaterThan(initIndicNb);
-//	}
+	@Test
+	@Order(8)
+	public void insertAirIndicatorsFromApiWaqiTest() throws AirIndicatorException, TownshipException, JsonProcessingException {
+		int initIndicNb = airIndicatorService.getAllAirIndicators().size();
+		airIndicatorService.insertAirIndicatorsFromApiWaqi();
+		int finIndicNb = airIndicatorService.getAllAirIndicators().size();
+
+		assertThat(finIndicNb).isGreaterThan(initIndicNb);
+	}
 }

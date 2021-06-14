@@ -22,7 +22,7 @@ import com.weathair.exceptions.MeteoIndicatorException;
 import com.weathair.services.MeteoIndicatorService;
 
 @SpringBootTest
-@TestMethodOrder(OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class MeteoIndicatorServiceTest {
 
